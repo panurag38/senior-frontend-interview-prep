@@ -4,8 +4,6 @@
 
 **Interactive guide (expandable UI):** https://panurag38.github.io/senior-frontend-interview-prep/
 
-Click a question in the table → jumps to the **expanded answer** below.
-
 Each answer includes reasoning, examples, trade-offs, production case studies (Netflix, Amazon, Flipkart, Myntra, Walmart, Instagram, X), and follow-up Q&A.
 
 ---
