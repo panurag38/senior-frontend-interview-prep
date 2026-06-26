@@ -1,691 +1,37 @@
 # Senior Frontend Interview Prep
 
-> **516 interview questions** for senior/staff frontend loops — system design, React, micro-frontends, browser internals, and more.
+> **516 senior frontend interview questions** — system design, React, micro-frontends, browser internals, CSS, architecture, and more.
 
-| | |
-|---|---|
-| **Interactive guide (expandable UI)** | [https://panurag38.github.io/senior-frontend-interview-prep/](https://panurag38.github.io/senior-frontend-interview-prep/) |
-| **Browse answers in this README** | Expand a section below, click a question — jumps to the answer on this page |
+**Interactive guide (expandable UI):** https://panurag38.github.io/senior-frontend-interview-prep/
 
-Each answer includes **Reasoning → Example → Trade-offs**, production examples (Netflix, Amazon, Flipkart, Myntra, Walmart, Instagram, X), and follow-up Q&A.
+Click a question in the table → jumps to the **expanded answer** below.
 
-> **Note:** Anchor links work on the [repo homepage](https://github.com/panurag38/senior-frontend-interview-prep) or this README — not on `/tree/main` URLs.
+Each answer includes reasoning, examples, trade-offs, production case studies (Netflix, Amazon, Flipkart, Myntra, Walmart, Instagram, X), and follow-up Q&A.
 
 ---
-
-## Table of Contents
-
-
-<details>
-<summary><strong>System Design Scenarios (15) Full interview rounds (15)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Design the frontend for a Netflix-style video streaming app](#user-content-sysdesign-design-the-frontend-for-a-netflix-style-video-streaming-app) |
-| 2 | [Design Google Docs–style collaborative rich text editor](#user-content-sysdesign-design-google-docs-style-collaborative-rich-text-editor) |
-| 3 | [Design e-commerce checkout (cart → payment → confirmation)](#user-content-sysdesign-design-e-commerce-checkout-cart-payment-confirmation) |
-| 4 | [Design a real-time fleet tracking dashboard (FleetPanda at scale)](#user-content-sysdesign-design-a-real-time-fleet-tracking-dashboard-fleetpanda-at-scale) |
-| 5 | [Design a company-wide design system for 12 product teams](#user-content-sysdesign-design-a-company-wide-design-system-for-12-product-teams) |
-| 6 | [Design multi-tenant SaaS auth (ACME vs Globex on same app)](#user-content-sysdesign-design-multi-tenant-saas-auth-acme-vs-globex-on-same-app) |
-| 7 | [Design offline-first field inspection app](#user-content-sysdesign-design-offline-first-field-inspection-app) |
-| 8 | [Migrate 500-route Webpack app to Vite (strangler)](#user-content-sysdesign-migrate-500-route-webpack-app-to-vite-strangler) |
-| 9 | [Global notification center](#user-content-sysdesign-global-notification-center) |
-| 10 | [Typeahead search at Amazon scale](#user-content-sysdesign-typeahead-search-at-amazon-scale) |
-| 11 | [A/B testing platform integration](#user-content-sysdesign-a-b-testing-platform-integration) |
-| 12 | [Admin analytics dashboard (10M rows)](#user-content-sysdesign-admin-analytics-dashboard-10m-rows) |
-| 13 | [Social feed infinite scroll + media](#user-content-sysdesign-social-feed-infinite-scroll-media) |
-| 14 | [Frontend platform team charter (50 devs)](#user-content-sysdesign-frontend-platform-team-charter-50-devs) |
-| 15 | [Production white screen after deploy — incident response](#user-content-sysdesign-production-white-screen-after-deploy-incident-response) |
-
-</details>
-
-<details>
-<summary><strong>End-to-End Journeys (20) Full timeline answers (20)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [What happens when you type a URL in Chrome and press Enter](#user-content-journeys-what-happens-when-you-type-a-url-in-chrome-and-press-enter) |
-| 2 | [What happens when you click a link on a page (same origin)](#user-content-journeys-what-happens-when-you-click-a-link-on-a-page-same-origin) |
-| 3 | [DNS resolution — step by step](#user-content-journeys-dns-resolution-step-by-step) |
-| 4 | [TCP and TLS handshake — frontend performance](#user-content-journeys-tcp-and-tls-handshake-frontend-performance) |
-| 5 | [HTTP request/response — browser perspective](#user-content-journeys-http-request-response-browser-perspective) |
-| 6 | [From HTML bytes to pixels (critical rendering path)](#user-content-journeys-from-html-bytes-to-pixels-critical-rendering-path) |
-| 7 | [What happens when JavaScript runs after page load](#user-content-journeys-what-happens-when-javascript-runs-after-page-load) |
-| 8 | [Browser cache layers — memory, disk, Service Worker](#user-content-journeys-browser-cache-layers-memory-disk-service-worker) |
-| 9 | [Hard refresh vs normal navigation back](#user-content-journeys-hard-refresh-vs-normal-navigation-back) |
-| 10 | [Cross-origin request from JavaScript — full path](#user-content-journeys-cross-origin-request-from-javascript-full-path) |
-| 11 | [Traditional HTML form POST submission](#user-content-journeys-traditional-html-form-post-submission) |
-| 12 | [WebSocket connection lifecycle](#user-content-journeys-websocket-connection-lifecycle) |
-| 13 | [Service Worker — first visit vs repeat visit](#user-content-journeys-service-worker-first-visit-vs-repeat-visit) |
-| 14 | [prefetch, preconnect, preload — when each](#user-content-journeys-prefetch-preconnect-preload-when-each) |
-| 15 | [Third-party script load (GTM, analytics)](#user-content-journeys-third-party-script-load-gtm-analytics) |
-| 16 | [SSL/TLS certificate errors in browser](#user-content-journeys-ssl-tls-certificate-errors-in-browser) |
-| 17 | [Redirect chain (301/302) performance](#user-content-journeys-redirect-chain-301-302-performance) |
-| 18 | [Download file vs render HTML in browser](#user-content-journeys-download-file-vs-render-html-in-browser) |
-| 19 | [Page unload — beforeunload, pagehide, visibilitychange](#user-content-journeys-page-unload-beforeunload-pagehide-visibilitychange) |
-| 20 | [Debug slow page load — full senior process](#user-content-journeys-debug-slow-page-load-full-senior-process) |
-
-</details>
-
-<details>
-<summary><strong>Package Managers &amp; Node Tooling (22) Must know (22)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [npm vs pnpm vs Yarn vs Bun — compare for production monorepos](#user-content-tooling-npm-vs-pnpm-vs-yarn-vs-bun-compare-for-production-monorepos) |
-| 2 | [What are phantom dependencies and how does pnpm prevent them](#user-content-tooling-what-are-phantom-dependencies-and-how-does-pnpm-prevent-them) |
-| 3 | [lockfiles — package-lock.json vs pnpm-lock.yaml vs yarn.lock](#user-content-tooling-lockfiles-package-lock-json-vs-pnpm-lock-yaml-vs-yarn-lock) |
-| 4 | [npm workspaces vs pnpm workspaces — monorepo setup](#user-content-tooling-npm-workspaces-vs-pnpm-workspaces-monorepo-setup) |
-| 5 | [peerDependencies — why React libs use them](#user-content-tooling-peerdependencies-why-react-libs-use-them) |
-| 6 | [overrides / resolutions — force transitive dependency version](#user-content-tooling-overrides-resolutions-force-transitive-dependency-version) |
-| 7 | [npm ci vs npm install in CI pipelines](#user-content-tooling-npm-ci-vs-npm-install-in-ci-pipelines) |
-| 8 | [npx vs pnpm dlx vs yarn dlx — run packages without global install](#user-content-tooling-npx-vs-pnpm-dlx-vs-yarn-dlx-run-packages-without-global-install) |
-| 9 | [.npmrc / .pnpmfile.cjs — common production settings](#user-content-tooling-npmrc-pnpmfile-cjs-common-production-settings) |
-| 10 | [Supply chain — npm audit, Socket, lockfile integrity](#user-content-tooling-supply-chain-npm-audit-socket-lockfile-integrity) |
-| 11 | [semver caret vs tilde](#user-content-tooling-semver-caret-vs-tilde) |
-| 12 | [bundledDependencies](#user-content-tooling-bundleddependencies) |
-| 13 | [optionalDependencies](#user-content-tooling-optionaldependencies) |
-| 14 | [postinstall script security](#user-content-tooling-postinstall-script-security) |
-| 15 | [package.json exports field](#user-content-tooling-package-json-exports-field) |
-| 16 | [type module vs commonjs](#user-content-tooling-type-module-vs-commonjs) |
-| 17 | [Node ESM vs CJS interop](#user-content-tooling-node-esm-vs-cjs-interop) |
-| 18 | [Volta vs engines field](#user-content-tooling-volta-vs-engines-field) |
-| 19 | [Corepack enable pnpm/yarn](#user-content-tooling-corepack-enable-pnpm-yarn) |
-| 20 | [Private registry scope](#user-content-tooling-private-registry-scope) |
-| 21 | [pnpm catalog (v9+)](#user-content-tooling-pnpm-catalog-v9) |
-| 22 | [Interview narrative npm vs pnpm](#user-content-tooling-interview-narrative-npm-vs-pnpm) |
-
-</details>
-
-<details>
-<summary><strong>Frontend Engineering Tooling (20) (20)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [ESLint + Prettier + TypeScript — how they fit together](#user-content-fe-tooling-eslint-prettier-typescript-how-they-fit-together) |
-| 2 | [Husky + lint-staged — pre-commit without slowing devs](#user-content-fe-tooling-husky-lint-staged-pre-commit-without-slowing-devs) |
-| 3 | [Changesets vs semantic-release for versioning monorepos](#user-content-fe-tooling-changesets-vs-semantic-release-for-versioning-monorepos) |
-| 4 | [Turborepo vs Nx — task orchestration](#user-content-fe-tooling-turborepo-vs-nx-task-orchestration) |
-| 5 | [Environment variables — Vite vs Next vs Webpack](#user-content-fe-tooling-environment-variables-vite-vs-next-vs-webpack) |
-| 6 | [Git merge vs rebase](#user-content-fe-tooling-git-merge-vs-rebase) |
-| 7 | [Trunk-based development](#user-content-fe-tooling-trunk-based-development) |
-| 8 | [Docker multi-stage FE build](#user-content-fe-tooling-docker-multi-stage-fe-build) |
-| 9 | [pnpm store cache in GitHub Actions](#user-content-fe-tooling-pnpm-store-cache-in-github-actions) |
-| 10 | [MSW Mock Service Worker](#user-content-fe-tooling-msw-mock-service-worker) |
-| 11 | [bundlesize / size-limit CI](#user-content-fe-tooling-bundlesize-size-limit-ci) |
-| 12 | [Lighthouse CI on preview](#user-content-fe-tooling-lighthouse-ci-on-preview) |
-| 13 | [Sentry release + source maps](#user-content-fe-tooling-sentry-release-source-maps) |
-| 14 | [Feature flags bootstrap](#user-content-fe-tooling-feature-flags-bootstrap) |
-| 15 | [ADR Architecture Decision Records](#user-content-fe-tooling-adr-architecture-decision-records) |
-| 16 | [Chromatic visual regression](#user-content-fe-tooling-chromatic-visual-regression) |
-| 17 | [commitlint conventional](#user-content-fe-tooling-commitlint-conventional) |
-| 18 | [CODEOWNERS path rules](#user-content-fe-tooling-codeowners-path-rules) |
-| 19 | [Preview deploy PR comments](#user-content-fe-tooling-preview-deploy-pr-comments) |
-| 20 | [Renovate grouped dependencies](#user-content-fe-tooling-renovate-grouped-dependencies) |
-
-</details>
-
-<details>
-<summary><strong>React (55 questions) (55)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Explain the React reconciliation algorithm and what triggers a re-render](#user-content-react-explain-the-react-reconciliation-algorithm-and-what-triggers-a-re-render) |
-| 2 | [What changed in React 19 that affects production apps](#user-content-react-what-changed-in-react-19-that-affects-production-apps) |
-| 3 | [Controlled vs uncontrolled components — when to use each](#user-content-react-controlled-vs-uncontrolled-components-when-to-use-each) |
-| 4 | [Explain useEffect vs useLayoutEffect vs useInsertionEffect](#user-content-react-explain-useeffect-vs-uselayouteffect-vs-useinsertioneffect) |
-| 5 | [Why does React 18 StrictMode double-invoke effects in development](#user-content-react-why-does-react-18-strictmode-double-invoke-effects-in-development) |
-| 6 | [What is the React Fiber architecture](#user-content-react-what-is-the-react-fiber-architecture) |
-| 7 | [Explain Concurrent React and time slicing](#user-content-react-explain-concurrent-react-and-time-slicing) |
-| 8 | [useMemo vs useCallback vs React.memo — when each matters](#user-content-react-usememo-vs-usecallback-vs-react-memo-when-each-matters) |
-| 9 | [How do you prevent unnecessary re-renders in a large context tree](#user-content-react-how-do-you-prevent-unnecessary-re-renders-in-a-large-context-tree) |
-| 10 | [Explain keys in lists — why not use index](#user-content-react-explain-keys-in-lists-why-not-use-index) |
-| 11 | [Rules of Hooks — why do they exist](#user-content-react-rules-of-hooks-why-do-they-exist) |
-| 12 | [Custom hook design — what makes a good custom hook](#user-content-react-custom-hook-design-what-makes-a-good-custom-hook) |
-| 13 | [useRef vs useState — storage and re-render implications](#user-content-react-useref-vs-usestate-storage-and-re-render-implications) |
-| 14 | [useReducer vs useState for complex state](#user-content-react-usereducer-vs-usestate-for-complex-state) |
-| 15 | [How does useId work and why use it over Math.random()](#user-content-react-how-does-useid-work-and-why-use-it-over-math-random) |
-| 16 | [useImperativeHandle — legitimate use cases](#user-content-react-useimperativehandle-legitimate-use-cases) |
-| 17 | [Explain stale closures in hooks and how to fix them](#user-content-react-explain-stale-closures-in-hooks-and-how-to-fix-them) |
-| 18 | [useEffect dependency array — exhaustive-deps debate](#user-content-react-useeffect-dependency-array-exhaustive-deps-debate) |
-| 19 | [How to cancel async work in useEffect](#user-content-react-how-to-cancel-async-work-in-useeffect) |
-| 20 | [useSyncExternalStore — when and why](#user-content-react-usesyncexternalstore-when-and-why) |
-| 21 | [How do you profile React performance in production](#user-content-react-how-do-you-profile-react-performance-in-production) |
-| 22 | [Code splitting strategies in React](#user-content-react-code-splitting-strategies-in-react) |
-| 23 | [Virtualization for long lists — react-window vs react-virtuoso](#user-content-react-virtualization-for-long-lists-react-window-vs-react-virtuoso) |
-| 24 | [React Server Components (RSC) — what problem do they solve](#user-content-react-react-server-components-rsc-what-problem-do-they-solve) |
-| 25 | [Suspense for data fetching — patterns and pitfalls](#user-content-react-suspense-for-data-fetching-patterns-and-pitfalls) |
-| 26 | [Compound components pattern with Context](#user-content-react-compound-components-pattern-with-context) |
-| 27 | [Render props vs HOC vs hooks — evolution and trade-offs](#user-content-react-render-props-vs-hoc-vs-hooks-evolution-and-trade-offs) |
-| 28 | [Error boundaries — limitations and patterns](#user-content-react-error-boundaries-limitations-and-patterns) |
-| 29 | [Portals — use cases beyond modals](#user-content-react-portals-use-cases-beyond-modals) |
-| 30 | [forwardRef deprecation in React 19 — migration](#user-content-react-forwardref-deprecation-in-react-19-migration) |
-| 31 | [Lifting state up — when and why](#user-content-react-lifting-state-up-when-and-why) |
-| 32 | [Prop drilling — solutions ranked](#user-content-react-prop-drilling-solutions-ranked) |
-| 33 | [React.lazy and dynamic import — code splitting](#user-content-react-react-lazy-and-dynamic-import-code-splitting) |
-| 34 | [Hydration mismatch — causes and fixes](#user-content-react-hydration-mismatch-causes-and-fixes) |
-| 35 | [React 18 automatic batching](#user-content-react-react-18-automatic-batching) |
-| 36 | [flushSync — when and why avoid](#user-content-react-flushsync-when-and-why-avoid) |
-| 37 | [useDeferredValue vs debounce](#user-content-react-usedeferredvalue-vs-debounce) |
-| 38 | [Synthetic events in React](#user-content-react-synthetic-events-in-react) |
-| 39 | [dangerouslySetInnerHTML safely](#user-content-react-dangerouslysetinnerhtml-safely) |
-| 40 | [Derived state anti-pattern](#user-content-react-derived-state-anti-pattern) |
-| 41 | [TanStack Query vs useEffect data fetching](#user-content-react-tanstack-query-vs-useeffect-data-fetching) |
-| 42 | [React Hook Form vs Formik](#user-content-react-react-hook-form-vs-formik) |
-| 43 | [Testing Library query priority](#user-content-react-testing-library-query-priority) |
-| 44 | [MSW in dev and test](#user-content-react-msw-in-dev-and-test) |
-| 45 | [Module Federation + React singleton](#user-content-react-module-federation-react-singleton) |
-| 46 | [React 19 Activity API](#user-content-react-react-19-activity-api) |
-| 47 | [React Server Components boundary](#user-content-react-react-server-components-boundary) |
-| 48 | [Server Actions pattern](#user-content-react-server-actions-pattern) |
-| 49 | [useTransition pending UI](#user-content-react-usetransition-pending-ui) |
-| 50 | [Error boundary reset with key](#user-content-react-error-boundary-reset-with-key) |
-| 51 | [Ref callback cleanup pattern](#user-content-react-ref-callback-cleanup-pattern) |
-| 52 | [StrictMode imperative library teardown](#user-content-react-strictmode-imperative-library-teardown) |
-| 53 | [React Compiler adoption](#user-content-react-react-compiler-adoption) |
-| 54 | [Profiler workflow for perf interviews](#user-content-react-profiler-workflow-for-perf-interviews) |
-| 55 | [Micro-frontend lazy remote loading](#user-content-react-micro-frontend-lazy-remote-loading) |
-
-</details>
-
-<details>
-<summary><strong>Redux (35 questions) (35)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Redux core principles and when NOT to use Redux](#user-content-redux-redux-core-principles-and-when-not-to-use-redux) |
-| 2 | [Redux Toolkit vs classic Redux — what RTK solves](#user-content-redux-redux-toolkit-vs-classic-redux-what-rtk-solves) |
-| 3 | [Explain middleware chain — dispatch flow](#user-content-redux-explain-middleware-chain-dispatch-flow) |
-| 4 | [redux-thunk vs redux-saga vs RTK Query](#user-content-redux-redux-thunk-vs-redux-saga-vs-rtk-query) |
-| 5 | [Normalized state shape — why entities + ids](#user-content-redux-normalized-state-shape-why-entities-ids) |
-| 6 | [createSelector (Reselect) — memoization](#user-content-redux-createselector-reselect-memoization) |
-| 7 | [RTK Query — cache lifecycle](#user-content-redux-rtk-query-cache-lifecycle) |
-| 8 | [useSelector performance — equality checks](#user-content-redux-useselector-performance-equality-checks) |
-| 9 | [Redux DevTools — time travel and action replay](#user-content-redux-redux-devtools-time-travel-and-action-replay) |
-| 10 | [Immer in createSlice — how draft works](#user-content-redux-immer-in-createslice-how-draft-works) |
-| 11 | [Action creators in Redux](#user-content-redux-action-creators-in-redux) |
-| 12 | [combineReducers composition](#user-content-redux-combinereducers-composition) |
-| 13 | [redux-persist](#user-content-redux-redux-persist) |
-| 14 | [SSR Redux hydration](#user-content-redux-ssr-redux-hydration) |
-| 15 | [Selector colocation](#user-content-redux-selector-colocation) |
-| 16 | [Ducks / feature folder pattern](#user-content-redux-ducks-feature-folder-pattern) |
-| 17 | [Giant slice anti-pattern](#user-content-redux-giant-slice-anti-pattern) |
-| 18 | [Side effects NEVER in reducer](#user-content-redux-side-effects-never-in-reducer) |
-| 19 | [RTK listener middleware](#user-content-redux-rtk-listener-middleware) |
-| 20 | [RTK Query optimistic updates](#user-content-redux-rtk-query-optimistic-updates) |
-| 21 | [Redux vs Context](#user-content-redux-redux-vs-context) |
-| 22 | [Redux vs Zustand](#user-content-redux-redux-vs-zustand) |
-| 23 | [Redux vs Jotai/Recoil](#user-content-redux-redux-vs-jotai-recoil) |
-| 24 | [Batching in React 18 + Redux](#user-content-redux-batching-in-react-18-redux) |
-| 25 | [Serializable check middleware](#user-content-redux-serializable-check-middleware) |
-| 26 | [Auth token in RTK Query baseQuery](#user-content-redux-auth-token-in-rtk-query-basequery) |
-| 27 | [createEntityAdapter](#user-content-redux-createentityadapter) |
-| 28 | [RTK Query prefetch](#user-content-redux-rtk-query-prefetch) |
-| 29 | [injectReducer (legacy code split)](#user-content-redux-injectreducer-legacy-code-split) |
-| 30 | [Testing reducers](#user-content-redux-testing-reducers) |
-| 31 | [Testing thunks](#user-content-redux-testing-thunks) |
-| 32 | [extraReducers cross-slice](#user-content-redux-extrareducers-cross-slice) |
-| 33 | [Global error slice + listener](#user-content-redux-global-error-slice-listener) |
-| 34 | [Undo/redo with redux-undo](#user-content-redux-undo-redo-with-redux-undo) |
-| 35 | [Industry trend 2025 — Redux role](#user-content-redux-industry-trend-2025-redux-role) |
-
-</details>
-
-<details>
-<summary><strong>Webpack (30 questions) (30)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Webpack core concepts: entry, output, loaders, plugins](#user-content-webpack-webpack-core-concepts-entry-output-loaders-plugins) |
-| 2 | [Module federation — micro-frontends](#user-content-webpack-module-federation-micro-frontends) |
-| 3 | [Contenthash vs chunkhash vs hash](#user-content-webpack-contenthash-vs-chunkhash-vs-hash) |
-| 4 | [Tree shaking — requirements](#user-content-webpack-tree-shaking-requirements) |
-| 5 | [Code splitting — dynamic import syntax](#user-content-webpack-code-splitting-dynamic-import-syntax) |
-| 6 | [webpack-dev-server vs production build differences](#user-content-webpack-webpack-dev-server-vs-production-build-differences) |
-| 7 | [Source maps strategies for production](#user-content-webpack-source-maps-strategies-for-production) |
-| 8 | [Resolve alias and extensions](#user-content-webpack-resolve-alias-and-extensions) |
-| 9 | [Asset modules (Webpack 5)](#user-content-webpack-asset-modules-webpack-5) |
-| 10 | [Bundle analyzer — finding bloat](#user-content-webpack-bundle-analyzer-finding-bloat) |
-| 11 | [Loader execution order](#user-content-webpack-loader-execution-order) |
-| 12 | [babel-loader vs ts-loader](#user-content-webpack-babel-loader-vs-ts-loader) |
-| 13 | [thread-loader parallelization](#user-content-webpack-thread-loader-parallelization) |
-| 14 | [Webpack 5 filesystem cache](#user-content-webpack-webpack-5-filesystem-cache) |
-| 15 | [externals configuration](#user-content-webpack-externals-configuration) |
-| 16 | [HotModuleReplacement API](#user-content-webpack-hotmodulereplacement-api) |
-| 17 | [DefinePlugin / EnvironmentPlugin](#user-content-webpack-defineplugin-environmentplugin) |
-| 18 | [Webpack 5 removed Node polyfills](#user-content-webpack-webpack-5-removed-node-polyfills) |
-| 19 | [MiniCssExtractPlugin vs style-loader](#user-content-webpack-minicssextractplugin-vs-style-loader) |
-| 20 | [CSS Modules in webpack](#user-content-webpack-css-modules-in-webpack) |
-| 21 | [PostCSS loader chain](#user-content-webpack-postcss-loader-chain) |
-| 22 | [Duplicate package detection](#user-content-webpack-duplicate-package-detection) |
-| 23 | [performance.maxAssetSize hints](#user-content-webpack-performance-maxassetsize-hints) |
-| 24 | [Scope hoisting / concatenation](#user-content-webpack-scope-hoisting-concatenation) |
-| 25 | [Webpack vs Rollup vs esbuild](#user-content-webpack-webpack-vs-rollup-vs-esbuild) |
-| 26 | [Custom webpack plugin anatomy](#user-content-webpack-custom-webpack-plugin-anatomy) |
-| 27 | [Module resolution failure debugging](#user-content-webpack-module-resolution-failure-debugging) |
-| 28 | [SplitChunksPlugin strategy](#user-content-webpack-splitchunksplugin-strategy) |
-| 29 | [Source map dev vs prod](#user-content-webpack-source-map-dev-vs-prod) |
-| 30 | [Webpack to Vite migration checklist](#user-content-webpack-webpack-to-vite-migration-checklist) |
-
-</details>
-
-<details>
-<summary><strong>Vite (25 questions) (25)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Why is Vite dev server faster than Webpack dev](#user-content-vite-why-is-vite-dev-server-faster-than-webpack-dev) |
-| 2 | [Vite production build — what runs under the hood](#user-content-vite-vite-production-build-what-runs-under-the-hood) |
-| 3 | [vite.config.ts essential options](#user-content-vite-vite-config-ts-essential-options) |
-| 4 | [Environment variables in Vite](#user-content-vite-environment-variables-in-vite) |
-| 5 | [SSR with Vite](#user-content-vite-ssr-with-vite) |
-| 6 | [Vitest integration — why same config](#user-content-vite-vitest-integration-why-same-config) |
-| 7 | [optimizeDeps — pre-bundling](#user-content-vite-optimizedeps-pre-bundling) |
-| 8 | [Dynamic import and code splitting in Vite](#user-content-vite-dynamic-import-and-code-splitting-in-vite) |
-| 9 | [Library mode](#user-content-vite-library-mode) |
-| 10 | [Migrating Webpack → Vite checklist](#user-content-vite-migrating-webpack-vite-checklist) |
-| 11 | [Vite HMR API import.meta.hot](#user-content-vite-vite-hmr-api-import-meta-hot) |
-| 12 | [CSS code splitting in Vite build](#user-content-vite-css-code-splitting-in-vite-build) |
-| 13 | [PostCSS in Vite](#user-content-vite-postcss-in-vite) |
-| 14 | [Tailwind with Vite](#user-content-vite-tailwind-with-vite) |
-| 15 | [Vite plugin order](#user-content-vite-vite-plugin-order) |
-| 16 | [define config constants](#user-content-vite-define-config-constants) |
-| 17 | [public/ directory behavior](#user-content-vite-public-directory-behavior) |
-| 18 | [assetsInlineLimit](#user-content-vite-assetsinlinelimit) |
-| 19 | [vite preview command](#user-content-vite-vite-preview-command) |
-| 20 | [Vite mode and env files](#user-content-vite-vite-mode-and-env-files) |
-| 21 | [loadEnv in vite.config](#user-content-vite-loadenv-in-vite-config) |
-| 22 | [vite-plugin-pwa](#user-content-vite-vite-plugin-pwa) |
-| 23 | [Monorepo Vite setup](#user-content-vite-monorepo-vite-setup) |
-| 24 | [server.warmup (Vite 5+)](#user-content-vite-server-warmup-vite-5) |
-| 25 | [Rolldown future in Vite ecosystem](#user-content-vite-rolldown-future-in-vite-ecosystem) |
-
-</details>
-
-<details>
-<summary><strong>HTML (30 questions) (30)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Semantic HTML — why it matters for a11y and SEO](#user-content-html-semantic-html-why-it-matters-for-a11y-and-seo) |
-| 2 | [Document loading — defer vs async scripts](#user-content-html-document-loading-defer-vs-async-scripts) |
-| 3 | [Critical rendering path optimization](#user-content-html-critical-rendering-path-optimization) |
-| 4 | [Accessibility: ARIA roles — first rule of ARIA](#user-content-html-accessibility-aria-roles-first-rule-of-aria) |
-| 5 | [Form accessibility patterns](#user-content-html-form-accessibility-patterns) |
-| 6 | [Content Security Policy (CSP)](#user-content-html-content-security-policy-csp) |
-| 7 | [Shadow DOM vs Light DOM](#user-content-html-shadow-dom-vs-light-dom) |
-| 8 | [Custom elements and React](#user-content-html-custom-elements-and-react) |
-| 9 | [picture / srcset responsive images](#user-content-html-picture-srcset-responsive-images) |
-| 10 | [SEO meta and Open Graph](#user-content-html-seo-meta-and-open-graph) |
-| 11 | [DOCTYPE and standards mode](#user-content-html-doctype-and-standards-mode) |
-| 12 | [lang attribute on html](#user-content-html-lang-attribute-on-html) |
-| 13 | [tabindex values](#user-content-html-tabindex-values) |
-| 14 | [Focus trap in modal](#user-content-html-focus-trap-in-modal) |
-| 15 | [inert attribute](#user-content-html-inert-attribute) |
-| 16 | [dialog element native modal](#user-content-html-dialog-element-native-modal) |
-| 17 | [details/summary accordion](#user-content-html-details-summary-accordion) |
-| 18 | [input type benefits](#user-content-html-input-type-benefits) |
-| 19 | [autocomplete attributes](#user-content-html-autocomplete-attributes) |
-| 20 | [CSP report-uri / report-to](#user-content-html-csp-report-uri-report-to) |
-| 21 | [Subresource Integrity SRI](#user-content-html-subresource-integrity-sri) |
-| 22 | [preload vs prefetch vs preconnect](#user-content-html-preload-vs-prefetch-vs-preconnect) |
-| 23 | [iframe sandbox](#user-content-html-iframe-sandbox) |
-| 24 | [postMessage cross-origin](#user-content-html-postmessage-cross-origin) |
-| 25 | [Web Components slots](#user-content-html-web-components-slots) |
-| 26 | [template element](#user-content-html-template-element) |
-| 27 | [JSON-LD structured data](#user-content-html-json-ld-structured-data) |
-| 28 | [WCAG 2.2 AA highlights](#user-content-html-wcag-2-2-aa-highlights) |
-| 29 | [Hydration in HTML/SSR context](#user-content-html-hydration-in-html-ssr-context) |
-| 30 | [Progressive enhancement baseline](#user-content-html-progressive-enhancement-baseline) |
-
-</details>
-
-<details>
-<summary><strong>CSS (35 questions) (35)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [CSS specificity calculation](#user-content-css-css-specificity-calculation) |
-| 2 | [BFC (Block Formatting Context) — triggers and use](#user-content-css-bfc-block-formatting-context-triggers-and-use) |
-| 3 | [Flexbox vs Grid — decision matrix](#user-content-css-flexbox-vs-grid-decision-matrix) |
-| 4 | [CSS Grid subgrid](#user-content-css-css-grid-subgrid) |
-| 5 | [Container queries vs media queries](#user-content-css-container-queries-vs-media-queries) |
-| 6 | [CSS custom properties (variables) theming](#user-content-css-css-custom-properties-variables-theming) |
-| 7 | [Stacking context and z-index bugs](#user-content-css-stacking-context-and-z-index-bugs) |
-| 8 | [CLS prevention techniques](#user-content-css-cls-prevention-techniques) |
-| 9 | [Modern CSS layout: :has() selector](#user-content-css-modern-css-layout-has-selector) |
-| 10 | [CSS Modules vs CSS-in-JS vs Tailwind — trade-offs](#user-content-css-css-modules-vs-css-in-js-vs-tailwind-trade-offs) |
-| 11 | [box-sizing border-box universal](#user-content-css-box-sizing-border-box-universal) |
-| 12 | [margin collapse](#user-content-css-margin-collapse) |
-| 13 | [position sticky requirements](#user-content-css-position-sticky-requirements) |
-| 14 | [logical properties RTL](#user-content-css-logical-properties-rtl) |
-| 15 | [clamp fluid typography](#user-content-css-clamp-fluid-typography) |
-| 16 | [min max fit-content sizing](#user-content-css-min-max-fit-content-sizing) |
-| 17 | [aspect-ratio property](#user-content-css-aspect-ratio-property) |
-| 18 | [object-fit and object-position](#user-content-css-object-fit-and-object-position) |
-| 19 | [will-change hint](#user-content-css-will-change-hint) |
-| 20 | [contain property](#user-content-css-contain-property) |
-| 21 | [content-visibility auto](#user-content-css-content-visibility-auto) |
-| 22 | [@layer cascade layers](#user-content-css-layer-cascade-layers) |
-| 23 | [@property registered custom props](#user-content-css-property-registered-custom-props) |
-| 24 | [scroll-snap](#user-content-css-scroll-snap) |
-| 25 | [overscroll-behavior](#user-content-css-overscroll-behavior) |
-| 26 | [:focus-visible](#user-content-css-focus-visible) |
-| 27 | [prefers-reduced-motion](#user-content-css-prefers-reduced-motion) |
-| 28 | [prefers-color-scheme dark](#user-content-css-prefers-color-scheme-dark) |
-| 29 | [@supports feature queries](#user-content-css-supports-feature-queries) |
-| 30 | [Critical CSS strategy](#user-content-css-critical-css-strategy) |
-| 31 | [Sass @use vs @import](#user-content-css-sass-use-vs-import) |
-| 32 | [PostCSS pipeline role](#user-content-css-postcss-pipeline-role) |
-| 33 | [View Transitions API](#user-content-css-view-transitions-api) |
-| 34 | [CSS anchor positioning](#user-content-css-css-anchor-positioning) |
-| 35 | [INP and compositor-only animation](#user-content-css-inp-and-compositor-only-animation) |
-
-</details>
-
-<details>
-<summary><strong>Architecture &amp; System Design (40 questions) (40)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Design a large-scale frontend architecture for 50 engineers](#user-content-arch-design-a-large-scale-frontend-architecture-for-50-engineers) |
-| 2 | [Micro-frontends — when worth it vs modular monolith](#user-content-arch-micro-frontends-when-worth-it-vs-modular-monolith) |
-| 3 | [State management architecture — client vs server state](#user-content-arch-state-management-architecture-client-vs-server-state) |
-| 4 | [API layer design — repository pattern](#user-content-arch-api-layer-design-repository-pattern) |
-| 5 | [Authentication architecture in SPA](#user-content-arch-authentication-architecture-in-spa) |
-| 6 | [CORS — explain preflight and fixes](#user-content-arch-cors-explain-preflight-and-fixes) |
-| 7 | [Web Vitals — LCP, INP, CLS targets and fixes](#user-content-arch-web-vitals-lcp-inp-cls-targets-and-fixes) |
-| 8 | [Design system — tokens, components, documentation](#user-content-arch-design-system-tokens-components-documentation) |
-| 9 | [Feature flags architecture](#user-content-arch-feature-flags-architecture) |
-| 10 | [Error handling strategy — layers](#user-content-arch-error-handling-strategy-layers) |
-| 11 | [Testing pyramid for frontend at scale](#user-content-arch-testing-pyramid-for-frontend-at-scale) |
-| 12 | [CI/CD pipeline for frontend](#user-content-arch-ci-cd-pipeline-for-frontend) |
-| 13 | [Monorepo tooling — Nx vs Turborepo](#user-content-arch-monorepo-tooling-nx-vs-turborepo) |
-| 14 | [SSR vs SSG vs ISR vs CSR — choose per page](#user-content-arch-ssr-vs-ssg-vs-isr-vs-csr-choose-per-page) |
-| 15 | [Real-time architecture — WebSockets vs SSE vs polling](#user-content-arch-real-time-architecture-websockets-vs-sse-vs-polling) |
-| 16 | [Event-driven UI decoupling](#user-content-arch-event-driven-ui-decoupling) |
-| 17 | [Idempotency keys frontend](#user-content-arch-idempotency-keys-frontend) |
-| 18 | [Optimistic UI 409 rollback](#user-content-arch-optimistic-ui-409-rollback) |
-| 19 | [Offline-first architecture](#user-content-arch-offline-first-architecture) |
-| 20 | [CDN caching strategy](#user-content-arch-cdn-caching-strategy) |
-| 21 | [Blue-green / canary frontend](#user-content-arch-blue-green-canary-frontend) |
-| 22 | [OpenTelemetry browser RUM](#user-content-arch-opentelemetry-browser-rum) |
-| 23 | [XSS defense layers](#user-content-arch-xss-defense-layers) |
-| 24 | [CSRF defense layers](#user-content-arch-csrf-defense-layers) |
-| 25 | [Supply chain security](#user-content-arch-supply-chain-security) |
-| 26 | [Bundle budget CI gate](#user-content-arch-bundle-budget-ci-gate) |
-| 27 | [Lazy load third-party scripts](#user-content-arch-lazy-load-third-party-scripts) |
-| 28 | [i18n architecture](#user-content-arch-i18n-architecture) |
-| 29 | [a11y governance at scale](#user-content-arch-a11y-governance-at-scale) |
-| 30 | [ADR documentation](#user-content-arch-adr-documentation) |
-| 31 | [Domain-driven folder structure](#user-content-arch-domain-driven-folder-structure) |
-| 32 | [Barrel file anti-pattern](#user-content-arch-barrel-file-anti-pattern) |
-| 33 | [GraphQL vs REST frontend](#user-content-arch-graphql-vs-rest-frontend) |
-| 34 | [tRPC / OpenAPI codegen](#user-content-arch-trpc-openapi-codegen) |
-| 35 | [Edge middleware auth](#user-content-arch-edge-middleware-auth) |
-| 36 | [Rate limit 429 UX](#user-content-arch-rate-limit-429-ux) |
-| 37 | [Multi-tenant theming](#user-content-arch-multi-tenant-theming) |
-| 38 | [Strangler fig legacy migration](#user-content-arch-strangler-fig-legacy-migration) |
-| 39 | [Lighthouse CI per route](#user-content-arch-lighthouse-ci-per-route) |
-| 40 | [Staff interview narrative structure](#user-content-arch-staff-interview-narrative-structure) |
-
-</details>
-
-<details>
-<summary><strong>React Context API (22 questions) High priority (22)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [When should you use Context vs props vs external store](#user-content-context-when-should-you-use-context-vs-props-vs-external-store) |
-| 2 | [Why does a Context provider cause all consumers to re-render](#user-content-context-why-does-a-context-provider-cause-all-consumers-to-re-render) |
-| 3 | [Split context pattern — state vs dispatch](#user-content-context-split-context-pattern-state-vs-dispatch) |
-| 4 | [useContextSelector pattern without external library](#user-content-context-usecontextselector-pattern-without-external-library) |
-| 5 | [Context + useReducer vs Redux for FleetPanda-style apps](#user-content-context-context-usereducer-vs-redux-for-fleetpanda-style-apps) |
-| 6 | [How to test components that use useContext](#user-content-context-how-to-test-components-that-use-usecontext) |
-| 7 | [Nested providers — ordering and pitfalls](#user-content-context-nested-providers-ordering-and-pitfalls) |
-| 8 | [Default context value — why undefined + custom hook throw](#user-content-context-default-context-value-why-undefined-custom-hook-throw) |
-| 9 | [Context vs React 19 use() hook](#user-content-context-context-vs-react-19-use-hook) |
-| 10 | [Passing unstable functions through context](#user-content-context-passing-unstable-functions-through-context) |
-| 11 | [Multiple contexts vs one mega context](#user-content-context-multiple-contexts-vs-one-mega-context) |
-| 12 | [Context for form state](#user-content-context-context-for-form-state) |
-| 13 | [Provider at route layout level](#user-content-context-provider-at-route-layout-level) |
-| 14 | [SSR context per request](#user-content-context-ssr-context-per-request) |
-| 15 | [Hydration context mismatch](#user-content-context-hydration-context-mismatch) |
-| 16 | [createContext default value semantics](#user-content-context-createcontext-default-value-semantics) |
-| 17 | [forwardRef + context together](#user-content-context-forwardref-context-together) |
-| 18 | [Measuring context performance](#user-content-context-measuring-context-performance) |
-| 19 | [Colocate provider closest to consumers](#user-content-context-colocate-provider-closest-to-consumers) |
-| 20 | [Prop drilling threshold](#user-content-context-prop-drilling-threshold) |
-| 21 | [Immutable context updates](#user-content-context-immutable-context-updates) |
-| 22 | [Migration off mega context](#user-content-context-migration-off-mega-context) |
-
-</details>
-
-<details>
-<summary><strong>Browser Internals (32 questions) High priority (32)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Explain the browser rendering pipeline end-to-end](#user-content-browser-explain-the-browser-rendering-pipeline-end-to-end) |
-| 2 | [Reflow vs repaint vs composite — what triggers each](#user-content-browser-reflow-vs-repaint-vs-composite-what-triggers-each) |
-| 3 | [Event loop — microtasks vs macrotasks (with full trace)](#user-content-browser-event-loop-microtasks-vs-macrotasks-with-full-trace) |
-| 4 | [How many threads/processes in modern Chrome for a tab](#user-content-browser-how-many-threads-processes-in-modern-chrome-for-a-tab) |
-| 5 | [Same-origin policy and CORS — browser perspective](#user-content-browser-same-origin-policy-and-cors-browser-perspective) |
-| 6 | [Cookie attributes — Secure, HttpOnly, SameSite](#user-content-browser-cookie-attributes-secure-httponly-samesite) |
-| 7 | [localStorage vs sessionStorage vs IndexedDB vs cookies](#user-content-browser-localstorage-vs-sessionstorage-vs-indexeddb-vs-cookies) |
-| 8 | [Service Worker lifecycle and caching strategies](#user-content-browser-service-worker-lifecycle-and-caching-strategies) |
-| 9 | [HTTP/1.1 vs HTTP/2 vs HTTP/3 for frontend perf](#user-content-browser-http-1-1-vs-http-2-vs-http-3-for-frontend-perf) |
-| 10 | [Memory leaks in SPAs — common causes](#user-content-browser-memory-leaks-in-spas-common-causes) |
-| 11 | [requestAnimationFrame](#user-content-browser-requestanimationframe) |
-| 12 | [requestIdleCallback](#user-content-browser-requestidlecallback) |
-| 13 | [Navigation Timing API](#user-content-browser-navigation-timing-api) |
-| 14 | [PerformanceObserver](#user-content-browser-performanceobserver) |
-| 15 | [Long tasks >50ms](#user-content-browser-long-tasks-gt-50ms) |
-| 16 | [Web Workers](#user-content-browser-web-workers) |
-| 17 | [SharedWorker](#user-content-browser-sharedworker) |
-| 18 | [BroadcastChannel](#user-content-browser-broadcastchannel) |
-| 19 | [Page Visibility API](#user-content-browser-page-visibility-api) |
-| 20 | [bfcache back-forward cache](#user-content-browser-bfcache-back-forward-cache) |
-| 21 | [beforeunload vs pagehide](#user-content-browser-beforeunload-vs-pagehide) |
-| 22 | [navigator.sendBeacon](#user-content-browser-navigator-sendbeacon) |
-| 23 | [Credential Management API](#user-content-browser-credential-management-api) |
-| 24 | [Permissions API](#user-content-browser-permissions-api) |
-| 25 | [Intersection Observer](#user-content-browser-intersection-observer) |
-| 26 | [Resize Observer](#user-content-browser-resize-observer) |
-| 27 | [Mutation Observer](#user-content-browser-mutation-observer) |
-| 28 | [Content-Encoding gzip br](#user-content-browser-content-encoding-gzip-br) |
-| 29 | [Resource Timing API](#user-content-browser-resource-timing-api) |
-| 30 | [Third-party cookie deprecation](#user-content-browser-third-party-cookie-deprecation) |
-| 31 | [Trusted Types CSP](#user-content-browser-trusted-types-csp) |
-| 32 | [Speculative loading hints](#user-content-browser-speculative-loading-hints) |
-
-</details>
-
-<details>
-<summary><strong>DOM &amp; Events (28 questions) High priority (28)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [DOM tree vs shadow DOM vs virtual DOM](#user-content-dom-dom-tree-vs-shadow-dom-vs-virtual-dom) |
-| 2 | [Event propagation — capture, target, bubble](#user-content-dom-event-propagation-capture-target-bubble) |
-| 3 | [Event delegation pattern](#user-content-dom-event-delegation-pattern) |
-| 4 | [Passive event listeners — scroll performance](#user-content-dom-passive-event-listeners-scroll-performance) |
-| 5 | [document.querySelector vs getElementById vs matches/closest](#user-content-dom-document-queryselector-vs-getelementbyid-vs-matches-closest) |
-| 6 | [DOM manipulation performance — DocumentFragment](#user-content-dom-dom-manipulation-performance-documentfragment) |
-| 7 | [Layout thrashing — read/write interleaving](#user-content-dom-layout-thrashing-read-write-interleaving) |
-| 8 | [CustomEvent for decoupled DOM communication](#user-content-dom-customevent-for-decoupled-dom-communication) |
-| 9 | [Imperative DOM in React — when acceptable](#user-content-dom-imperative-dom-in-react-when-acceptable) |
-| 10 | [Accessibility tree vs DOM tree](#user-content-dom-accessibility-tree-vs-dom-tree) |
-| 11 | [innerHTML vs textContent](#user-content-dom-innerhtml-vs-textcontent) |
-| 12 | [insertAdjacentHTML](#user-content-dom-insertadjacenthtml) |
-| 13 | [cloneNode deep](#user-content-dom-clonenode-deep) |
-| 14 | [compareDocumentPosition](#user-content-dom-comparedocumentposition) |
-| 15 | [getBoundingClientRect](#user-content-dom-getboundingclientrect) |
-| 16 | [scrollIntoView](#user-content-dom-scrollintoview) |
-| 17 | [focus preventScroll](#user-content-dom-focus-preventscroll) |
-| 18 | [tabindex -1 programmatic focus](#user-content-dom-tabindex-1-programmatic-focus) |
-| 19 | [Pointer events unified input](#user-content-dom-pointer-events-unified-input) |
-| 20 | [once event listener option](#user-content-dom-once-event-listener-option) |
-| 21 | [AbortSignal in addEventListener](#user-content-dom-abortsignal-in-addeventlistener) |
-| 22 | [input vs change events](#user-content-dom-input-vs-change-events) |
-| 23 | [Composition events IME](#user-content-dom-composition-events-ime) |
-| 24 | [Shadow DOM event retargeting](#user-content-dom-shadow-dom-event-retargeting) |
-| 25 | [Slot assignment projection](#user-content-dom-slot-assignment-projection) |
-| 26 | [DOMParser safe parse](#user-content-dom-domparser-safe-parse) |
-| 27 | [Range Selection API](#user-content-dom-range-selection-api) |
-| 28 | [Don't fight React with DOM](#user-content-dom-don-t-fight-react-with-dom) |
-
-</details>
-
-<details>
-<summary><strong>JavaScript &amp; TypeScript (30 questions) High priority (30)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Event loop + async/await execution order](#user-content-js-event-loop-async-await-execution-order) |
-| 2 | [Closures — practical use and memory implications](#user-content-js-closures-practical-use-and-memory-implications) |
-| 3 | [Prototype chain vs class syntax](#user-content-js-prototype-chain-vs-class-syntax) |
-| 4 | [TypeScript structural typing vs nominal](#user-content-js-typescript-structural-typing-vs-nominal) |
-| 5 | [Generics — constrain and infer](#user-content-js-generics-constrain-and-infer) |
-| 6 | [Discriminated unions for API results](#user-content-js-discriminated-unions-for-api-results) |
-| 7 | [Promise.all vs allSettled vs race](#user-content-js-promise-all-vs-allsettled-vs-race) |
-| 8 | [Debounce vs throttle — implement debounce](#user-content-js-debounce-vs-throttle-implement-debounce) |
-| 9 | [WeakMap / WeakSet use cases](#user-content-js-weakmap-weakset-use-cases) |
-| 10 | [ES modules — static vs dynamic import](#user-content-js-es-modules-static-vs-dynamic-import) |
-| 11 | [null vs undefined](#user-content-js-null-vs-undefined) |
-| 12 | [== vs ===](#user-content-js-vs) |
-| 13 | [Object.is](#user-content-js-object-is) |
-| 14 | [Optional chaining](#user-content-js-optional-chaining) |
-| 15 | [Nullish coalescing](#user-content-js-nullish-coalescing) |
-| 16 | [Map vs Object records](#user-content-js-map-vs-object-records) |
-| 17 | [Set deduplication](#user-content-js-set-deduplication) |
-| 18 | [structuredClone](#user-content-js-structuredclone) |
-| 19 | [AbortController cancel](#user-content-js-abortcontroller-cancel) |
-| 20 | [Temporal proposal](#user-content-js-temporal-proposal) |
-| 21 | [satisfies operator TS](#user-content-js-satisfies-operator-ts) |
-| 22 | [as const assertion](#user-content-js-as-const-assertion) |
-| 23 | [unknown vs any](#user-content-js-unknown-vs-any) |
-| 24 | [never exhaustive check](#user-content-js-never-exhaustive-check) |
-| 25 | [Utility types Partial Omit Pick Record](#user-content-js-utility-types-partial-omit-pick-record) |
-| 26 | [Conditional types](#user-content-js-conditional-types) |
-| 27 | [infer in conditional types](#user-content-js-infer-in-conditional-types) |
-| 28 | [Module augmentation](#user-content-js-module-augmentation) |
-| 29 | [strictNullChecks](#user-content-js-strictnullchecks) |
-| 30 | [Zod runtime validation](#user-content-js-zod-runtime-validation) |
-
-</details>
-
-<details>
-<summary><strong>CSS vs SCSS vs Tailwind (24 questions) High priority (24)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Compare CSS, SCSS, and Tailwind — when to choose each](#user-content-styling-compare-css-scss-and-tailwind-when-to-choose-each) |
-| 2 | [SCSS nesting — best practices and pitfalls](#user-content-styling-scss-nesting-best-practices-and-pitfalls) |
-| 3 | [SCSS mixins vs CSS @layer — modern alternative](#user-content-styling-scss-mixins-vs-css-layer-modern-alternative) |
-| 4 | [Tailwind @apply — when acceptable](#user-content-styling-tailwind-apply-when-acceptable) |
-| 5 | [Tailwind JIT and purging — how bundle stays small](#user-content-styling-tailwind-jit-and-purging-how-bundle-stays-small) |
-| 6 | [Design tokens — implement across CSS/SCSS/Tailwind](#user-content-styling-design-tokens-implement-across-css-scss-tailwind) |
-| 7 | [CSS Modules vs Tailwind in React](#user-content-styling-css-modules-vs-tailwind-in-react) |
-| 8 | [SCSS @use vs deprecated @import](#user-content-styling-scss-use-vs-deprecated-import) |
-| 9 | [Tailwind dark mode strategies](#user-content-styling-tailwind-dark-mode-strategies) |
-| 10 | [CSS-in-JS vs Tailwind in 2025 — senior take](#user-content-styling-css-in-js-vs-tailwind-in-2025-senior-take) |
-| 11 | [BEM naming convention](#user-content-styling-bem-naming-convention) |
-| 12 | [ITCSS / SMACSS layers](#user-content-styling-itcss-smacss-layers) |
-| 13 | [PostCSS in all stacks](#user-content-styling-postcss-in-all-stacks) |
-| 14 | [Sass @forward re-export](#user-content-styling-sass-forward-re-export) |
-| 15 | [Tailwind plugins extend](#user-content-styling-tailwind-plugins-extend) |
-| 16 | [cva class-variance-authority](#user-content-styling-cva-class-variance-authority) |
-| 17 | [tailwind-merge twMerge](#user-content-styling-tailwind-merge-twmerge) |
-| 18 | [Container queries Tailwind](#user-content-styling-container-queries-tailwind) |
-| 19 | [Logical properties Tailwind](#user-content-styling-logical-properties-tailwind) |
-| 20 | [Critical CSS extraction](#user-content-styling-critical-css-extraction) |
-| 21 | [Sass @import deprecation](#user-content-styling-sass-import-deprecation) |
-| 22 | [Native CSS nesting](#user-content-styling-native-css-nesting) |
-| 23 | [Stylelint enforcement](#user-content-styling-stylelint-enforcement) |
-| 24 | [Interview answer CSS vs SCSS vs Tailwind](#user-content-styling-interview-answer-css-vs-scss-vs-tailwind) |
-
-</details>
-
-<details>
-<summary><strong>Micro-frontend Communication (28 questions) High priority (28)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [Overview — how do micro-frontends share data across pages](#user-content-mfe-overview-how-do-micro-frontends-share-data-across-pages) |
-| 2 | [Module Federation — share React and global store](#user-content-mfe-module-federation-share-react-and-global-store) |
-| 3 | [Custom event bus for cross-MFE communication](#user-content-mfe-custom-event-bus-for-cross-mfe-communication) |
-| 4 | [Passing data when navigating shell → remote route](#user-content-mfe-passing-data-when-navigating-shell-remote-route) |
-| 5 | [postMessage for iframe-based micro-frontends](#user-content-mfe-postmessage-for-iframe-based-micro-frontends) |
-| 6 | [BroadcastChannel across MFE tabs on same origin](#user-content-mfe-broadcastchannel-across-mfe-tabs-on-same-origin) |
-| 7 | [localStorage storage event for cross-tab sync](#user-content-mfe-localstorage-storage-event-for-cross-tab-sync) |
-| 8 | [Shared auth token across micro-frontends — secure pattern](#user-content-mfe-shared-auth-token-across-micro-frontends-secure-pattern) |
-| 9 | [Routing coordination — shell owns router vs federated routes](#user-content-mfe-routing-coordination-shell-owns-router-vs-federated-routes) |
-| 10 | [Cross-MFE CSS isolation — Shadow DOM vs CSS Modules vs prefix](#user-content-mfe-cross-mfe-css-isolation-shadow-dom-vs-css-modules-vs-prefix) |
-| 11 | [single-spa orchestrator](#user-content-mfe-single-spa-orchestrator) |
-| 12 | [qiankun micro-frontends](#user-content-mfe-qiankun-micro-frontends) |
-| 13 | [import maps native modules](#user-content-mfe-import-maps-native-modules) |
-| 14 | [Shared design system npm package](#user-content-mfe-shared-design-system-npm-package) |
-| 15 | [Contract testing Pact](#user-content-mfe-contract-testing-pact) |
-| 16 | [Version skew unknown events](#user-content-mfe-version-skew-unknown-events) |
-| 17 | [Feature flags per MFE](#user-content-mfe-feature-flags-per-mfe) |
-| 18 | [Error boundary per remote](#user-content-mfe-error-boundary-per-remote) |
-| 19 | [Lazy load remote entry](#user-content-mfe-lazy-load-remote-entry) |
-| 20 | [Prefetch remote on nav hover](#user-content-mfe-prefetch-remote-on-nav-hover) |
-| 21 | [Global namespace pollution anti-pattern](#user-content-mfe-global-namespace-pollution-anti-pattern) |
-| 22 | [RxJS Subject event bus](#user-content-mfe-rxjs-subject-event-bus) |
-| 23 | [Redux only in shell bridge](#user-content-mfe-redux-only-in-shell-bridge) |
-| 24 | [TanStack Query shared client](#user-content-mfe-tanstack-query-shared-client) |
-| 25 | [Cross-MFE analytics](#user-content-mfe-cross-mfe-analytics) |
-| 26 | [i18n locale sync bus](#user-content-mfe-i18n-locale-sync-bus) |
-| 27 | [Playwright cross-MFE E2E](#user-content-mfe-playwright-cross-mfe-e2e) |
-| 28 | [When NOT micro-frontend](#user-content-mfe-when-not-micro-frontend) |
-
-</details>
-
-<details>
-<summary><strong>High Priority Misc (25 questions) (25)</strong></summary>
-
-| # | Question |
-| -: | --- |
-| 1 | [XSS types and prevention in React apps](#user-content-priority-xss-types-and-prevention-in-react-apps) |
-| 2 | [CSRF protection for cookie-based SPAs](#user-content-priority-csrf-protection-for-cookie-based-spas) |
-| 3 | [OAuth 2.0 PKCE flow for public SPA clients](#user-content-priority-oauth-2-0-pkce-flow-for-public-spa-clients) |
-| 4 | [TanStack Query — staleTime vs gcTime (cacheTime)](#user-content-priority-tanstack-query-staletime-vs-gctime-cachetime) |
-| 5 | [Web Vitals — INP debugging workflow](#user-content-priority-web-vitals-inp-debugging-workflow) |
-| 6 | [Accessibility audit checklist for release](#user-content-priority-accessibility-audit-checklist-for-release) |
-| 7 | [Monorepo shared ESLint/TS config](#user-content-priority-monorepo-shared-eslint-ts-config) |
-| 8 | [Semantic versioning for design system](#user-content-priority-semantic-versioning-for-design-system) |
-| 9 | [Playwright vs Cypress for E2E](#user-content-priority-playwright-vs-cypress-for-e2e) |
-| 10 | [Storybook — role in design system workflow](#user-content-priority-storybook-role-in-design-system-workflow) |
-| 11 | [SRI Subresource Integrity](#user-content-priority-sri-subresource-integrity) |
-| 12 | [npm supply chain audit](#user-content-priority-npm-supply-chain-audit) |
-| 13 | [Dependabot vs Renovate](#user-content-priority-dependabot-vs-renovate) |
-| 14 | [Conventional commits](#user-content-priority-conventional-commits) |
-| 15 | [Trunk-based vs GitFlow](#user-content-priority-trunk-based-vs-gitflow) |
-| 16 | [CODEOWNERS review](#user-content-priority-codeowners-review) |
-| 17 | [Lighthouse CI budgets](#user-content-priority-lighthouse-ci-budgets) |
-| 18 | [Source map security](#user-content-priority-source-map-security) |
-| 19 | [Edge middleware routing](#user-content-priority-edge-middleware-routing) |
-| 20 | [Rate limit 429 UX](#user-content-priority-rate-limit-429-ux) |
-| 21 | [Cursor vs offset pagination API](#user-content-priority-cursor-vs-offset-pagination-api) |
-| 22 | [Idempotent PUT PATCH retries](#user-content-priority-idempotent-put-patch-retries) |
-| 23 | [OpenTelemetry RUM traces](#user-content-priority-opentelemetry-rum-traces) |
-| 24 | [Cookie consent legal](#user-content-priority-cookie-consent-legal) |
-| 25 | [Staff meta-skill answer structure](#user-content-priority-staff-meta-skill-answer-structure) |
-
-</details>
-
----
-
-## Answers
-
 
 ## System Design Scenarios (15) Full interview rounds
 
-<a name="sysdesign-design-the-frontend-for-a-netflix-style-video-streaming-app"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Design the frontend for a Netflix-style video streaming app](#sysdesign-design-the-frontend-for-a-netflix-style-video-streaming-app) |
+| 2 | [Design Google Docs–style collaborative rich text editor](#sysdesign-design-google-docs-style-collaborative-rich-text-editor) |
+| 3 | [Design e-commerce checkout (cart → payment → confirmation)](#sysdesign-design-e-commerce-checkout-cart-payment-confirmation) |
+| 4 | [Design a real-time fleet tracking dashboard (FleetPanda at scale)](#sysdesign-design-a-real-time-fleet-tracking-dashboard-fleetpanda-at-scale) |
+| 5 | [Design a company-wide design system for 12 product teams](#sysdesign-design-a-company-wide-design-system-for-12-product-teams) |
+| 6 | [Design multi-tenant SaaS auth (ACME vs Globex on same app)](#sysdesign-design-multi-tenant-saas-auth-acme-vs-globex-on-same-app) |
+| 7 | [Design offline-first field inspection app](#sysdesign-design-offline-first-field-inspection-app) |
+| 8 | [Migrate 500-route Webpack app to Vite (strangler)](#sysdesign-migrate-500-route-webpack-app-to-vite-strangler) |
+| 9 | [Global notification center](#sysdesign-global-notification-center) |
+| 10 | [Typeahead search at Amazon scale](#sysdesign-typeahead-search-at-amazon-scale) |
+| 11 | [A/B testing platform integration](#sysdesign-a-b-testing-platform-integration) |
+| 12 | [Admin analytics dashboard (10M rows)](#sysdesign-admin-analytics-dashboard-10m-rows) |
+| 13 | [Social feed infinite scroll + media](#sysdesign-social-feed-infinite-scroll-media) |
+| 14 | [Frontend platform team charter (50 devs)](#sysdesign-frontend-platform-team-charter-50-devs) |
+| 15 | [Production white screen after deploy — incident response](#sysdesign-production-white-screen-after-deploy-incident-response) |
 
-### Design the frontend for a Netflix-style video streaming app
+<details id="sysdesign-design-the-frontend-for-a-netflix-style-video-streaming-app" open>
+<summary><strong>Design the frontend for a Netflix-style video streaming app</strong></summary>
 
 **Clarify**
 
@@ -770,11 +116,10 @@ V1: browse + basic player + continue watching. V2: recommendations + profiles. V
 
 > **Tip:** **Closing statement:** "I optimized for perceived playback quality and homepage LCP by splitting browse SSR from lazy player, with Query cache for catalog and strict cleanup for streaming resources."
 
----
+</details>
 
-<a name="sysdesign-design-google-docs-style-collaborative-rich-text-editor"></a>
-
-### Design Google Docs–style collaborative rich text editor
+<details id="sysdesign-design-google-docs-style-collaborative-rich-text-editor" open>
+<summary><strong>Design Google Docs–style collaborative rich text editor</strong></summary>
 
 **Clarify**
 
@@ -838,11 +183,10 @@ V1: single-user editor + save. V2: realtime + cursors. V3: offline + comments. V
 
 > **Tip:** **Closing statement:** "I chose CRDT over OT for simpler offline merge, with structured editor (Lexical) instead of contentEditable, and isolated presence from document sync."
 
----
+</details>
 
-<a name="sysdesign-design-e-commerce-checkout-cart-payment-confirmation"></a>
-
-### Design e-commerce checkout (cart → payment → confirmation)
+<details id="sysdesign-design-e-commerce-checkout-cart-payment-confirmation" open>
+<summary><strong>Design e-commerce checkout (cart → payment → confirmation)</strong></summary>
 
 **Clarify**
 
@@ -867,11 +211,10 @@ V1: single-user editor + save. V2: realtime + cursors. V3: offline + comments. V
 - PCI: no raw card data touches our servers
 - Checkout completable in  **Tip:** **Closing statement:** "Payment flows are pessimistic with idempotency; cart edits can be optimistic with inventory validation gates before charge."
 
----
+</details>
 
-<a name="sysdesign-design-a-real-time-fleet-tracking-dashboard-fleetpanda-at-scale"></a>
-
-### Design a real-time fleet tracking dashboard (FleetPanda at scale)
+<details id="sysdesign-design-a-real-time-fleet-tracking-dashboard-fleetpanda-at-scale" open>
+<summary><strong>Design a real-time fleet tracking dashboard (FleetPanda at scale)</strong></summary>
 
 **Clarify**
 
@@ -894,11 +237,10 @@ V1: single-user editor + save. V2: realtime + cursors. V3: offline + comments. V
 *Non-functional:*
 - Map update latency  **Tip:** **Closing statement:** "Separate hot GPS path from cold CRUD data — external store + imperative map updates, bbox subscriptions."
 
----
+</details>
 
-<a name="sysdesign-design-a-company-wide-design-system-for-12-product-teams"></a>
-
-### Design a company-wide design system for 12 product teams
+<details id="sysdesign-design-a-company-wide-design-system-for-12-product-teams" open>
+<summary><strong>Design a company-wide design system for 12 product teams</strong></summary>
 
 **Clarify**
 
@@ -921,11 +263,10 @@ V1: single-user editor + save. V2: realtime + cursors. V3: offline + comments. V
 - Tree-shakeable — pay only for imports used
 - Bundle impact  **Tip:** **Closing statement:** "Platform DS succeeds with semver discipline, direct imports, and visual regression — not a centralized gate for every UI tweak."
 
----
+</details>
 
-<a name="sysdesign-design-multi-tenant-saas-auth-acme-vs-globex-on-same-app"></a>
-
-### Design multi-tenant SaaS auth (ACME vs Globex on same app)
+<details id="sysdesign-design-multi-tenant-saas-auth-acme-vs-globex-on-same-app" open>
+<summary><strong>Design multi-tenant SaaS auth (ACME vs Globex on same app)</strong></summary>
 
 **Clarify**
 
@@ -948,11 +289,10 @@ V1: single-user editor + save. V2: realtime + cursors. V3: offline + comments. V
 - No cross-tenant data leak in UI
 - Tenant config load  **Tip:** **Closing statement:** "Tenant isolation is enforced server-side; frontend handles branding, feature visibility, and safe session UX."
 
----
+</details>
 
-<a name="sysdesign-design-offline-first-field-inspection-app"></a>
-
-### Design offline-first field inspection app
+<details id="sysdesign-design-offline-first-field-inspection-app" open>
+<summary><strong>Design offline-first field inspection app</strong></summary>
 
 **Clarify**
 
@@ -1033,11 +373,10 @@ V1 read-only offline. V2 write queue. V3 conflict merge.
 
 > **Tip:** **Closing statement:** "Offline-first means outbox + idempotent API — not just Service Worker cache."
 
----
+</details>
 
-<a name="sysdesign-migrate-500-route-webpack-app-to-vite-strangler"></a>
-
-### Migrate 500-route Webpack app to Vite (strangler)
+<details id="sysdesign-migrate-500-route-webpack-app-to-vite-strangler" open>
+<summary><strong>Migrate 500-route Webpack app to Vite (strangler)</strong></summary>
 
 **Clarify**
 
@@ -1058,11 +397,10 @@ V1 read-only offline. V2 write queue. V3 conflict merge.
 *Non-functional:*
 - Dev server start  **Tip:** **Closing statement:** "Strangler with metrics proves parity before decommissioning legacy bundler."
 
----
+</details>
 
-<a name="sysdesign-global-notification-center"></a>
-
-### Global notification center
+<details id="sysdesign-global-notification-center" open>
+<summary><strong>Global notification center</strong></summary>
 
 **Clarify**
 
@@ -1139,11 +477,10 @@ V1 in-app list. V2 realtime. V3 preferences + push opt-in.
 
 > **Tip:** **Closing statement:** "Shell owns notification surface; remotes emit events, not duplicate bells."
 
----
+</details>
 
-<a name="sysdesign-typeahead-search-at-amazon-scale"></a>
-
-### Typeahead search at Amazon scale
+<details id="sysdesign-typeahead-search-at-amazon-scale" open>
+<summary><strong>Typeahead search at Amazon scale</strong></summary>
 
 **Clarify**
 
@@ -1164,11 +501,10 @@ V1 in-app list. V2 realtime. V3 preferences + push opt-in.
 *Non-functional:*
 - p95  **Tip:** **Closing statement:** "Debounce + abort + skeleton — protect INP while feeling instant."
 
----
+</details>
 
-<a name="sysdesign-a-b-testing-platform-integration"></a>
-
-### A/B testing platform integration
+<details id="sysdesign-a-b-testing-platform-integration" open>
+<summary><strong>A/B testing platform integration</strong></summary>
 
 **Clarify**
 
@@ -1245,11 +581,10 @@ V1 edge cookie. V2 analytics integration. V3 self-serve experiment UI.
 
 > **Tip:** **Closing statement:** "Assign before paint; measure exposure and conversion with same userId."
 
----
+</details>
 
-<a name="sysdesign-admin-analytics-dashboard-10m-rows"></a>
-
-### Admin analytics dashboard (10M rows)
+<details id="sysdesign-admin-analytics-dashboard-10m-rows" open>
+<summary><strong>Admin analytics dashboard (10M rows)</strong></summary>
 
 **Clarify**
 
@@ -1270,11 +605,10 @@ V1 edge cookie. V2 analytics integration. V3 self-serve experiment UI.
 *Non-functional:*
 - Initial dashboard  **Tip:** **Closing statement:** "Clarify data volume upfront — aggregate on server, visualize buckets on client."
 
----
+</details>
 
-<a name="sysdesign-social-feed-infinite-scroll-media"></a>
-
-### Social feed infinite scroll + media
+<details id="sysdesign-social-feed-infinite-scroll-media" open>
+<summary><strong>Social feed infinite scroll + media</strong></summary>
 
 **Clarify**
 
@@ -1314,11 +648,10 @@ V1 edge cookie. V2 analytics integration. V3 self-serve experiment UI.
 *Why they chose this approach:* useInfiniteQuery + Intersection Observer sentinel; dedupe by post id; prefetch next page on scroll proximity.
 - **Pros:** Stable scroll with reserved aspect ratio — CLS  **Tip:** **Closing statement:** "Cursor pagination + reserved media aspect ratio — core feed scalability pattern."
 
----
+</details>
 
-<a name="sysdesign-frontend-platform-team-charter-50-devs"></a>
-
-### Frontend platform team charter (50 devs)
+<details id="sysdesign-frontend-platform-team-charter-50-devs" open>
+<summary><strong>Frontend platform team charter (50 devs)</strong></summary>
 
 **Clarify**
 
@@ -1341,11 +674,10 @@ V1 edge cookie. V2 analytics integration. V3 self-serve experiment UI.
 - Reduce build times 50%
 - Onboard new dev  **Tip:** **Closing statement:** "Platform success = product teams ship faster with fewer incidents — measure DORA not lines of platform code."
 
----
+</details>
 
-<a name="sysdesign-production-white-screen-after-deploy-incident-response"></a>
-
-### Production white screen after deploy — incident response
+<details id="sysdesign-production-white-screen-after-deploy-incident-response" open>
+<summary><strong>Production white screen after deploy — incident response</strong></summary>
 
 **Clarify**
 
@@ -1378,14 +710,37 @@ V1 edge cookie. V2 analytics integration. V3 self-serve experiment UI.
 *Why they chose this approach:* Rollback canary within 15 min; Sentry release diff; chunk 404 checklist; SW cache version bump on deploy.
 - **Pros:** MTTR  **Tip:** **Closing statement:** "Rollback first, hypothesize second — white screen is P0; use Sentry + Network tab chunk 404 checklist."
 
----
+</details>
 
+---
 
 ## End-to-End Journeys (20) Full timeline answers
 
-<a name="journeys-what-happens-when-you-type-a-url-in-chrome-and-press-enter"></a>
+| # | Question |
+| -: | --- |
+| 1 | [What happens when you type a URL in Chrome and press Enter](#journeys-what-happens-when-you-type-a-url-in-chrome-and-press-enter) |
+| 2 | [What happens when you click a link on a page (same origin)](#journeys-what-happens-when-you-click-a-link-on-a-page-same-origin) |
+| 3 | [DNS resolution — step by step](#journeys-dns-resolution-step-by-step) |
+| 4 | [TCP and TLS handshake — frontend performance](#journeys-tcp-and-tls-handshake-frontend-performance) |
+| 5 | [HTTP request/response — browser perspective](#journeys-http-request-response-browser-perspective) |
+| 6 | [From HTML bytes to pixels (critical rendering path)](#journeys-from-html-bytes-to-pixels-critical-rendering-path) |
+| 7 | [What happens when JavaScript runs after page load](#journeys-what-happens-when-javascript-runs-after-page-load) |
+| 8 | [Browser cache layers — memory, disk, Service Worker](#journeys-browser-cache-layers-memory-disk-service-worker) |
+| 9 | [Hard refresh vs normal navigation back](#journeys-hard-refresh-vs-normal-navigation-back) |
+| 10 | [Cross-origin request from JavaScript — full path](#journeys-cross-origin-request-from-javascript-full-path) |
+| 11 | [Traditional HTML form POST submission](#journeys-traditional-html-form-post-submission) |
+| 12 | [WebSocket connection lifecycle](#journeys-websocket-connection-lifecycle) |
+| 13 | [Service Worker — first visit vs repeat visit](#journeys-service-worker-first-visit-vs-repeat-visit) |
+| 14 | [prefetch, preconnect, preload — when each](#journeys-prefetch-preconnect-preload-when-each) |
+| 15 | [Third-party script load (GTM, analytics)](#journeys-third-party-script-load-gtm-analytics) |
+| 16 | [SSL/TLS certificate errors in browser](#journeys-ssl-tls-certificate-errors-in-browser) |
+| 17 | [Redirect chain (301/302) performance](#journeys-redirect-chain-301-302-performance) |
+| 18 | [Download file vs render HTML in browser](#journeys-download-file-vs-render-html-in-browser) |
+| 19 | [Page unload — beforeunload, pagehide, visibilitychange](#journeys-page-unload-beforeunload-pagehide-visibilitychange) |
+| 20 | [Debug slow page load — full senior process](#journeys-debug-slow-page-load-full-senior-process) |
 
-### What happens when you type a URL in Chrome and press Enter
+<details id="journeys-what-happens-when-you-type-a-url-in-chrome-and-press-enter" open>
+<summary><strong>What happens when you type a URL in Chrome and press Enter</strong></summary>
 
 **Clarify**
 
@@ -1452,11 +807,10 @@ Critical path: HTML → CSSOM + DOM → render tree → layout → paint → com
 
 > **Tip:** **Closing:** "I'd open Network + Performance, identify whether we're bound by connection, server, render-blocking CSS, or long JS tasks — then fix the dominant bucket first."
 
----
+</details>
 
-<a name="journeys-what-happens-when-you-click-a-link-on-a-page-same-origin"></a>
-
-### What happens when you click a link on a page (same origin)
+<details id="journeys-what-happens-when-you-click-a-link-on-a-page-same-origin" open>
+<summary><strong>What happens when you click a link on a page (same origin)</strong></summary>
 
 **Clarify**
 
@@ -1514,11 +868,10 @@ history.pushState({}, "", "/dashboard"); router.navigate("/dashboard");
 
 > **Tip:** **Closing:** Always ask: "Is this a client-side route or full navigation?" then tailor the timeline.
 
----
+</details>
 
-<a name="journeys-dns-resolution-step-by-step"></a>
-
-### DNS resolution — step by step
+<details id="journeys-dns-resolution-step-by-step" open>
+<summary><strong>DNS resolution — step by step</strong></summary>
 
 **Clarify**
 
@@ -1573,11 +926,10 @@ DNS is often invisible until you have 20 third-party domains — senior FE conne
 
 > **Tip:** **Closing:** Mention TTL when debugging "works after wait" — stale DNS after infra migration.
 
----
+</details>
 
-<a name="journeys-tcp-and-tls-handshake-frontend-performance"></a>
-
-### TCP and TLS handshake — frontend performance
+<details id="journeys-tcp-and-tls-handshake-frontend-performance" open>
+<summary><strong>TCP and TLS handshake — frontend performance</strong></summary>
 
 **Clarify**
 
@@ -1631,11 +983,10 @@ Each new origin on cold start pays round trips before first byte — explain why
 
 > **Tip:** **Closing:** Quote rule of thumb: cold HTTPS ≈ 2–3 RTTs before HTML bytes on good network.
 
----
+</details>
 
-<a name="journeys-http-request-response-browser-perspective"></a>
-
-### HTTP request/response — browser perspective
+<details id="journeys-http-request-response-browser-perspective" open>
+<summary><strong>HTTP request/response — browser perspective</strong></summary>
 
 **Clarify**
 
@@ -1690,11 +1041,10 @@ Show you read headers — caching, cookies, compression, security — not just s
 
 > **Tip:** **Closing:** During incidents, compare response headers prod vs staging first.
 
----
+</details>
 
-<a name="journeys-from-html-bytes-to-pixels-critical-rendering-path"></a>
-
-### From HTML bytes to pixels (critical rendering path)
+<details id="journeys-from-html-bytes-to-pixels-critical-rendering-path" open>
+<summary><strong>From HTML bytes to pixels (critical rendering path)</strong></summary>
 
 **Clarify**
 
@@ -1755,11 +1105,10 @@ This is the Core Web Vitals story — connect parser, CSS, layout, and LCP eleme
 
 > **Tip:** **Closing:** End with: "I'd preload LCP image, defer non-critical JS, and inline minimal critical CSS."
 
----
+</details>
 
-<a name="journeys-what-happens-when-javascript-runs-after-page-load"></a>
-
-### What happens when JavaScript runs after page load
+<details id="journeys-what-happens-when-javascript-runs-after-page-load" open>
+<summary><strong>What happens when JavaScript runs after page load</strong></summary>
 
 **Clarify**
 
@@ -1816,11 +1165,10 @@ Main thread is single — parse, compile, execute compete with input and paint (
 
 > **Tip:** **Closing:** Quantify: "We cut main-thread JS from 1.2s to 400ms and INP dropped 180ms → 90ms."
 
----
+</details>
 
-<a name="journeys-browser-cache-layers-memory-disk-service-worker"></a>
-
-### Browser cache layers — memory, disk, Service Worker
+<details id="journeys-browser-cache-layers-memory-disk-service-worker" open>
+<summary><strong>Browser cache layers — memory, disk, Service Worker</strong></summary>
 
 **Clarify**
 
@@ -1876,11 +1224,10 @@ Debug "user sees old version" by walking cache layers top to bottom.
 
 > **Tip:** **Closing:** Deploy strategy: content-hashed assets + short-TTL HTML + SW skipWaiting messaging.
 
----
+</details>
 
-<a name="journeys-hard-refresh-vs-normal-navigation-back"></a>
-
-### Hard refresh vs normal navigation back
+<details id="journeys-hard-refresh-vs-normal-navigation-back" open>
+<summary><strong>Hard refresh vs normal navigation back</strong></summary>
 
 **Clarify**
 
@@ -1934,11 +1281,10 @@ bfcache is under-discussed — instant back navigation with frozen JS heap.
 
 > **Tip:** **Closing:** Remove unnecessary beforeunload — improves bfcache eligibility and perf.
 
----
+</details>
 
-<a name="journeys-cross-origin-request-from-javascript-full-path"></a>
-
-### Cross-origin request from JavaScript — full path
+<details id="journeys-cross-origin-request-from-javascript-full-path" open>
+<summary><strong>Cross-origin request from JavaScript — full path</strong></summary>
 
 **Clarify**
 
@@ -1992,11 +1338,10 @@ CORS is browser enforcement — explain preflight, simple vs non-simple, and BFF
 
 > **Tip:** **Closing:** Security: CORS is not auth — server must validate tokens regardless.
 
----
+</details>
 
-<a name="journeys-traditional-html-form-post-submission"></a>
-
-### Traditional HTML form POST submission
+<details id="journeys-traditional-html-form-post-submission" open>
+<summary><strong>Traditional HTML form POST submission</strong></summary>
 
 **Clarify**
 
@@ -2050,11 +1395,10 @@ Contrast progressive enhancement (works without JS) vs SPA fetch handlers.
 
 > **Tip:** **Closing:** React Server Actions: form works without JS, enhanced with client pending UI.
 
----
+</details>
 
-<a name="journeys-websocket-connection-lifecycle"></a>
-
-### WebSocket connection lifecycle
+<details id="journeys-websocket-connection-lifecycle" open>
+<summary><strong>WebSocket connection lifecycle</strong></summary>
 
 **Clarify**
 
@@ -2109,11 +1453,10 @@ Persistent bidirectional channel — know upgrade handshake and reconnection str
 
 > **Tip:** **Closing:** Always describe idempotent resync after reconnect — missed messages during disconnect.
 
----
+</details>
 
-<a name="journeys-service-worker-first-visit-vs-repeat-visit"></a>
-
-### Service Worker — first visit vs repeat visit
+<details id="journeys-service-worker-first-visit-vs-repeat-visit" open>
+<summary><strong>Service Worker — first visit vs repeat visit</strong></summary>
 
 **Clarify**
 
@@ -2168,11 +1511,10 @@ SW is a programmable proxy — lifecycle mistakes cause week-long stale caches.
 
 > **Tip:** **Closing:** Version cache names: app-shell-v47 — delete v46 on activate.
 
----
+</details>
 
-<a name="journeys-prefetch-preconnect-preload-when-each"></a>
-
-### prefetch, preconnect, preload — when each
+<details id="journeys-prefetch-preconnect-preload-when-each" open>
+<summary><strong>prefetch, preconnect, preload — when each</strong></summary>
 
 **Clarify**
 
@@ -2227,11 +1569,10 @@ Resource hints shift work earlier — wrong hint steals bandwidth from LCP.
 
 > **Tip:** **Closing:** One preconnect to API + preload LCP image beats five vague prefetches.
 
----
+</details>
 
-<a name="journeys-third-party-script-load-gtm-analytics"></a>
-
-### Third-party script load (GTM, analytics)
+<details id="journeys-third-party-script-load-gtm-analytics" open>
+<summary><strong>Third-party script load (GTM, analytics)</strong></summary>
 
 **Clarify**
 
@@ -2286,11 +1627,10 @@ Third-party runs in your origin — same main thread, same INP budget.
 
 > **Tip:** **Closing:** Senior stance: inventory tags, defer non-essential, measure CWV before/after removal test.
 
----
+</details>
 
-<a name="journeys-ssl-tls-certificate-errors-in-browser"></a>
-
-### SSL/TLS certificate errors in browser
+<details id="journeys-ssl-tls-certificate-errors-in-browser" open>
+<summary><strong>SSL/TLS certificate errors in browser</strong></summary>
 
 **Clarify**
 
@@ -2344,11 +1684,10 @@ FE ensures secure asset URLs and understands why users see interstitials.
 
 > **Tip:** **Closing:** Use relative URLs or // protocol-relative sparingly — explicit https everywhere.
 
----
+</details>
 
-<a name="journeys-redirect-chain-301-302-performance"></a>
-
-### Redirect chain (301/302) performance
+<details id="journeys-redirect-chain-301-302-performance" open>
+<summary><strong>Redirect chain (301/302) performance</strong></summary>
 
 **Clarify**
 
@@ -2402,11 +1741,10 @@ Each redirect is a full RTT before HTML — FE + infra should minimize hops.
 
 > **Tip:** **Closing:** Fix at edge: one hop apex→canonical https URL.
 
----
+</details>
 
-<a name="journeys-download-file-vs-render-html-in-browser"></a>
-
-### Download file vs render HTML in browser
+<details id="journeys-download-file-vs-render-html-in-browser" open>
+<summary><strong>Download file vs render HTML in browser</strong></summary>
 
 **Clarify**
 
@@ -2460,11 +1798,10 @@ Content-Disposition and MIME drive behavior — plus client-generated downloads.
 
 > **Tip:** **Closing:** For big data: server-side async job + poll + signed URL download.
 
----
+</details>
 
-<a name="journeys-page-unload-beforeunload-pagehide-visibilitychange"></a>
-
-### Page unload — beforeunload, pagehide, visibilitychange
+<details id="journeys-page-unload-beforeunload-pagehide-visibilitychange" open>
+<summary><strong>Page unload — beforeunload, pagehide, visibilitychange</strong></summary>
 
 **Clarify**
 
@@ -2518,11 +1855,10 @@ Unload is unreliable especially mobile — prefer visibility and sendBeacon.
 
 > **Tip:** **Closing:** Replace unload hacks with Page Lifecycle API patterns.
 
----
+</details>
 
-<a name="journeys-debug-slow-page-load-full-senior-process"></a>
-
-### Debug slow page load — full senior process
+<details id="journeys-debug-slow-page-load-full-senior-process" open>
+<summary><strong>Debug slow page load — full senior process</strong></summary>
 
 **Clarify**
 
@@ -2582,14 +1918,39 @@ Structure answer as measure → hypothesize → fix → verify — not random op
 
 > **Tip:** **Closing:** Close: "I'd document bottleneck, ship smallest fix with highest CWV impact, validate in RUM within 48h."
 
----
+</details>
 
+---
 
 ## Package Managers &amp; Node Tooling (22) Must know
 
-<a name="tooling-npm-vs-pnpm-vs-yarn-vs-bun-compare-for-production-monorepos"></a>
+| # | Question |
+| -: | --- |
+| 1 | [npm vs pnpm vs Yarn vs Bun — compare for production monorepos](#tooling-npm-vs-pnpm-vs-yarn-vs-bun-compare-for-production-monorepos) |
+| 2 | [What are phantom dependencies and how does pnpm prevent them](#tooling-what-are-phantom-dependencies-and-how-does-pnpm-prevent-them) |
+| 3 | [lockfiles — package-lock.json vs pnpm-lock.yaml vs yarn.lock](#tooling-lockfiles-package-lock-json-vs-pnpm-lock-yaml-vs-yarn-lock) |
+| 4 | [npm workspaces vs pnpm workspaces — monorepo setup](#tooling-npm-workspaces-vs-pnpm-workspaces-monorepo-setup) |
+| 5 | [peerDependencies — why React libs use them](#tooling-peerdependencies-why-react-libs-use-them) |
+| 6 | [overrides / resolutions — force transitive dependency version](#tooling-overrides-resolutions-force-transitive-dependency-version) |
+| 7 | [npm ci vs npm install in CI pipelines](#tooling-npm-ci-vs-npm-install-in-ci-pipelines) |
+| 8 | [npx vs pnpm dlx vs yarn dlx — run packages without global install](#tooling-npx-vs-pnpm-dlx-vs-yarn-dlx-run-packages-without-global-install) |
+| 9 | [.npmrc / .pnpmfile.cjs — common production settings](#tooling-npmrc-pnpmfile-cjs-common-production-settings) |
+| 10 | [Supply chain — npm audit, Socket, lockfile integrity](#tooling-supply-chain-npm-audit-socket-lockfile-integrity) |
+| 11 | [semver caret vs tilde](#tooling-semver-caret-vs-tilde) |
+| 12 | [bundledDependencies](#tooling-bundleddependencies) |
+| 13 | [optionalDependencies](#tooling-optionaldependencies) |
+| 14 | [postinstall script security](#tooling-postinstall-script-security) |
+| 15 | [package.json exports field](#tooling-package-json-exports-field) |
+| 16 | [type module vs commonjs](#tooling-type-module-vs-commonjs) |
+| 17 | [Node ESM vs CJS interop](#tooling-node-esm-vs-cjs-interop) |
+| 18 | [Volta vs engines field](#tooling-volta-vs-engines-field) |
+| 19 | [Corepack enable pnpm/yarn](#tooling-corepack-enable-pnpm-yarn) |
+| 20 | [Private registry scope](#tooling-private-registry-scope) |
+| 21 | [pnpm catalog (v9+)](#tooling-pnpm-catalog-v9) |
+| 22 | [Interview narrative npm vs pnpm](#tooling-interview-narrative-npm-vs-pnpm) |
 
-### npm vs pnpm vs Yarn vs Bun — compare for production monorepos
+<details id="tooling-npm-vs-pnpm-vs-yarn-vs-bun-compare-for-production-monorepos" open>
+<summary><strong>npm vs pnpm vs Yarn vs Bun — compare for production monorepos</strong></summary>
 
 **Reasoning**
 
@@ -2634,11 +1995,10 @@ ToolInstall modelStrengthsWatch-outs
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-what-are-phantom-dependencies-and-how-does-pnpm-prevent-them"></a>
-
-### What are phantom dependencies and how does pnpm prevent them
+<details id="tooling-what-are-phantom-dependencies-and-how-does-pnpm-prevent-them" open>
+<summary><strong>What are phantom dependencies and how does pnpm prevent them</strong></summary>
 
 **Reasoning**
 
@@ -2688,11 +2048,10 @@ public-hoist-pattern[]=*eslint*
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-lockfiles-package-lock-json-vs-pnpm-lock-yaml-vs-yarn-lock"></a>
-
-### lockfiles — package-lock.json vs pnpm-lock.yaml vs yarn.lock
+<details id="tooling-lockfiles-package-lock-json-vs-pnpm-lock-yaml-vs-yarn-lock" open>
+<summary><strong>lockfiles — package-lock.json vs pnpm-lock.yaml vs yarn.lock</strong></summary>
 
 **Reasoning**
 
@@ -2735,11 +2094,10 @@ yarn install --immutable
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-npm-workspaces-vs-pnpm-workspaces-monorepo-setup"></a>
-
-### npm workspaces vs pnpm workspaces — monorepo setup
+<details id="tooling-npm-workspaces-vs-pnpm-workspaces-monorepo-setup" open>
+<summary><strong>npm workspaces vs pnpm workspaces — monorepo setup</strong></summary>
 
 **Example**
 
@@ -2785,11 +2143,10 @@ packages:
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-peerdependencies-why-react-libs-use-them"></a>
-
-### peerDependencies — why React libs use them
+<details id="tooling-peerdependencies-why-react-libs-use-them" open>
+<summary><strong>peerDependencies — why React libs use them</strong></summary>
 
 **Reasoning**
 
@@ -2828,11 +2185,10 @@ pnpm: peers must be resolvable from consumer — use `auto-install-peers=true` i
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-overrides-resolutions-force-transitive-dependency-version"></a>
-
-### overrides / resolutions — force transitive dependency version
+<details id="tooling-overrides-resolutions-force-transitive-dependency-version" open>
+<summary><strong>overrides / resolutions — force transitive dependency version</strong></summary>
 
 **Reasoning**
 
@@ -2876,11 +2232,10 @@ Security patch in nested dep before upstream fixes — force safe version org-wi
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-npm-ci-vs-npm-install-in-ci-pipelines"></a>
-
-### npm ci vs npm install in CI pipelines
+<details id="tooling-npm-ci-vs-npm-install-in-ci-pipelines" open>
+<summary><strong>npm ci vs npm install in CI pipelines</strong></summary>
 
 **Reasoning**
 
@@ -2918,11 +2273,10 @@ Security patch in nested dep before upstream fixes — force safe version org-wi
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-npx-vs-pnpm-dlx-vs-yarn-dlx-run-packages-without-global-install"></a>
-
-### npx vs pnpm dlx vs yarn dlx — run packages without global install
+<details id="tooling-npx-vs-pnpm-dlx-vs-yarn-dlx-run-packages-without-global-install" open>
+<summary><strong>npx vs pnpm dlx vs yarn dlx — run packages without global install</strong></summary>
 
 **Example**
 
@@ -2959,11 +2313,10 @@ Always pin version in CI scripts: `pnpm dlx create-vite@5.4.11` — avoids surpr
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-npmrc-pnpmfile-cjs-common-production-settings"></a>
-
-### .npmrc / .pnpmfile.cjs — common production settings
+<details id="tooling-npmrc-pnpmfile-cjs-common-production-settings" open>
+<summary><strong>.npmrc / .pnpmfile.cjs — common production settings</strong></summary>
 
 **Example**
 
@@ -3004,11 +2357,10 @@ registry=https://registry.npmjs.org/
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-supply-chain-npm-audit-socket-lockfile-integrity"></a>
-
-### Supply chain — npm audit, Socket, lockfile integrity
+<details id="tooling-supply-chain-npm-audit-socket-lockfile-integrity" open>
+<summary><strong>Supply chain — npm audit, Socket, lockfile integrity</strong></summary>
 
 **Reasoning**
 
@@ -3045,11 +2397,10 @@ pnpm audit --audit-level=high
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-semver-caret-vs-tilde"></a>
-
-### semver caret vs tilde
+<details id="tooling-semver-caret-vs-tilde" open>
+<summary><strong>semver caret vs tilde</strong></summary>
 
 **Reasoning**
 
@@ -3078,11 +2429,10 @@ pnpm audit --audit-level=high
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-bundleddependencies"></a>
-
-### bundledDependencies
+<details id="tooling-bundleddependencies" open>
+<summary><strong>bundledDependencies</strong></summary>
 
 **Reasoning**
 
@@ -3131,11 +2481,10 @@ Used for CLI shipping small deps
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-optionaldependencies"></a>
-
-### optionalDependencies
+<details id="tooling-optionaldependencies" open>
+<summary><strong>optionalDependencies</strong></summary>
 
 **Reasoning**
 
@@ -3184,11 +2533,10 @@ npm optional platform binaries
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-postinstall-script-security"></a>
-
-### postinstall script security
+<details id="tooling-postinstall-script-security" open>
+<summary><strong>postinstall script security</strong></summary>
 
 **Reasoning**
 
@@ -3237,11 +2585,10 @@ pnpm install --ignore-scripts in CI until audited
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-package-json-exports-field"></a>
-
-### package.json exports field
+<details id="tooling-package-json-exports-field" open>
+<summary><strong>package.json exports field</strong></summary>
 
 **Reasoning**
 
@@ -3290,11 +2637,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-type-module-vs-commonjs"></a>
-
-### type module vs commonjs
+<details id="tooling-type-module-vs-commonjs" open>
+<summary><strong>type module vs commonjs</strong></summary>
 
 **Reasoning**
 
@@ -3343,11 +2689,10 @@ vite.config.ts ESM; jest.config.cjs CJS
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-node-esm-vs-cjs-interop"></a>
-
-### Node ESM vs CJS interop
+<details id="tooling-node-esm-vs-cjs-interop" open>
+<summary><strong>Node ESM vs CJS interop</strong></summary>
 
 **Reasoning**
 
@@ -3396,11 +2741,10 @@ const require = createRequire(import.meta.url)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-volta-vs-engines-field"></a>
-
-### Volta vs engines field
+<details id="tooling-volta-vs-engines-field" open>
+<summary><strong>Volta vs engines field</strong></summary>
 
 **Reasoning**
 
@@ -3449,11 +2793,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-corepack-enable-pnpm-yarn"></a>
-
-### Corepack enable pnpm/yarn
+<details id="tooling-corepack-enable-pnpm-yarn" open>
+<summary><strong>Corepack enable pnpm/yarn</strong></summary>
 
 **Reasoning**
 
@@ -3502,11 +2845,10 @@ corepack enable && corepack prepare pnpm@9 --activate
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-private-registry-scope"></a>
-
-### Private registry scope
+<details id="tooling-private-registry-scope" open>
+<summary><strong>Private registry scope</strong></summary>
 
 **Reasoning**
 
@@ -3555,11 +2897,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-pnpm-catalog-v9"></a>
-
-### pnpm catalog (v9+)
+<details id="tooling-pnpm-catalog-v9" open>
+<summary><strong>pnpm catalog (v9+)</strong></summary>
 
 **Reasoning**
 
@@ -3608,11 +2949,10 @@ catalog: { react: ^19.0.0 } then "react": "catalog:" in package.json
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="tooling-interview-narrative-npm-vs-pnpm"></a>
-
-### Interview narrative npm vs pnpm
+<details id="tooling-interview-narrative-npm-vs-pnpm" open>
+<summary><strong>Interview narrative npm vs pnpm</strong></summary>
 
 **Reasoning**
 
@@ -3661,14 +3001,37 @@ Install 4m→90s, disk -40%, 12 undeclared deps caught
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Frontend Engineering Tooling (20)
 
-<a name="fe-tooling-eslint-prettier-typescript-how-they-fit-together"></a>
+| # | Question |
+| -: | --- |
+| 1 | [ESLint + Prettier + TypeScript — how they fit together](#fe-tooling-eslint-prettier-typescript-how-they-fit-together) |
+| 2 | [Husky + lint-staged — pre-commit without slowing devs](#fe-tooling-husky-lint-staged-pre-commit-without-slowing-devs) |
+| 3 | [Changesets vs semantic-release for versioning monorepos](#fe-tooling-changesets-vs-semantic-release-for-versioning-monorepos) |
+| 4 | [Turborepo vs Nx — task orchestration](#fe-tooling-turborepo-vs-nx-task-orchestration) |
+| 5 | [Environment variables — Vite vs Next vs Webpack](#fe-tooling-environment-variables-vite-vs-next-vs-webpack) |
+| 6 | [Git merge vs rebase](#fe-tooling-git-merge-vs-rebase) |
+| 7 | [Trunk-based development](#fe-tooling-trunk-based-development) |
+| 8 | [Docker multi-stage FE build](#fe-tooling-docker-multi-stage-fe-build) |
+| 9 | [pnpm store cache in GitHub Actions](#fe-tooling-pnpm-store-cache-in-github-actions) |
+| 10 | [MSW Mock Service Worker](#fe-tooling-msw-mock-service-worker) |
+| 11 | [bundlesize / size-limit CI](#fe-tooling-bundlesize-size-limit-ci) |
+| 12 | [Lighthouse CI on preview](#fe-tooling-lighthouse-ci-on-preview) |
+| 13 | [Sentry release + source maps](#fe-tooling-sentry-release-source-maps) |
+| 14 | [Feature flags bootstrap](#fe-tooling-feature-flags-bootstrap) |
+| 15 | [ADR Architecture Decision Records](#fe-tooling-adr-architecture-decision-records) |
+| 16 | [Chromatic visual regression](#fe-tooling-chromatic-visual-regression) |
+| 17 | [commitlint conventional](#fe-tooling-commitlint-conventional) |
+| 18 | [CODEOWNERS path rules](#fe-tooling-codeowners-path-rules) |
+| 19 | [Preview deploy PR comments](#fe-tooling-preview-deploy-pr-comments) |
+| 20 | [Renovate grouped dependencies](#fe-tooling-renovate-grouped-dependencies) |
 
-### ESLint + Prettier + TypeScript — how they fit together
+<details id="fe-tooling-eslint-prettier-typescript-how-they-fit-together" open>
+<summary><strong>ESLint + Prettier + TypeScript — how they fit together</strong></summary>
 
 **Reasoning**
 
@@ -3710,11 +3073,10 @@ export default tseslint.config(
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-husky-lint-staged-pre-commit-without-slowing-devs"></a>
-
-### Husky + lint-staged — pre-commit without slowing devs
+<details id="fe-tooling-husky-lint-staged-pre-commit-without-slowing-devs" open>
+<summary><strong>Husky + lint-staged — pre-commit without slowing devs</strong></summary>
 
 **Example**
 
@@ -3755,11 +3117,10 @@ Heavy tsc on every file change is slow — run full typecheck in CI; lint-staged
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-changesets-vs-semantic-release-for-versioning-monorepos"></a>
-
-### Changesets vs semantic-release for versioning monorepos
+<details id="fe-tooling-changesets-vs-semantic-release-for-versioning-monorepos" open>
+<summary><strong>Changesets vs semantic-release for versioning monorepos</strong></summary>
 
 **Reasoning**
 
@@ -3788,11 +3149,10 @@ Heavy tsc on every file change is slow — run full typecheck in CI; lint-staged
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-turborepo-vs-nx-task-orchestration"></a>
-
-### Turborepo vs Nx — task orchestration
+<details id="fe-tooling-turborepo-vs-nx-task-orchestration" open>
+<summary><strong>Turborepo vs Nx — task orchestration</strong></summary>
 
 **Example**
 
@@ -3828,11 +3188,10 @@ Remote cache (Vercel) shares build artifacts across CI runs — 10min build → 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-environment-variables-vite-vs-next-vs-webpack"></a>
-
-### Environment variables — Vite vs Next vs Webpack
+<details id="fe-tooling-environment-variables-vite-vs-next-vs-webpack" open>
+<summary><strong>Environment variables — Vite vs Next vs Webpack</strong></summary>
 
 **Example**
 
@@ -3870,11 +3229,10 @@ NEXT_PUBLIC_API_URL=...
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-git-merge-vs-rebase"></a>
-
-### Git merge vs rebase
+<details id="fe-tooling-git-merge-vs-rebase" open>
+<summary><strong>Git merge vs rebase</strong></summary>
 
 **Reasoning**
 
@@ -3923,11 +3281,10 @@ git fetch origin main && git rebase origin/main
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-trunk-based-development"></a>
-
-### Trunk-based development
+<details id="fe-tooling-trunk-based-development" open>
+<summary><strong>Trunk-based development</strong></summary>
 
 **Reasoning**
 
@@ -3976,11 +3333,10 @@ Merge PR within 48h max
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-docker-multi-stage-fe-build"></a>
-
-### Docker multi-stage FE build
+<details id="fe-tooling-docker-multi-stage-fe-build" open>
+<summary><strong>Docker multi-stage FE build</strong></summary>
 
 **Reasoning**
 
@@ -4029,11 +3385,10 @@ FROM node:20-alpine AS build ... FROM nginx:alpine COPY dist
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-pnpm-store-cache-in-github-actions"></a>
-
-### pnpm store cache in GitHub Actions
+<details id="fe-tooling-pnpm-store-cache-in-github-actions" open>
+<summary><strong>pnpm store cache in GitHub Actions</strong></summary>
 
 **Reasoning**
 
@@ -4082,11 +3437,10 @@ actions/cache@v4 path ~/.pnpm-store
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-msw-mock-service-worker"></a>
-
-### MSW Mock Service Worker
+<details id="fe-tooling-msw-mock-service-worker" open>
+<summary><strong>MSW Mock Service Worker</strong></summary>
 
 **Reasoning**
 
@@ -4135,11 +3489,10 @@ setupServer(...handlers) node; setupWorker browser
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-bundlesize-size-limit-ci"></a>
-
-### bundlesize / size-limit CI
+<details id="fe-tooling-bundlesize-size-limit-ci" open>
+<summary><strong>bundlesize / size-limit CI</strong></summary>
 
 **Reasoning**
 
@@ -4188,11 +3541,10 @@ size-limit JSON config 250KB
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-lighthouse-ci-on-preview"></a>
-
-### Lighthouse CI on preview
+<details id="fe-tooling-lighthouse-ci-on-preview" open>
+<summary><strong>Lighthouse CI on preview</strong></summary>
 
 **Reasoning**
 
@@ -4241,11 +3593,10 @@ lighthouseci autorun upload target temporaryPublicStorage
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-sentry-release-source-maps"></a>
-
-### Sentry release + source maps
+<details id="fe-tooling-sentry-release-source-maps" open>
+<summary><strong>Sentry release + source maps</strong></summary>
 
 **Reasoning**
 
@@ -4294,11 +3645,10 @@ sentry-cli sourcemaps upload --release=$GIT_SHA dist
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-feature-flags-bootstrap"></a>
-
-### Feature flags bootstrap
+<details id="fe-tooling-feature-flags-bootstrap" open>
+<summary><strong>Feature flags bootstrap</strong></summary>
 
 **Reasoning**
 
@@ -4347,11 +3697,10 @@ await flagsmith.init(); then createRoot
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-adr-architecture-decision-records"></a>
-
-### ADR Architecture Decision Records
+<details id="fe-tooling-adr-architecture-decision-records" open>
+<summary><strong>ADR Architecture Decision Records</strong></summary>
 
 **Reasoning**
 
@@ -4400,11 +3749,10 @@ docs/adr/001-package-manager.md
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-chromatic-visual-regression"></a>
-
-### Chromatic visual regression
+<details id="fe-tooling-chromatic-visual-regression" open>
+<summary><strong>Chromatic visual regression</strong></summary>
 
 **Reasoning**
 
@@ -4453,11 +3801,10 @@ Chromatic CI on packages/ui
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-commitlint-conventional"></a>
-
-### commitlint conventional
+<details id="fe-tooling-commitlint-conventional" open>
+<summary><strong>commitlint conventional</strong></summary>
 
 **Reasoning**
 
@@ -4506,11 +3853,10 @@ commitlint.config.js extends conventional
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-codeowners-path-rules"></a>
-
-### CODEOWNERS path rules
+<details id="fe-tooling-codeowners-path-rules" open>
+<summary><strong>CODEOWNERS path rules</strong></summary>
 
 **Reasoning**
 
@@ -4559,11 +3905,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-preview-deploy-pr-comments"></a>
-
-### Preview deploy PR comments
+<details id="fe-tooling-preview-deploy-pr-comments" open>
+<summary><strong>Preview deploy PR comments</strong></summary>
 
 **Reasoning**
 
@@ -4612,11 +3957,10 @@ Every PR unique URL
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="fe-tooling-renovate-grouped-dependencies"></a>
-
-### Renovate grouped dependencies
+<details id="fe-tooling-renovate-grouped-dependencies" open>
+<summary><strong>Renovate grouped dependencies</strong></summary>
 
 **Reasoning**
 
@@ -4665,14 +4009,72 @@ renovate grouping config
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## React (55 questions)
 
-<a name="react-explain-the-react-reconciliation-algorithm-and-what-triggers-a-re-render"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Explain the React reconciliation algorithm and what triggers a re-render](#react-explain-the-react-reconciliation-algorithm-and-what-triggers-a-re-render) |
+| 2 | [What changed in React 19 that affects production apps](#react-what-changed-in-react-19-that-affects-production-apps) |
+| 3 | [Controlled vs uncontrolled components — when to use each](#react-controlled-vs-uncontrolled-components-when-to-use-each) |
+| 4 | [Explain useEffect vs useLayoutEffect vs useInsertionEffect](#react-explain-useeffect-vs-uselayouteffect-vs-useinsertioneffect) |
+| 5 | [Why does React 18 StrictMode double-invoke effects in development](#react-why-does-react-18-strictmode-double-invoke-effects-in-development) |
+| 6 | [What is the React Fiber architecture](#react-what-is-the-react-fiber-architecture) |
+| 7 | [Explain Concurrent React and time slicing](#react-explain-concurrent-react-and-time-slicing) |
+| 8 | [useMemo vs useCallback vs React.memo — when each matters](#react-usememo-vs-usecallback-vs-react-memo-when-each-matters) |
+| 9 | [How do you prevent unnecessary re-renders in a large context tree](#react-how-do-you-prevent-unnecessary-re-renders-in-a-large-context-tree) |
+| 10 | [Explain keys in lists — why not use index](#react-explain-keys-in-lists-why-not-use-index) |
+| 11 | [Rules of Hooks — why do they exist](#react-rules-of-hooks-why-do-they-exist) |
+| 12 | [Custom hook design — what makes a good custom hook](#react-custom-hook-design-what-makes-a-good-custom-hook) |
+| 13 | [useRef vs useState — storage and re-render implications](#react-useref-vs-usestate-storage-and-re-render-implications) |
+| 14 | [useReducer vs useState for complex state](#react-usereducer-vs-usestate-for-complex-state) |
+| 15 | [How does useId work and why use it over Math.random()](#react-how-does-useid-work-and-why-use-it-over-math-random) |
+| 16 | [useImperativeHandle — legitimate use cases](#react-useimperativehandle-legitimate-use-cases) |
+| 17 | [Explain stale closures in hooks and how to fix them](#react-explain-stale-closures-in-hooks-and-how-to-fix-them) |
+| 18 | [useEffect dependency array — exhaustive-deps debate](#react-useeffect-dependency-array-exhaustive-deps-debate) |
+| 19 | [How to cancel async work in useEffect](#react-how-to-cancel-async-work-in-useeffect) |
+| 20 | [useSyncExternalStore — when and why](#react-usesyncexternalstore-when-and-why) |
+| 21 | [How do you profile React performance in production](#react-how-do-you-profile-react-performance-in-production) |
+| 22 | [Code splitting strategies in React](#react-code-splitting-strategies-in-react) |
+| 23 | [Virtualization for long lists — react-window vs react-virtuoso](#react-virtualization-for-long-lists-react-window-vs-react-virtuoso) |
+| 24 | [React Server Components (RSC) — what problem do they solve](#react-react-server-components-rsc-what-problem-do-they-solve) |
+| 25 | [Suspense for data fetching — patterns and pitfalls](#react-suspense-for-data-fetching-patterns-and-pitfalls) |
+| 26 | [Compound components pattern with Context](#react-compound-components-pattern-with-context) |
+| 27 | [Render props vs HOC vs hooks — evolution and trade-offs](#react-render-props-vs-hoc-vs-hooks-evolution-and-trade-offs) |
+| 28 | [Error boundaries — limitations and patterns](#react-error-boundaries-limitations-and-patterns) |
+| 29 | [Portals — use cases beyond modals](#react-portals-use-cases-beyond-modals) |
+| 30 | [forwardRef deprecation in React 19 — migration](#react-forwardref-deprecation-in-react-19-migration) |
+| 31 | [Lifting state up — when and why](#react-lifting-state-up-when-and-why) |
+| 32 | [Prop drilling — solutions ranked](#react-prop-drilling-solutions-ranked) |
+| 33 | [React.lazy and dynamic import — code splitting](#react-react-lazy-and-dynamic-import-code-splitting) |
+| 34 | [Hydration mismatch — causes and fixes](#react-hydration-mismatch-causes-and-fixes) |
+| 35 | [React 18 automatic batching](#react-react-18-automatic-batching) |
+| 36 | [flushSync — when and why avoid](#react-flushsync-when-and-why-avoid) |
+| 37 | [useDeferredValue vs debounce](#react-usedeferredvalue-vs-debounce) |
+| 38 | [Synthetic events in React](#react-synthetic-events-in-react) |
+| 39 | [dangerouslySetInnerHTML safely](#react-dangerouslysetinnerhtml-safely) |
+| 40 | [Derived state anti-pattern](#react-derived-state-anti-pattern) |
+| 41 | [TanStack Query vs useEffect data fetching](#react-tanstack-query-vs-useeffect-data-fetching) |
+| 42 | [React Hook Form vs Formik](#react-react-hook-form-vs-formik) |
+| 43 | [Testing Library query priority](#react-testing-library-query-priority) |
+| 44 | [MSW in dev and test](#react-msw-in-dev-and-test) |
+| 45 | [Module Federation + React singleton](#react-module-federation-react-singleton) |
+| 46 | [React 19 Activity API](#react-react-19-activity-api) |
+| 47 | [React Server Components boundary](#react-react-server-components-boundary) |
+| 48 | [Server Actions pattern](#react-server-actions-pattern) |
+| 49 | [useTransition pending UI](#react-usetransition-pending-ui) |
+| 50 | [Error boundary reset with key](#react-error-boundary-reset-with-key) |
+| 51 | [Ref callback cleanup pattern](#react-ref-callback-cleanup-pattern) |
+| 52 | [StrictMode imperative library teardown](#react-strictmode-imperative-library-teardown) |
+| 53 | [React Compiler adoption](#react-react-compiler-adoption) |
+| 54 | [Profiler workflow for perf interviews](#react-profiler-workflow-for-perf-interviews) |
+| 55 | [Micro-frontend lazy remote loading](#react-micro-frontend-lazy-remote-loading) |
 
-### Explain the React reconciliation algorithm and what triggers a re-render
+<details id="react-explain-the-react-reconciliation-algorithm-and-what-triggers-a-re-render" open>
+<summary><strong>Explain the React reconciliation algorithm and what triggers a re-render</strong></summary>
 
 **Reasoning**
 
@@ -4739,11 +4141,10 @@ Triggers: `useState`/`useReducer` dispatch, context value change, parent re-rend
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-what-changed-in-react-19-that-affects-production-apps"></a>
-
-### What changed in React 19 that affects production apps
+<details id="react-what-changed-in-react-19-that-affects-production-apps" open>
+<summary><strong>What changed in React 19 that affects production apps</strong></summary>
 
 **Reasoning**
 
@@ -4801,11 +4202,10 @@ async function addToCart(formData) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-controlled-vs-uncontrolled-components-when-to-use-each"></a>
-
-### Controlled vs uncontrolled components — when to use each
+<details id="react-controlled-vs-uncontrolled-components-when-to-use-each" open>
+<summary><strong>Controlled vs uncontrolled components — when to use each</strong></summary>
 
 **Deep**
 
@@ -4852,11 +4252,10 @@ const ref = useRef(null);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-explain-useeffect-vs-uselayouteffect-vs-useinsertioneffect"></a>
-
-### Explain useEffect vs useLayoutEffect vs useInsertionEffect
+<details id="react-explain-useeffect-vs-uselayouteffect-vs-useinsertioneffect" open>
+<summary><strong>Explain useEffect vs useLayoutEffect vs useInsertionEffect</strong></summary>
 
 **Deep**
 
@@ -4901,11 +4300,10 @@ useLayoutEffect(() => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-why-does-react-18-strictmode-double-invoke-effects-in-development"></a>
-
-### Why does React 18 StrictMode double-invoke effects in development
+<details id="react-why-does-react-18-strictmode-double-invoke-effects-in-development" open>
+<summary><strong>Why does React 18 StrictMode double-invoke effects in development</strong></summary>
 
 **Deep**
 
@@ -4947,11 +4345,10 @@ useEffect(() => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-what-is-the-react-fiber-architecture"></a>
-
-### What is the React Fiber architecture
+<details id="react-what-is-the-react-fiber-architecture" open>
+<summary><strong>What is the React Fiber architecture</strong></summary>
 
 **Deep**
 
@@ -4987,11 +4384,10 @@ Fiber is a unit of work — linked list of nodes enabling incremental rendering,
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-explain-concurrent-react-and-time-slicing"></a>
-
-### Explain Concurrent React and time slicing
+<details id="react-explain-concurrent-react-and-time-slicing" open>
+<summary><strong>Explain Concurrent React and time slicing</strong></summary>
 
 **Deep**
 
@@ -5036,11 +4432,10 @@ const onChange = (v) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-usememo-vs-usecallback-vs-react-memo-when-each-matters"></a>
-
-### useMemo vs useCallback vs React.memo — when each matters
+<details id="react-usememo-vs-usecallback-vs-react-memo-when-each-matters" open>
+<summary><strong>useMemo vs useCallback vs React.memo — when each matters</strong></summary>
 
 ```
 const sorted = useMemo(() => items.sort(cmp), [items]); // expensive compute
@@ -5073,11 +4468,10 @@ Don't blanket-memo everything — measure first. Compiler may make manual memo r
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-how-do-you-prevent-unnecessary-re-renders-in-a-large-context-tree"></a>
-
-### How do you prevent unnecessary re-renders in a large context tree
+<details id="react-how-do-you-prevent-unnecessary-re-renders-in-a-large-context-tree" open>
+<summary><strong>How do you prevent unnecessary re-renders in a large context tree</strong></summary>
 
 - Split contexts (state vs dispatch)
 - `useContextSelector` pattern or Zustand/Jotai
@@ -5114,11 +4508,10 @@ const DispatchCtx = createContext(null);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-explain-keys-in-lists-why-not-use-index"></a>
-
-### Explain keys in lists — why not use index
+<details id="react-explain-keys-in-lists-why-not-use-index" open>
+<summary><strong>Explain keys in lists — why not use index</strong></summary>
 
 **Deep**
 
@@ -5159,11 +4552,10 @@ items.map(item => )
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-rules-of-hooks-why-do-they-exist"></a>
-
-### Rules of Hooks — why do they exist
+<details id="react-rules-of-hooks-why-do-they-exist" open>
+<summary><strong>Rules of Hooks — why do they exist</strong></summary>
 
 **Deep**
 
@@ -5204,11 +4596,10 @@ useEffect(() => { if (loggedIn) subscribe(); return cleanup; }, [loggedIn]);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-custom-hook-design-what-makes-a-good-custom-hook"></a>
-
-### Custom hook design — what makes a good custom hook
+<details id="react-custom-hook-design-what-makes-a-good-custom-hook" open>
+<summary><strong>Custom hook design — what makes a good custom hook</strong></summary>
 
 **Deep**
 
@@ -5255,11 +4646,10 @@ function useDebouncedValue(value: T, ms = 300) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-useref-vs-usestate-storage-and-re-render-implications"></a>
-
-### useRef vs useState — storage and re-render implications
+<details id="react-useref-vs-usestate-storage-and-re-render-implications" open>
+<summary><strong>useRef vs useState — storage and re-render implications</strong></summary>
 
 **Deep**
 
@@ -5298,11 +4688,10 @@ renderCount.current += 1; // no re-render from this
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-usereducer-vs-usestate-for-complex-state"></a>
-
-### useReducer vs useState for complex state
+<details id="react-usereducer-vs-usestate-for-complex-state" open>
+<summary><strong>useReducer vs useState for complex state</strong></summary>
 
 **Deep**
 
@@ -5346,11 +4735,10 @@ const [state, dispatch] = useReducer(reducer, { count: 0 });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-how-does-useid-work-and-why-use-it-over-math-random"></a>
-
-### How does useId work and why use it over Math.random()
+<details id="react-how-does-useid-work-and-why-use-it-over-math-random" open>
+<summary><strong>How does useId work and why use it over Math.random()</strong></summary>
 
 **Deep**
 
@@ -5390,11 +4778,10 @@ Email
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-useimperativehandle-legitimate-use-cases"></a>
-
-### useImperativeHandle — legitimate use cases
+<details id="react-useimperativehandle-legitimate-use-cases" open>
+<summary><strong>useImperativeHandle — legitimate use cases</strong></summary>
 
 **Deep**
 
@@ -5432,11 +4819,10 @@ useImperativeHandle(ref, () => ({ focus: () => inputRef.current?.focus() }), [])
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-explain-stale-closures-in-hooks-and-how-to-fix-them"></a>
-
-### Explain stale closures in hooks and how to fix them
+<details id="react-explain-stale-closures-in-hooks-and-how-to-fix-them" open>
+<summary><strong>Explain stale closures in hooks and how to fix them</strong></summary>
 
 **Deep**
 
@@ -5477,11 +4863,10 @@ useEffect(() => { const id = setInterval(() => setCount(c => c + 1), 1000); retu
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-useeffect-dependency-array-exhaustive-deps-debate"></a>
-
-### useEffect dependency array — exhaustive-deps debate
+<details id="react-useeffect-dependency-array-exhaustive-deps-debate" open>
+<summary><strong>useEffect dependency array — exhaustive-deps debate</strong></summary>
 
 **Deep**
 
@@ -5520,11 +4905,10 @@ useEffect(() => { fetchUser(userId); }, [userId]); // not [user] object
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-how-to-cancel-async-work-in-useeffect"></a>
-
-### How to cancel async work in useEffect
+<details id="react-how-to-cancel-async-work-in-useeffect" open>
+<summary><strong>How to cancel async work in useEffect</strong></summary>
 
 ```
 useEffect(() => {
@@ -5559,11 +4943,10 @@ useEffect(() => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-usesyncexternalstore-when-and-why"></a>
-
-### useSyncExternalStore — when and why
+<details id="react-usesyncexternalstore-when-and-why" open>
+<summary><strong>useSyncExternalStore — when and why</strong></summary>
 
 **Deep**
 
@@ -5606,11 +4989,10 @@ const width = useSyncExternalStore(
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-how-do-you-profile-react-performance-in-production"></a>
-
-### How do you profile React performance in production
+<details id="react-how-do-you-profile-react-performance-in-production" open>
+<summary><strong>How do you profile React performance in production</strong></summary>
 
 - React DevTools Profiler
 - Chrome Performance + React DevTools extension
@@ -5641,11 +5023,10 @@ const width = useSyncExternalStore(
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-code-splitting-strategies-in-react"></a>
-
-### Code splitting strategies in React
+<details id="react-code-splitting-strategies-in-react" open>
+<summary><strong>Code splitting strategies in React</strong></summary>
 
 ```
 const Admin = lazy(() => import('./Admin'));
@@ -5679,11 +5060,10 @@ const Admin = lazy(() => import('./Admin'));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-virtualization-for-long-lists-react-window-vs-react-virtuoso"></a>
-
-### Virtualization for long lists — react-window vs react-virtuoso
+<details id="react-virtualization-for-long-lists-react-window-vs-react-virtuoso" open>
+<summary><strong>Virtualization for long lists — react-window vs react-virtuoso</strong></summary>
 
 **Deep**
 
@@ -5726,11 +5106,10 @@ import { FixedSizeList } from 'react-window';
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-server-components-rsc-what-problem-do-they-solve"></a>
-
-### React Server Components (RSC) — what problem do they solve
+<details id="react-react-server-components-rsc-what-problem-do-they-solve" open>
+<summary><strong>React Server Components (RSC) — what problem do they solve</strong></summary>
 
 **Deep**
 
@@ -5768,11 +5147,10 @@ Zero-bundle server components — fetch on server, stream HTML. Client component
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-suspense-for-data-fetching-patterns-and-pitfalls"></a>
-
-### Suspense for data fetching — patterns and pitfalls
+<details id="react-suspense-for-data-fetching-patterns-and-pitfalls" open>
+<summary><strong>Suspense for data fetching — patterns and pitfalls</strong></summary>
 
 **Deep**
 
@@ -5808,11 +5186,10 @@ Pitfall: waterfall if boundaries nested wrong — fetch at route level in parall
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-compound-components-pattern-with-context"></a>
-
-### Compound components pattern with Context
+<details id="react-compound-components-pattern-with-context" open>
+<summary><strong>Compound components pattern with Context</strong></summary>
 
 ```
 const TabsCtx = createContext(null);
@@ -5849,11 +5226,10 @@ Tabs.Panel = function Panel({ value, children }) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-render-props-vs-hoc-vs-hooks-evolution-and-trade-offs"></a>
-
-### Render props vs HOC vs hooks — evolution and trade-offs
+<details id="react-render-props-vs-hoc-vs-hooks-evolution-and-trade-offs" open>
+<summary><strong>Render props vs HOC vs hooks — evolution and trade-offs</strong></summary>
 
 **Deep**
 
@@ -5889,11 +5265,10 @@ Tabs.Panel = function Panel({ value, children }) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-error-boundaries-limitations-and-patterns"></a>
-
-### Error boundaries — limitations and patterns
+<details id="react-error-boundaries-limitations-and-patterns" open>
+<summary><strong>Error boundaries — limitations and patterns</strong></summary>
 
 **Deep**
 
@@ -5935,11 +5310,10 @@ class ErrorBoundary extends Component {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-portals-use-cases-beyond-modals"></a>
-
-### Portals — use cases beyond modals
+<details id="react-portals-use-cases-beyond-modals" open>
+<summary><strong>Portals — use cases beyond modals</strong></summary>
 
 ```
 createPortal(, document.body);
@@ -5971,11 +5345,10 @@ Events bubble through React tree (not DOM tree) — intentional.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-forwardref-deprecation-in-react-19-migration"></a>
-
-### forwardRef deprecation in React 19 — migration
+<details id="react-forwardref-deprecation-in-react-19-migration" open>
+<summary><strong>forwardRef deprecation in React 19 — migration</strong></summary>
 
 ```
 // Before
@@ -6007,11 +5380,10 @@ function Input({ ref, ...props }) { return ; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-lifting-state-up-when-and-why"></a>
-
-### Lifting state up — when and why
+<details id="react-lifting-state-up-when-and-why" open>
+<summary><strong>Lifting state up — when and why</strong></summary>
 
 **Reasoning**
 
@@ -6049,11 +5421,10 @@ function Page() {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-prop-drilling-solutions-ranked"></a>
-
-### Prop drilling — solutions ranked
+<details id="react-prop-drilling-solutions-ranked" open>
+<summary><strong>Prop drilling — solutions ranked</strong></summary>
 
 **Reasoning**
 
@@ -6089,11 +5460,10 @@ function Page() {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-lazy-and-dynamic-import-code-splitting"></a>
-
-### React.lazy and dynamic import — code splitting
+<details id="react-react-lazy-and-dynamic-import-code-splitting" open>
+<summary><strong>React.lazy and dynamic import — code splitting</strong></summary>
 
 **Reasoning**
 
@@ -6143,11 +5513,10 @@ const Admin = lazy(() => import('./Admin'));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-hydration-mismatch-causes-and-fixes"></a>
-
-### Hydration mismatch — causes and fixes
+<details id="react-hydration-mismatch-causes-and-fixes" open>
+<summary><strong>Hydration mismatch — causes and fixes</strong></summary>
 
 **Reasoning**
 
@@ -6197,11 +5566,10 @@ useEffect(() => setClientTime(Date.now()), []); // not in render
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-18-automatic-batching"></a>
-
-### React 18 automatic batching
+<details id="react-react-18-automatic-batching" open>
+<summary><strong>React 18 automatic batching</strong></summary>
 
 **Reasoning**
 
@@ -6250,11 +5618,10 @@ Promise.resolve().then(() => { setA(1); setB(2); }); // one render
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-flushsync-when-and-why-avoid"></a>
-
-### flushSync — when and why avoid
+<details id="react-flushsync-when-and-why-avoid" open>
+<summary><strong>flushSync — when and why avoid</strong></summary>
 
 **Reasoning**
 
@@ -6303,11 +5670,10 @@ import { flushSync } from 'react-dom'; flushSync(() => setCount(1));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-usedeferredvalue-vs-debounce"></a>
-
-### useDeferredValue vs debounce
+<details id="react-usedeferredvalue-vs-debounce" open>
+<summary><strong>useDeferredValue vs debounce</strong></summary>
 
 **Reasoning**
 
@@ -6356,11 +5722,10 @@ const deferredQuery = useDeferredValue(query); const list = useMemo(() => filter
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-synthetic-events-in-react"></a>
-
-### Synthetic events in React
+<details id="react-synthetic-events-in-react" open>
+<summary><strong>Synthetic events in React</strong></summary>
 
 **Reasoning**
 
@@ -6409,11 +5774,10 @@ e.stopPropagation() still works; pool removed in React 17+.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-dangerouslysetinnerhtml-safely"></a>
-
-### dangerouslySetInnerHTML safely
+<details id="react-dangerouslysetinnerhtml-safely" open>
+<summary><strong>dangerouslySetInnerHTML safely</strong></summary>
 
 **Reasoning**
 
@@ -6462,11 +5826,10 @@ import DOMPurify from 'dompurify';
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-derived-state-anti-pattern"></a>
-
-### Derived state anti-pattern
+<details id="react-derived-state-anti-pattern" open>
+<summary><strong>Derived state anti-pattern</strong></summary>
 
 **Reasoning**
 
@@ -6515,11 +5878,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-tanstack-query-vs-useeffect-data-fetching"></a>
-
-### TanStack Query vs useEffect data fetching
+<details id="react-tanstack-query-vs-useeffect-data-fetching" open>
+<summary><strong>TanStack Query vs useEffect data fetching</strong></summary>
 
 **Reasoning**
 
@@ -6568,11 +5930,10 @@ useQuery({ queryKey: ['orders'], queryFn: fetchOrders, staleTime: 60_000 })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-hook-form-vs-formik"></a>
-
-### React Hook Form vs Formik
+<details id="react-react-hook-form-vs-formik" open>
+<summary><strong>React Hook Form vs Formik</strong></summary>
 
 **Reasoning**
 
@@ -6621,11 +5982,10 @@ const { register, handleSubmit } = useForm();
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-testing-library-query-priority"></a>
-
-### Testing Library query priority
+<details id="react-testing-library-query-priority" open>
+<summary><strong>Testing Library query priority</strong></summary>
 
 **Reasoning**
 
@@ -6674,11 +6034,10 @@ screen.getByRole('button', { name: /save/i })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-msw-in-dev-and-test"></a>
-
-### MSW in dev and test
+<details id="react-msw-in-dev-and-test" open>
+<summary><strong>MSW in dev and test</strong></summary>
 
 **Reasoning**
 
@@ -6727,11 +6086,10 @@ http.get('/api/user', () => HttpResponse.json(mockUser))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-module-federation-react-singleton"></a>
-
-### Module Federation + React singleton
+<details id="react-module-federation-react-singleton" open>
+<summary><strong>Module Federation + React singleton</strong></summary>
 
 **Reasoning**
 
@@ -6780,11 +6138,10 @@ shared: { react: { singleton: true, requiredVersion: '^19' } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-19-activity-api"></a>
-
-### React 19 Activity API
+<details id="react-react-19-activity-api" open>
+<summary><strong>React 19 Activity API</strong></summary>
 
 **Reasoning**
 
@@ -6833,11 +6190,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-server-components-boundary"></a>
-
-### React Server Components boundary
+<details id="react-react-server-components-boundary" open>
+<summary><strong>React Server Components boundary</strong></summary>
 
 **Reasoning**
 
@@ -6887,11 +6243,10 @@ export default async function Page() { const data = await db.query(); }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-server-actions-pattern"></a>
-
-### Server Actions pattern
+<details id="react-server-actions-pattern" open>
+<summary><strong>Server Actions pattern</strong></summary>
 
 **Reasoning**
 
@@ -6940,11 +6295,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-usetransition-pending-ui"></a>
-
-### useTransition pending UI
+<details id="react-usetransition-pending-ui" open>
+<summary><strong>useTransition pending UI</strong></summary>
 
 **Reasoning**
 
@@ -6993,11 +6347,10 @@ const [pending, start] = useTransition(); start(() => setTab('heavy'));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-error-boundary-reset-with-key"></a>
-
-### Error boundary reset with key
+<details id="react-error-boundary-reset-with-key" open>
+<summary><strong>Error boundary reset with key</strong></summary>
 
 **Reasoning**
 
@@ -7046,11 +6399,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-ref-callback-cleanup-pattern"></a>
-
-### Ref callback cleanup pattern
+<details id="react-ref-callback-cleanup-pattern" open>
+<summary><strong>Ref callback cleanup pattern</strong></summary>
 
 **Reasoning**
 
@@ -7099,11 +6451,10 @@ ref={(node) => { if (node) observe(node); return () => unobserve(node); }}
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-strictmode-imperative-library-teardown"></a>
-
-### StrictMode imperative library teardown
+<details id="react-strictmode-imperative-library-teardown" open>
+<summary><strong>StrictMode imperative library teardown</strong></summary>
 
 **Reasoning**
 
@@ -7152,11 +6503,10 @@ return () => { map.remove(); container._leaflet_id = undefined; };
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-react-compiler-adoption"></a>
-
-### React Compiler adoption
+<details id="react-react-compiler-adoption" open>
+<summary><strong>React Compiler adoption</strong></summary>
 
 **Reasoning**
 
@@ -7205,11 +6555,10 @@ Enable compiler plugin in vite/babel config per React docs.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-profiler-workflow-for-perf-interviews"></a>
-
-### Profiler workflow for perf interviews
+<details id="react-profiler-workflow-for-perf-interviews" open>
+<summary><strong>Profiler workflow for perf interviews</strong></summary>
 
 **Reasoning**
 
@@ -7258,11 +6607,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="react-micro-frontend-lazy-remote-loading"></a>
-
-### Micro-frontend lazy remote loading
+<details id="react-micro-frontend-lazy-remote-loading" open>
+<summary><strong>Micro-frontend lazy remote loading</strong></summary>
 
 **Reasoning**
 
@@ -7311,14 +6659,52 @@ const Shop = lazy(() => import('shop/App'));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Redux (35 questions)
 
-<a name="redux-redux-core-principles-and-when-not-to-use-redux"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Redux core principles and when NOT to use Redux](#redux-redux-core-principles-and-when-not-to-use-redux) |
+| 2 | [Redux Toolkit vs classic Redux — what RTK solves](#redux-redux-toolkit-vs-classic-redux-what-rtk-solves) |
+| 3 | [Explain middleware chain — dispatch flow](#redux-explain-middleware-chain-dispatch-flow) |
+| 4 | [redux-thunk vs redux-saga vs RTK Query](#redux-redux-thunk-vs-redux-saga-vs-rtk-query) |
+| 5 | [Normalized state shape — why entities + ids](#redux-normalized-state-shape-why-entities-ids) |
+| 6 | [createSelector (Reselect) — memoization](#redux-createselector-reselect-memoization) |
+| 7 | [RTK Query — cache lifecycle](#redux-rtk-query-cache-lifecycle) |
+| 8 | [useSelector performance — equality checks](#redux-useselector-performance-equality-checks) |
+| 9 | [Redux DevTools — time travel and action replay](#redux-redux-devtools-time-travel-and-action-replay) |
+| 10 | [Immer in createSlice — how draft works](#redux-immer-in-createslice-how-draft-works) |
+| 11 | [Action creators in Redux](#redux-action-creators-in-redux) |
+| 12 | [combineReducers composition](#redux-combinereducers-composition) |
+| 13 | [redux-persist](#redux-redux-persist) |
+| 14 | [SSR Redux hydration](#redux-ssr-redux-hydration) |
+| 15 | [Selector colocation](#redux-selector-colocation) |
+| 16 | [Ducks / feature folder pattern](#redux-ducks-feature-folder-pattern) |
+| 17 | [Giant slice anti-pattern](#redux-giant-slice-anti-pattern) |
+| 18 | [Side effects NEVER in reducer](#redux-side-effects-never-in-reducer) |
+| 19 | [RTK listener middleware](#redux-rtk-listener-middleware) |
+| 20 | [RTK Query optimistic updates](#redux-rtk-query-optimistic-updates) |
+| 21 | [Redux vs Context](#redux-redux-vs-context) |
+| 22 | [Redux vs Zustand](#redux-redux-vs-zustand) |
+| 23 | [Redux vs Jotai/Recoil](#redux-redux-vs-jotai-recoil) |
+| 24 | [Batching in React 18 + Redux](#redux-batching-in-react-18-redux) |
+| 25 | [Serializable check middleware](#redux-serializable-check-middleware) |
+| 26 | [Auth token in RTK Query baseQuery](#redux-auth-token-in-rtk-query-basequery) |
+| 27 | [createEntityAdapter](#redux-createentityadapter) |
+| 28 | [RTK Query prefetch](#redux-rtk-query-prefetch) |
+| 29 | [injectReducer (legacy code split)](#redux-injectreducer-legacy-code-split) |
+| 30 | [Testing reducers](#redux-testing-reducers) |
+| 31 | [Testing thunks](#redux-testing-thunks) |
+| 32 | [extraReducers cross-slice](#redux-extrareducers-cross-slice) |
+| 33 | [Global error slice + listener](#redux-global-error-slice-listener) |
+| 34 | [Undo/redo with redux-undo](#redux-undo-redo-with-redux-undo) |
+| 35 | [Industry trend 2025 — Redux role](#redux-industry-trend-2025-redux-role) |
 
-### Redux core principles and when NOT to use Redux
+<details id="redux-redux-core-principles-and-when-not-to-use-redux" open>
+<summary><strong>Redux core principles and when NOT to use Redux</strong></summary>
 
 **Deep**
 
@@ -7353,11 +6739,10 @@ Single store, pure reducers, actions describe changes. Skip for: local UI state,
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-toolkit-vs-classic-redux-what-rtk-solves"></a>
-
-### Redux Toolkit vs classic Redux — what RTK solves
+<details id="redux-redux-toolkit-vs-classic-redux-what-rtk-solves" open>
+<summary><strong>Redux Toolkit vs classic Redux — what RTK solves</strong></summary>
 
 ```
 import { configureStore, createSlice } from '@reduxjs/toolkit';
@@ -7401,11 +6786,10 @@ RTK: Immer, createSlice, configureStore, RTK Query, less boilerplate.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-explain-middleware-chain-dispatch-flow"></a>
-
-### Explain middleware chain — dispatch flow
+<details id="redux-explain-middleware-chain-dispatch-flow" open>
+<summary><strong>Explain middleware chain — dispatch flow</strong></summary>
 
 ```
 // dispatch(action) → middleware1 → middleware2 → reducer → new state → subscribers
@@ -7440,11 +6824,10 @@ const logger = (store) => (next) => (action) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-thunk-vs-redux-saga-vs-rtk-query"></a>
-
-### redux-thunk vs redux-saga vs RTK Query
+<details id="redux-redux-thunk-vs-redux-saga-vs-rtk-query" open>
+<summary><strong>redux-thunk vs redux-saga vs RTK Query</strong></summary>
 
 - **thunk:** async in action creators — simple
 - **saga:** generator testable orchestration — complex flows
@@ -7473,11 +6856,10 @@ const logger = (store) => (next) => (action) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-normalized-state-shape-why-entities-ids"></a>
-
-### Normalized state shape — why entities + ids
+<details id="redux-normalized-state-shape-why-entities-ids" open>
+<summary><strong>Normalized state shape — why entities + ids</strong></summary>
 
 ```
 {
@@ -7510,11 +6892,10 @@ const logger = (store) => (next) => (action) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-createselector-reselect-memoization"></a>
-
-### createSelector (Reselect) — memoization
+<details id="redux-createselector-reselect-memoization" open>
+<summary><strong>createSelector (Reselect) — memoization</strong></summary>
 
 ```
 const selectItems = (state) => state.items;
@@ -7547,11 +6928,10 @@ export const selectVisible = createSelector([selectItems, selectFilter], (items,
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-rtk-query-cache-lifecycle"></a>
-
-### RTK Query — cache lifecycle
+<details id="redux-rtk-query-cache-lifecycle" open>
+<summary><strong>RTK Query — cache lifecycle</strong></summary>
 
 ```
 const api = createApi({
@@ -7592,11 +6972,10 @@ Tags trigger refetch; configurable staleTime, polling, optimistic updates.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-useselector-performance-equality-checks"></a>
-
-### useSelector performance — equality checks
+<details id="redux-useselector-performance-equality-checks" open>
+<summary><strong>useSelector performance — equality checks</strong></summary>
 
 ```
 // BAD: new object every time → always re-render
@@ -7630,11 +7009,10 @@ useSelector(selectUser, shallowEqual);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-devtools-time-travel-and-action-replay"></a>
-
-### Redux DevTools — time travel and action replay
+<details id="redux-redux-devtools-time-travel-and-action-replay" open>
+<summary><strong>Redux DevTools — time travel and action replay</strong></summary>
 
 **Deep**
 
@@ -7668,11 +7046,10 @@ Records action stream; jump to state; import/export for bug reports. configureSt
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-immer-in-createslice-how-draft-works"></a>
-
-### Immer in createSlice — how draft works
+<details id="redux-immer-in-createslice-how-draft-works" open>
+<summary><strong>Immer in createSlice — how draft works</strong></summary>
 
 **Deep**
 
@@ -7706,11 +7083,10 @@ Write "mutating" code on Proxy draft; Immer produces immutable next state. Can't
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-action-creators-in-redux"></a>
-
-### Action creators in Redux
+<details id="redux-action-creators-in-redux" open>
+<summary><strong>Action creators in Redux</strong></summary>
 
 **Reasoning**
 
@@ -7759,11 +7135,10 @@ dispatch(increment()) // vs dispatch({ type: 'counter/increment' })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-combinereducers-composition"></a>
-
-### combineReducers composition
+<details id="redux-combinereducers-composition" open>
+<summary><strong>combineReducers composition</strong></summary>
 
 **Reasoning**
 
@@ -7812,11 +7187,10 @@ combineReducers({ auth: authReducer, cart: cartReducer })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-persist"></a>
-
-### redux-persist
+<details id="redux-redux-persist" open>
+<summary><strong>redux-persist</strong></summary>
 
 **Reasoning**
 
@@ -7865,11 +7239,10 @@ persistReducer({ key: 'root', storage, whitelist: ['cart'] }, rootReducer)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-ssr-redux-hydration"></a>
-
-### SSR Redux hydration
+<details id="redux-ssr-redux-hydration" open>
+<summary><strong>SSR Redux hydration</strong></summary>
 
 **Reasoning**
 
@@ -7918,11 +7291,10 @@ const store = configureStore({ preloadedState: window.__PRELOADED_STATE__ });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-selector-colocation"></a>
-
-### Selector colocation
+<details id="redux-selector-colocation" open>
+<summary><strong>Selector colocation</strong></summary>
 
 **Reasoning**
 
@@ -7971,11 +7343,10 @@ export const selectCartTotal = createSelector(selectItems, items => sum(items))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-ducks-feature-folder-pattern"></a>
-
-### Ducks / feature folder pattern
+<details id="redux-ducks-feature-folder-pattern" open>
+<summary><strong>Ducks / feature folder pattern</strong></summary>
 
 **Reasoning**
 
@@ -8024,11 +7395,10 @@ features/orders/ordersSlice.ts, OrdersList.tsx
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-giant-slice-anti-pattern"></a>
-
-### Giant slice anti-pattern
+<details id="redux-giant-slice-anti-pattern" open>
+<summary><strong>Giant slice anti-pattern</strong></summary>
 
 **Reasoning**
 
@@ -8077,11 +7447,10 @@ Split: authSlice, ordersSlice, uiSlice
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-side-effects-never-in-reducer"></a>
-
-### Side effects NEVER in reducer
+<details id="redux-side-effects-never-in-reducer" open>
+<summary><strong>Side effects NEVER in reducer</strong></summary>
 
 **Reasoning**
 
@@ -8130,11 +7499,10 @@ Use createAsyncThunk or listener middleware instead
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-rtk-listener-middleware"></a>
-
-### RTK listener middleware
+<details id="redux-rtk-listener-middleware" open>
+<summary><strong>RTK listener middleware</strong></summary>
 
 **Reasoning**
 
@@ -8183,11 +7551,10 @@ listenerMiddleware.startListening({ matcher: isAnyOf(fetched), effect: async (a,
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-rtk-query-optimistic-updates"></a>
-
-### RTK Query optimistic updates
+<details id="redux-rtk-query-optimistic-updates" open>
+<summary><strong>RTK Query optimistic updates</strong></summary>
 
 **Reasoning**
 
@@ -8236,11 +7603,10 @@ api.util.updateQueryData('getPost', id, draft => { draft.title = 'new' })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-vs-context"></a>
-
-### Redux vs Context
+<details id="redux-redux-vs-context" open>
+<summary><strong>Redux vs Context</strong></summary>
 
 **Reasoning**
 
@@ -8289,11 +7655,10 @@ Cart with 50 updates/min → external store or Query not mega Context
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-vs-zustand"></a>
-
-### Redux vs Zustand
+<details id="redux-redux-vs-zustand" open>
+<summary><strong>Redux vs Zustand</strong></summary>
 
 **Reasoning**
 
@@ -8342,11 +7707,10 @@ const useStore = create(set => ({ count: 0, inc: () => set(s => ({ count: s.coun
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-redux-vs-jotai-recoil"></a>
-
-### Redux vs Jotai/Recoil
+<details id="redux-redux-vs-jotai-recoil" open>
+<summary><strong>Redux vs Jotai/Recoil</strong></summary>
 
 **Reasoning**
 
@@ -8395,11 +7759,10 @@ atom family per entity ID — good for spreadsheet cells
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-batching-in-react-18-redux"></a>
-
-### Batching in React 18 + Redux
+<details id="redux-batching-in-react-18-redux" open>
+<summary><strong>Batching in React 18 + Redux</strong></summary>
 
 **Reasoning**
 
@@ -8448,11 +7811,10 @@ dispatch(a()); dispatch(b()); // one render
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-serializable-check-middleware"></a>
-
-### Serializable check middleware
+<details id="redux-serializable-check-middleware" open>
+<summary><strong>Serializable check middleware</strong></summary>
 
 **Reasoning**
 
@@ -8501,11 +7863,10 @@ store serializableCheck: { ignoredPaths: ['meta.timestamp'] }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-auth-token-in-rtk-query-basequery"></a>
-
-### Auth token in RTK Query baseQuery
+<details id="redux-auth-token-in-rtk-query-basequery" open>
+<summary><strong>Auth token in RTK Query baseQuery</strong></summary>
 
 **Reasoning**
 
@@ -8554,11 +7915,10 @@ baseQuery: fetchBaseQuery({ prepareHeaders: (h, { getState }) => { h.set('Author
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-createentityadapter"></a>
-
-### createEntityAdapter
+<details id="redux-createentityadapter" open>
+<summary><strong>createEntityAdapter</strong></summary>
 
 **Reasoning**
 
@@ -8607,11 +7967,10 @@ const adapter = createEntityAdapter(); adapter.reducers in slice
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-rtk-query-prefetch"></a>
-
-### RTK Query prefetch
+<details id="redux-rtk-query-prefetch" open>
+<summary><strong>RTK Query prefetch</strong></summary>
 
 **Reasoning**
 
@@ -8660,11 +8019,10 @@ dispatch(api.util.prefetch('getUser', userId, { force: true }))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-injectreducer-legacy-code-split"></a>
-
-### injectReducer (legacy code split)
+<details id="redux-injectreducer-legacy-code-split" open>
+<summary><strong>injectReducer (legacy code split)</strong></summary>
 
 **Reasoning**
 
@@ -8713,11 +8071,10 @@ store.injectReducer('admin', adminReducer)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-testing-reducers"></a>
-
-### Testing reducers
+<details id="redux-testing-reducers" open>
+<summary><strong>Testing reducers</strong></summary>
 
 **Reasoning**
 
@@ -8766,11 +8123,10 @@ expect(reducer({ count: 0 }, increment())).toEqual({ count: 1 })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-testing-thunks"></a>
-
-### Testing thunks
+<details id="redux-testing-thunks" open>
+<summary><strong>Testing thunks</strong></summary>
 
 **Reasoning**
 
@@ -8819,11 +8175,10 @@ render with Provider; userEvent click; await waitFor(() => expect(screen.getByTe
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-extrareducers-cross-slice"></a>
-
-### extraReducers cross-slice
+<details id="redux-extrareducers-cross-slice" open>
+<summary><strong>extraReducers cross-slice</strong></summary>
 
 **Reasoning**
 
@@ -8872,11 +8227,10 @@ extraReducers: (builder) => { builder.addCase(auth.logout, () => initialState); 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-global-error-slice-listener"></a>
-
-### Global error slice + listener
+<details id="redux-global-error-slice-listener" open>
+<summary><strong>Global error slice + listener</strong></summary>
 
 **Reasoning**
 
@@ -8925,11 +8279,10 @@ listenerMiddleware.startListening({ predicate: isRejected, effect: (a) => toast.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-undo-redo-with-redux-undo"></a>
-
-### Undo/redo with redux-undo
+<details id="redux-undo-redo-with-redux-undo" open>
+<summary><strong>Undo/redo with redux-undo</strong></summary>
 
 **Reasoning**
 
@@ -8978,11 +8331,10 @@ import undoable from 'redux-undo'; undoable(todosReducer)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="redux-industry-trend-2025-redux-role"></a>
-
-### Industry trend 2025 — Redux role
+<details id="redux-industry-trend-2025-redux-role" open>
+<summary><strong>Industry trend 2025 — Redux role</strong></summary>
 
 **Reasoning**
 
@@ -9031,14 +8383,47 @@ Greenfield: evaluate Query first; Redux if need listener middleware at scale
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Webpack (30 questions)
 
-<a name="webpack-webpack-core-concepts-entry-output-loaders-plugins"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Webpack core concepts: entry, output, loaders, plugins](#webpack-webpack-core-concepts-entry-output-loaders-plugins) |
+| 2 | [Module federation — micro-frontends](#webpack-module-federation-micro-frontends) |
+| 3 | [Contenthash vs chunkhash vs hash](#webpack-contenthash-vs-chunkhash-vs-hash) |
+| 4 | [Tree shaking — requirements](#webpack-tree-shaking-requirements) |
+| 5 | [Code splitting — dynamic import syntax](#webpack-code-splitting-dynamic-import-syntax) |
+| 6 | [webpack-dev-server vs production build differences](#webpack-webpack-dev-server-vs-production-build-differences) |
+| 7 | [Source maps strategies for production](#webpack-source-maps-strategies-for-production) |
+| 8 | [Resolve alias and extensions](#webpack-resolve-alias-and-extensions) |
+| 9 | [Asset modules (Webpack 5)](#webpack-asset-modules-webpack-5) |
+| 10 | [Bundle analyzer — finding bloat](#webpack-bundle-analyzer-finding-bloat) |
+| 11 | [Loader execution order](#webpack-loader-execution-order) |
+| 12 | [babel-loader vs ts-loader](#webpack-babel-loader-vs-ts-loader) |
+| 13 | [thread-loader parallelization](#webpack-thread-loader-parallelization) |
+| 14 | [Webpack 5 filesystem cache](#webpack-webpack-5-filesystem-cache) |
+| 15 | [externals configuration](#webpack-externals-configuration) |
+| 16 | [HotModuleReplacement API](#webpack-hotmodulereplacement-api) |
+| 17 | [DefinePlugin / EnvironmentPlugin](#webpack-defineplugin-environmentplugin) |
+| 18 | [Webpack 5 removed Node polyfills](#webpack-webpack-5-removed-node-polyfills) |
+| 19 | [MiniCssExtractPlugin vs style-loader](#webpack-minicssextractplugin-vs-style-loader) |
+| 20 | [CSS Modules in webpack](#webpack-css-modules-in-webpack) |
+| 21 | [PostCSS loader chain](#webpack-postcss-loader-chain) |
+| 22 | [Duplicate package detection](#webpack-duplicate-package-detection) |
+| 23 | [performance.maxAssetSize hints](#webpack-performance-maxassetsize-hints) |
+| 24 | [Scope hoisting / concatenation](#webpack-scope-hoisting-concatenation) |
+| 25 | [Webpack vs Rollup vs esbuild](#webpack-webpack-vs-rollup-vs-esbuild) |
+| 26 | [Custom webpack plugin anatomy](#webpack-custom-webpack-plugin-anatomy) |
+| 27 | [Module resolution failure debugging](#webpack-module-resolution-failure-debugging) |
+| 28 | [SplitChunksPlugin strategy](#webpack-splitchunksplugin-strategy) |
+| 29 | [Source map dev vs prod](#webpack-source-map-dev-vs-prod) |
+| 30 | [Webpack to Vite migration checklist](#webpack-webpack-to-vite-migration-checklist) |
 
-### Webpack core concepts: entry, output, loaders, plugins
+<details id="webpack-webpack-core-concepts-entry-output-loaders-plugins" open>
+<summary><strong>Webpack core concepts: entry, output, loaders, plugins</strong></summary>
 
 ```
 module.exports = {
@@ -9072,11 +8457,10 @@ module.exports = {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-module-federation-micro-frontends"></a>
-
-### Module federation — micro-frontends
+<details id="webpack-module-federation-micro-frontends" open>
+<summary><strong>Module federation — micro-frontends</strong></summary>
 
 ```
 // Host webpack.config
@@ -9110,11 +8494,10 @@ new ModuleFederationPlugin({
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-contenthash-vs-chunkhash-vs-hash"></a>
-
-### Contenthash vs chunkhash vs hash
+<details id="webpack-contenthash-vs-chunkhash-vs-hash" open>
+<summary><strong>Contenthash vs chunkhash vs hash</strong></summary>
 
 - **hash:** build-wide — bad for caching
 - **chunkhash:** per chunk
@@ -9143,11 +8526,10 @@ new ModuleFederationPlugin({
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-tree-shaking-requirements"></a>
-
-### Tree shaking — requirements
+<details id="webpack-tree-shaking-requirements" open>
+<summary><strong>Tree shaking — requirements</strong></summary>
 
 **Deep**
 
@@ -9181,11 +8563,10 @@ ES modules, sideEffects: false in package.json, production mode, avoid barrel re
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-code-splitting-dynamic-import-syntax"></a>
-
-### Code splitting — dynamic import syntax
+<details id="webpack-code-splitting-dynamic-import-syntax" open>
+<summary><strong>Code splitting — dynamic import syntax</strong></summary>
 
 ```
 import(/* webpackChunkName: "admin" */ './Admin').then(m => ...);
@@ -9215,11 +8596,10 @@ import(/* webpackChunkName: "admin" */ './Admin').then(m => ...);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-webpack-dev-server-vs-production-build-differences"></a>
-
-### webpack-dev-server vs production build differences
+<details id="webpack-webpack-dev-server-vs-production-build-differences" open>
+<summary><strong>webpack-dev-server vs production build differences</strong></summary>
 
 **Deep**
 
@@ -9253,11 +8633,10 @@ Dev: in-memory bundles, HMR, source maps cheap, no minification. Prod: minify, t
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-source-maps-strategies-for-production"></a>
-
-### Source maps strategies for production
+<details id="webpack-source-maps-strategies-for-production" open>
+<summary><strong>Source maps strategies for production</strong></summary>
 
 **Deep**
 
@@ -9291,11 +8670,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-resolve-alias-and-extensions"></a>
-
-### Resolve alias and extensions
+<details id="webpack-resolve-alias-and-extensions" open>
+<summary><strong>Resolve alias and extensions</strong></summary>
 
 ```
 resolve: { alias: { '@': path.resolve('src') }, extensions: ['.tsx', '.ts', '.js'] }
@@ -9324,11 +8702,10 @@ resolve: { alias: { '@': path.resolve('src') }, extensions: ['.tsx', '.ts', '.js
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-asset-modules-webpack-5"></a>
-
-### Asset modules (Webpack 5)
+<details id="webpack-asset-modules-webpack-5" open>
+<summary><strong>Asset modules (Webpack 5)</strong></summary>
 
 ```
 { test: /\.png/, type: 'asset/resource' } // emits file
@@ -9358,11 +8735,10 @@ resolve: { alias: { '@': path.resolve('src') }, extensions: ['.tsx', '.ts', '.js
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-bundle-analyzer-finding-bloat"></a>
-
-### Bundle analyzer — finding bloat
+<details id="webpack-bundle-analyzer-finding-bloat" open>
+<summary><strong>Bundle analyzer — finding bloat</strong></summary>
 
 ```
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -9392,11 +8768,10 @@ plugins: [new BundleAnalyzerPlugin()]
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-loader-execution-order"></a>
-
-### Loader execution order
+<details id="webpack-loader-execution-order" open>
+<summary><strong>Loader execution order</strong></summary>
 
 **Reasoning**
 
@@ -9445,11 +8820,10 @@ use: ['style-loader', 'css-loader', 'sass-loader']
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-babel-loader-vs-ts-loader"></a>
-
-### babel-loader vs ts-loader
+<details id="webpack-babel-loader-vs-ts-loader" open>
+<summary><strong>babel-loader vs ts-loader</strong></summary>
 
 **Reasoning**
 
@@ -9498,11 +8872,10 @@ ts-loader: { transpileOnly: true }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-thread-loader-parallelization"></a>
-
-### thread-loader parallelization
+<details id="webpack-thread-loader-parallelization" open>
+<summary><strong>thread-loader parallelization</strong></summary>
 
 **Reasoning**
 
@@ -9551,11 +8924,10 @@ use: [{ loader: 'thread-loader' }, { loader: 'babel-loader', options: { cacheDir
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-webpack-5-filesystem-cache"></a>
-
-### Webpack 5 filesystem cache
+<details id="webpack-webpack-5-filesystem-cache" open>
+<summary><strong>Webpack 5 filesystem cache</strong></summary>
 
 **Reasoning**
 
@@ -9604,11 +8976,10 @@ cache: { type: 'filesystem', buildDependencies: { config: [__filename] } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-externals-configuration"></a>
-
-### externals configuration
+<details id="webpack-externals-configuration" open>
+<summary><strong>externals configuration</strong></summary>
 
 **Reasoning**
 
@@ -9657,11 +9028,10 @@ externals: { react: 'React' }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-hotmodulereplacement-api"></a>
-
-### HotModuleReplacement API
+<details id="webpack-hotmodulereplacement-api" open>
+<summary><strong>HotModuleReplacement API</strong></summary>
 
 **Reasoning**
 
@@ -9710,11 +9080,10 @@ if (module.hot) module.hot.accept()
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-defineplugin-environmentplugin"></a>
-
-### DefinePlugin / EnvironmentPlugin
+<details id="webpack-defineplugin-environmentplugin" open>
+<summary><strong>DefinePlugin / EnvironmentPlugin</strong></summary>
 
 **Reasoning**
 
@@ -9763,11 +9132,10 @@ new webpack.DefinePlugin({ 'process.env.API': JSON.stringify(process.env.API) })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-webpack-5-removed-node-polyfills"></a>
-
-### Webpack 5 removed Node polyfills
+<details id="webpack-webpack-5-removed-node-polyfills" open>
+<summary><strong>Webpack 5 removed Node polyfills</strong></summary>
 
 **Reasoning**
 
@@ -9816,11 +9184,10 @@ resolve: { fallback: { crypto: require.resolve('crypto-browserify') } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-minicssextractplugin-vs-style-loader"></a>
-
-### MiniCssExtractPlugin vs style-loader
+<details id="webpack-minicssextractplugin-vs-style-loader" open>
+<summary><strong>MiniCssExtractPlugin vs style-loader</strong></summary>
 
 **Reasoning**
 
@@ -9869,11 +9236,10 @@ new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-css-modules-in-webpack"></a>
-
-### CSS Modules in webpack
+<details id="webpack-css-modules-in-webpack" open>
+<summary><strong>CSS Modules in webpack</strong></summary>
 
 **Reasoning**
 
@@ -9922,11 +9288,10 @@ import styles from './Button.module.css'
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-postcss-loader-chain"></a>
-
-### PostCSS loader chain
+<details id="webpack-postcss-loader-chain" open>
+<summary><strong>PostCSS loader chain</strong></summary>
 
 **Reasoning**
 
@@ -9975,11 +9340,10 @@ postcss.config.js with tailwind + autoprefixer
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-duplicate-package-detection"></a>
-
-### Duplicate package detection
+<details id="webpack-duplicate-package-detection" open>
+<summary><strong>Duplicate package detection</strong></summary>
 
 **Reasoning**
 
@@ -10028,11 +9392,10 @@ resolve: { alias: { react: path.resolve('./node_modules/react') } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-performance-maxassetsize-hints"></a>
-
-### performance.maxAssetSize hints
+<details id="webpack-performance-maxassetsize-hints" open>
+<summary><strong>performance.maxAssetSize hints</strong></summary>
 
 **Reasoning**
 
@@ -10081,11 +9444,10 @@ performance: { maxEntrypointSize: 250000, hints: 'error' }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-scope-hoisting-concatenation"></a>
-
-### Scope hoisting / concatenation
+<details id="webpack-scope-hoisting-concatenation" open>
+<summary><strong>Scope hoisting / concatenation</strong></summary>
 
 **Reasoning**
 
@@ -10134,11 +9496,10 @@ mode: 'production' enables by default in webpack 5
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-webpack-vs-rollup-vs-esbuild"></a>
-
-### Webpack vs Rollup vs esbuild
+<details id="webpack-webpack-vs-rollup-vs-esbuild" open>
+<summary><strong>Webpack vs Rollup vs esbuild</strong></summary>
 
 **Reasoning**
 
@@ -10188,11 +9549,10 @@ Vite uses esbuild dev + Rollup prod
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-custom-webpack-plugin-anatomy"></a>
-
-### Custom webpack plugin anatomy
+<details id="webpack-custom-webpack-plugin-anatomy" open>
+<summary><strong>Custom webpack plugin anatomy</strong></summary>
 
 **Reasoning**
 
@@ -10241,11 +9601,10 @@ compiler.hooks.emit.tapAsync('MyPlugin', (compilation, cb) => { ...; cb(); })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-module-resolution-failure-debugging"></a>
-
-### Module resolution failure debugging
+<details id="webpack-module-resolution-failure-debugging" open>
+<summary><strong>Module resolution failure debugging</strong></summary>
 
 **Reasoning**
 
@@ -10294,11 +9653,10 @@ Check resolve.extensions, mainFields: ['browser', 'module', 'main']
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-splitchunksplugin-strategy"></a>
-
-### SplitChunksPlugin strategy
+<details id="webpack-splitchunksplugin-strategy" open>
+<summary><strong>SplitChunksPlugin strategy</strong></summary>
 
 **Reasoning**
 
@@ -10347,11 +9705,10 @@ optimization: { splitChunks: { chunks: 'all', cacheGroups: { vendor: { test: /no
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-source-map-dev-vs-prod"></a>
-
-### Source map dev vs prod
+<details id="webpack-source-map-dev-vs-prod" open>
+<summary><strong>Source map dev vs prod</strong></summary>
 
 **Reasoning**
 
@@ -10400,11 +9757,10 @@ devtool: process.env.NODE_ENV === 'production' ? 'hidden-source-map' : 'eval-che
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="webpack-webpack-to-vite-migration-checklist"></a>
-
-### Webpack to Vite migration checklist
+<details id="webpack-webpack-to-vite-migration-checklist" open>
+<summary><strong>Webpack to Vite migration checklist</strong></summary>
 
 **Reasoning**
 
@@ -10453,14 +9809,42 @@ Manual test: dev HMR, prod build, dynamic imports, env vars
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Vite (25 questions)
 
-<a name="vite-why-is-vite-dev-server-faster-than-webpack-dev"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Why is Vite dev server faster than Webpack dev](#vite-why-is-vite-dev-server-faster-than-webpack-dev) |
+| 2 | [Vite production build — what runs under the hood](#vite-vite-production-build-what-runs-under-the-hood) |
+| 3 | [vite.config.ts essential options](#vite-vite-config-ts-essential-options) |
+| 4 | [Environment variables in Vite](#vite-environment-variables-in-vite) |
+| 5 | [SSR with Vite](#vite-ssr-with-vite) |
+| 6 | [Vitest integration — why same config](#vite-vitest-integration-why-same-config) |
+| 7 | [optimizeDeps — pre-bundling](#vite-optimizedeps-pre-bundling) |
+| 8 | [Dynamic import and code splitting in Vite](#vite-dynamic-import-and-code-splitting-in-vite) |
+| 9 | [Library mode](#vite-library-mode) |
+| 10 | [Migrating Webpack → Vite checklist](#vite-migrating-webpack-vite-checklist) |
+| 11 | [Vite HMR API import.meta.hot](#vite-vite-hmr-api-import-meta-hot) |
+| 12 | [CSS code splitting in Vite build](#vite-css-code-splitting-in-vite-build) |
+| 13 | [PostCSS in Vite](#vite-postcss-in-vite) |
+| 14 | [Tailwind with Vite](#vite-tailwind-with-vite) |
+| 15 | [Vite plugin order](#vite-vite-plugin-order) |
+| 16 | [define config constants](#vite-define-config-constants) |
+| 17 | [public/ directory behavior](#vite-public-directory-behavior) |
+| 18 | [assetsInlineLimit](#vite-assetsinlinelimit) |
+| 19 | [vite preview command](#vite-vite-preview-command) |
+| 20 | [Vite mode and env files](#vite-vite-mode-and-env-files) |
+| 21 | [loadEnv in vite.config](#vite-loadenv-in-vite-config) |
+| 22 | [vite-plugin-pwa](#vite-vite-plugin-pwa) |
+| 23 | [Monorepo Vite setup](#vite-monorepo-vite-setup) |
+| 24 | [server.warmup (Vite 5+)](#vite-server-warmup-vite-5) |
+| 25 | [Rolldown future in Vite ecosystem](#vite-rolldown-future-in-vite-ecosystem) |
 
-### Why is Vite dev server faster than Webpack dev
+<details id="vite-why-is-vite-dev-server-faster-than-webpack-dev" open>
+<summary><strong>Why is Vite dev server faster than Webpack dev</strong></summary>
 
 **Deep**
 
@@ -10495,11 +9879,10 @@ Dev: native ESM — browser requests modules directly, esbuild pre-bundles deps 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-production-build-what-runs-under-the-hood"></a>
-
-### Vite production build — what runs under the hood
+<details id="vite-vite-production-build-what-runs-under-the-hood" open>
+<summary><strong>Vite production build — what runs under the hood</strong></summary>
 
 **Deep**
 
@@ -10533,11 +9916,10 @@ Dev: native ESM — browser requests modules directly, esbuild pre-bundles deps 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-config-ts-essential-options"></a>
-
-### vite.config.ts essential options
+<details id="vite-vite-config-ts-essential-options" open>
+<summary><strong>vite.config.ts essential options</strong></summary>
 
 ```
 export default defineConfig({
@@ -10572,11 +9954,10 @@ export default defineConfig({
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-environment-variables-in-vite"></a>
-
-### Environment variables in Vite
+<details id="vite-environment-variables-in-vite" open>
+<summary><strong>Environment variables in Vite</strong></summary>
 
 ```
 // .env.local — VITE_ prefix exposed to client
@@ -10608,11 +9989,10 @@ VITE_API_URL=https://api.example.com
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-ssr-with-vite"></a>
-
-### SSR with Vite
+<details id="vite-ssr-with-vite" open>
+<summary><strong>SSR with Vite</strong></summary>
 
 **Deep**
 
@@ -10647,11 +10027,10 @@ VITE_API_URL=https://api.example.com
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vitest-integration-why-same-config"></a>
-
-### Vitest integration — why same config
+<details id="vite-vitest-integration-why-same-config" open>
+<summary><strong>Vitest integration — why same config</strong></summary>
 
 ```
 // vite.config.ts
@@ -10683,11 +10062,10 @@ Shares resolve aliases, plugins, transforms — tests match app bundling.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-optimizedeps-pre-bundling"></a>
-
-### optimizeDeps — pre-bundling
+<details id="vite-optimizedeps-pre-bundling" open>
+<summary><strong>optimizeDeps — pre-bundling</strong></summary>
 
 **Deep**
 
@@ -10722,11 +10100,10 @@ esbuild bundles CJS deps to ESM on first dev start. Force re-scan: `optimizeDeps
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-dynamic-import-and-code-splitting-in-vite"></a>
-
-### Dynamic import and code splitting in Vite
+<details id="vite-dynamic-import-and-code-splitting-in-vite" open>
+<summary><strong>Dynamic import and code splitting in Vite</strong></summary>
 
 ```
 const Chart = lazy(() => import('./Chart')); // Rollup async chunk automatically
@@ -10755,11 +10132,10 @@ const Chart = lazy(() => import('./Chart')); // Rollup async chunk automatically
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-library-mode"></a>
-
-### Library mode
+<details id="vite-library-mode" open>
+<summary><strong>Library mode</strong></summary>
 
 ```
 build: { lib: { entry: 'src/index.ts', name: 'MyLib', fileName: 'my-lib' }, rollupOptions: { external: ['react'] } }
@@ -10788,11 +10164,10 @@ build: { lib: { entry: 'src/index.ts', name: 'MyLib', fileName: 'my-lib' }, roll
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-migrating-webpack-vite-checklist"></a>
-
-### Migrating Webpack → Vite checklist
+<details id="vite-migrating-webpack-vite-checklist" open>
+<summary><strong>Migrating Webpack → Vite checklist</strong></summary>
 
 - Replace require → import
 - index.html at root entry
@@ -10824,11 +10199,10 @@ build: { lib: { entry: 'src/index.ts', name: 'MyLib', fileName: 'my-lib' }, roll
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-hmr-api-import-meta-hot"></a>
-
-### Vite HMR API import.meta.hot
+<details id="vite-vite-hmr-api-import-meta-hot" open>
+<summary><strong>Vite HMR API import.meta.hot</strong></summary>
 
 **Reasoning**
 
@@ -10877,11 +10251,10 @@ if (import.meta.hot) { import.meta.hot.accept(); import.meta.hot.dispose(() => c
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-css-code-splitting-in-vite-build"></a>
-
-### CSS code splitting in Vite build
+<details id="vite-css-code-splitting-in-vite-build" open>
+<summary><strong>CSS code splitting in Vite build</strong></summary>
 
 **Reasoning**
 
@@ -10930,11 +10303,10 @@ const Chart = lazy(() => import('./Chart.css' implicit via import))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-postcss-in-vite"></a>
-
-### PostCSS in Vite
+<details id="vite-postcss-in-vite" open>
+<summary><strong>PostCSS in Vite</strong></summary>
 
 **Reasoning**
 
@@ -10983,11 +10355,10 @@ export default { plugins: { tailwindcss: {}, autoprefixer: {} } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-tailwind-with-vite"></a>
-
-### Tailwind with Vite
+<details id="vite-tailwind-with-vite" open>
+<summary><strong>Tailwind with Vite</strong></summary>
 
 **Reasoning**
 
@@ -11036,11 +10407,10 @@ content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}']
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-plugin-order"></a>
-
-### Vite plugin order
+<details id="vite-vite-plugin-order" open>
+<summary><strong>Vite plugin order</strong></summary>
 
 **Reasoning**
 
@@ -11089,11 +10459,10 @@ plugins: [react(), svgr(), legacy()]
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-define-config-constants"></a>
-
-### define config constants
+<details id="vite-define-config-constants" open>
+<summary><strong>define config constants</strong></summary>
 
 **Reasoning**
 
@@ -11142,11 +10511,10 @@ define: { __APP_VERSION__: JSON.stringify(process.env.npm_package_version) }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-public-directory-behavior"></a>
-
-### public/ directory behavior
+<details id="vite-public-directory-behavior" open>
+<summary><strong>public/ directory behavior</strong></summary>
 
 **Reasoning**
 
@@ -11195,11 +10563,10 @@ public/favicon.ico → /favicon.ico
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-assetsinlinelimit"></a>
-
-### assetsInlineLimit
+<details id="vite-assetsinlinelimit" open>
+<summary><strong>assetsInlineLimit</strong></summary>
 
 **Reasoning**
 
@@ -11248,11 +10615,10 @@ build: { assetsInlineLimit: 4096 }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-preview-command"></a>
-
-### vite preview command
+<details id="vite-vite-preview-command" open>
+<summary><strong>vite preview command</strong></summary>
 
 **Reasoning**
 
@@ -11301,11 +10667,10 @@ pnpm build && pnpm preview --port 4173
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-mode-and-env-files"></a>
-
-### Vite mode and env files
+<details id="vite-vite-mode-and-env-files" open>
+<summary><strong>Vite mode and env files</strong></summary>
 
 **Reasoning**
 
@@ -11354,11 +10719,10 @@ vite build --mode staging loads .env.staging
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-loadenv-in-vite-config"></a>
-
-### loadEnv in vite.config
+<details id="vite-loadenv-in-vite-config" open>
+<summary><strong>loadEnv in vite.config</strong></summary>
 
 **Reasoning**
 
@@ -11407,11 +10771,10 @@ const env = loadEnv(mode, process.cwd(), '');
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-vite-plugin-pwa"></a>
-
-### vite-plugin-pwa
+<details id="vite-vite-plugin-pwa" open>
+<summary><strong>vite-plugin-pwa</strong></summary>
 
 **Reasoning**
 
@@ -11460,11 +10823,10 @@ VitePWA({ registerType: 'autoUpdate' })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-monorepo-vite-setup"></a>
-
-### Monorepo Vite setup
+<details id="vite-monorepo-vite-setup" open>
+<summary><strong>Monorepo Vite setup</strong></summary>
 
 **Reasoning**
 
@@ -11513,11 +10875,10 @@ resolve: { alias: { '@org/ui': path.resolve(__dirname, '../packages/ui/src') } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-server-warmup-vite-5"></a>
-
-### server.warmup (Vite 5+)
+<details id="vite-server-warmup-vite-5" open>
+<summary><strong>server.warmup (Vite 5+)</strong></summary>
 
 **Reasoning**
 
@@ -11566,11 +10927,10 @@ server: { warmup: { clientFiles: ['./src/main.tsx', './src/App.tsx'] } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="vite-rolldown-future-in-vite-ecosystem"></a>
-
-### Rolldown future in Vite ecosystem
+<details id="vite-rolldown-future-in-vite-ecosystem" open>
+<summary><strong>Rolldown future in Vite ecosystem</strong></summary>
 
 **Reasoning**
 
@@ -11619,14 +10979,47 @@ Watch Vite changelog / rolldown-vite experiments
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## HTML (30 questions)
 
-<a name="html-semantic-html-why-it-matters-for-a11y-and-seo"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Semantic HTML — why it matters for a11y and SEO](#html-semantic-html-why-it-matters-for-a11y-and-seo) |
+| 2 | [Document loading — defer vs async scripts](#html-document-loading-defer-vs-async-scripts) |
+| 3 | [Critical rendering path optimization](#html-critical-rendering-path-optimization) |
+| 4 | [Accessibility: ARIA roles — first rule of ARIA](#html-accessibility-aria-roles-first-rule-of-aria) |
+| 5 | [Form accessibility patterns](#html-form-accessibility-patterns) |
+| 6 | [Content Security Policy (CSP)](#html-content-security-policy-csp) |
+| 7 | [Shadow DOM vs Light DOM](#html-shadow-dom-vs-light-dom) |
+| 8 | [Custom elements and React](#html-custom-elements-and-react) |
+| 9 | [picture / srcset responsive images](#html-picture-srcset-responsive-images) |
+| 10 | [SEO meta and Open Graph](#html-seo-meta-and-open-graph) |
+| 11 | [DOCTYPE and standards mode](#html-doctype-and-standards-mode) |
+| 12 | [lang attribute on html](#html-lang-attribute-on-html) |
+| 13 | [tabindex values](#html-tabindex-values) |
+| 14 | [Focus trap in modal](#html-focus-trap-in-modal) |
+| 15 | [inert attribute](#html-inert-attribute) |
+| 16 | [dialog element native modal](#html-dialog-element-native-modal) |
+| 17 | [details/summary accordion](#html-details-summary-accordion) |
+| 18 | [input type benefits](#html-input-type-benefits) |
+| 19 | [autocomplete attributes](#html-autocomplete-attributes) |
+| 20 | [CSP report-uri / report-to](#html-csp-report-uri-report-to) |
+| 21 | [Subresource Integrity SRI](#html-subresource-integrity-sri) |
+| 22 | [preload vs prefetch vs preconnect](#html-preload-vs-prefetch-vs-preconnect) |
+| 23 | [iframe sandbox](#html-iframe-sandbox) |
+| 24 | [postMessage cross-origin](#html-postmessage-cross-origin) |
+| 25 | [Web Components slots](#html-web-components-slots) |
+| 26 | [template element](#html-template-element) |
+| 27 | [JSON-LD structured data](#html-json-ld-structured-data) |
+| 28 | [WCAG 2.2 AA highlights](#html-wcag-2-2-aa-highlights) |
+| 29 | [Hydration in HTML/SSR context](#html-hydration-in-html-ssr-context) |
+| 30 | [Progressive enhancement baseline](#html-progressive-enhancement-baseline) |
 
-### Semantic HTML — why it matters for a11y and SEO
+<details id="html-semantic-html-why-it-matters-for-a11y-and-seo" open>
+<summary><strong>Semantic HTML — why it matters for a11y and SEO</strong></summary>
 
 ```
 
@@ -11656,11 +11049,10 @@ Watch Vite changelog / rolldown-vite experiments
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-document-loading-defer-vs-async-scripts"></a>
-
-### Document loading — defer vs async scripts
+<details id="html-document-loading-defer-vs-async-scripts" open>
+<summary><strong>Document loading — defer vs async scripts</strong></summary>
 
 - **async:** download parallel, execute when ready — order not guaranteed
 - **defer:** parallel download, execute after HTML parsed — order preserved
@@ -11693,11 +11085,10 @@ Watch Vite changelog / rolldown-vite experiments
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-critical-rendering-path-optimization"></a>
-
-### Critical rendering path optimization
+<details id="html-critical-rendering-path-optimization" open>
+<summary><strong>Critical rendering path optimization</strong></summary>
 
 **Deep**
 
@@ -11731,11 +11122,10 @@ Minimize blocking CSS/JS, inline critical CSS, preload fonts, defer non-critical
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-accessibility-aria-roles-first-rule-of-aria"></a>
-
-### Accessibility: ARIA roles — first rule of ARIA
+<details id="html-accessibility-aria-roles-first-rule-of-aria" open>
+<summary><strong>Accessibility: ARIA roles — first rule of ARIA</strong></summary>
 
 **Deep**
 
@@ -11769,11 +11159,10 @@ Minimize blocking CSS/JS, inline critical CSS, preload fonts, defer non-critical
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-form-accessibility-patterns"></a>
-
-### Form accessibility patterns
+<details id="html-form-accessibility-patterns" open>
+<summary><strong>Form accessibility patterns</strong></summary>
 
 ```
 Email
@@ -11805,11 +11194,10 @@ Work email only
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-content-security-policy-csp"></a>
-
-### Content Security Policy (CSP)
+<details id="html-content-security-policy-csp" open>
+<summary><strong>Content Security Policy (CSP)</strong></summary>
 
 ```
 Content-Security-Policy: default-src 'self'; script-src 'self' 'nonce-abc'; style-src 'self' 'unsafe-inline'
@@ -11840,11 +11228,10 @@ Prevents XSS injection execution. nonce/hash for inline scripts in SSR.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-shadow-dom-vs-light-dom"></a>
-
-### Shadow DOM vs Light DOM
+<details id="html-shadow-dom-vs-light-dom" open>
+<summary><strong>Shadow DOM vs Light DOM</strong></summary>
 
 **Deep**
 
@@ -11878,11 +11265,10 @@ Shadow DOM encapsulates styles/markup — Web Components. React doesn't use Shad
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-custom-elements-and-react"></a>
-
-### Custom elements and React
+<details id="html-custom-elements-and-react" open>
+<summary><strong>Custom elements and React</strong></summary>
 
 **Deep**
 
@@ -11916,11 +11302,10 @@ React 19 passes props as properties on custom elements when needed. Event naming
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-picture-srcset-responsive-images"></a>
-
-### picture / srcset responsive images
+<details id="html-picture-srcset-responsive-images" open>
+<summary><strong>picture / srcset responsive images</strong></summary>
 
 ```
 
@@ -11949,11 +11334,10 @@ React 19 passes props as properties on custom elements when needed. Event naming
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-seo-meta-and-open-graph"></a>
-
-### SEO meta and Open Graph
+<details id="html-seo-meta-and-open-graph" open>
+<summary><strong>SEO meta and Open Graph</strong></summary>
 
 ```
 
@@ -11984,11 +11368,10 @@ SPA SEO needs SSR/SSG or pre-rendering for crawlers.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-doctype-and-standards-mode"></a>
-
-### DOCTYPE and standards mode
+<details id="html-doctype-and-standards-mode" open>
+<summary><strong>DOCTYPE and standards mode</strong></summary>
 
 **Reasoning**
 
@@ -12037,11 +11420,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-lang-attribute-on-html"></a>
-
-### lang attribute on html
+<details id="html-lang-attribute-on-html" open>
+<summary><strong>lang attribute on html</strong></summary>
 
 **Reasoning**
 
@@ -12090,11 +11472,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-tabindex-values"></a>
-
-### tabindex values
+<details id="html-tabindex-values" open>
+<summary><strong>tabindex values</strong></summary>
 
 **Reasoning**
 
@@ -12144,11 +11525,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-focus-trap-in-modal"></a>
-
-### Focus trap in modal
+<details id="html-focus-trap-in-modal" open>
+<summary><strong>Focus trap in modal</strong></summary>
 
 **Reasoning**
 
@@ -12197,11 +11577,10 @@ useDialogFocus hook: query focusable elements, handle Tab wrap
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-inert-attribute"></a>
-
-### inert attribute
+<details id="html-inert-attribute" open>
+<summary><strong>inert attribute</strong></summary>
 
 **Reasoning**
 
@@ -12251,11 +11630,10 @@ background
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-dialog-element-native-modal"></a>
-
-### dialog element native modal
+<details id="html-dialog-element-native-modal" open>
+<summary><strong>dialog element native modal</strong></summary>
 
 **Reasoning**
 
@@ -12304,11 +11682,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-details-summary-accordion"></a>
-
-### details/summary accordion
+<details id="html-details-summary-accordion" open>
+<summary><strong>details/summary accordion</strong></summary>
 
 **Reasoning**
 
@@ -12357,11 +11734,10 @@ Morecontent
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-input-type-benefits"></a>
-
-### input type benefits
+<details id="html-input-type-benefits" open>
+<summary><strong>input type benefits</strong></summary>
 
 **Reasoning**
 
@@ -12410,11 +11786,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-autocomplete-attributes"></a>
-
-### autocomplete attributes
+<details id="html-autocomplete-attributes" open>
+<summary><strong>autocomplete attributes</strong></summary>
 
 **Reasoning**
 
@@ -12463,11 +11838,10 @@ autocomplete="current-password"
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-csp-report-uri-report-to"></a>
-
-### CSP report-uri / report-to
+<details id="html-csp-report-uri-report-to" open>
+<summary><strong>CSP report-uri / report-to</strong></summary>
 
 **Reasoning**
 
@@ -12516,11 +11890,10 @@ Content-Security-Policy-Report-Only: default-src 'self'; report-uri /csp-report
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-subresource-integrity-sri"></a>
-
-### Subresource Integrity SRI
+<details id="html-subresource-integrity-sri" open>
+<summary><strong>Subresource Integrity SRI</strong></summary>
 
 **Reasoning**
 
@@ -12569,11 +11942,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-preload-vs-prefetch-vs-preconnect"></a>
-
-### preload vs prefetch vs preconnect
+<details id="html-preload-vs-prefetch-vs-preconnect" open>
+<summary><strong>preload vs prefetch vs preconnect</strong></summary>
 
 **Reasoning**
 
@@ -12623,11 +11995,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-iframe-sandbox"></a>
-
-### iframe sandbox
+<details id="html-iframe-sandbox" open>
+<summary><strong>iframe sandbox</strong></summary>
 
 **Reasoning**
 
@@ -12676,11 +12047,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-postmessage-cross-origin"></a>
-
-### postMessage cross-origin
+<details id="html-postmessage-cross-origin" open>
+<summary><strong>postMessage cross-origin</strong></summary>
 
 **Reasoning**
 
@@ -12729,11 +12099,10 @@ if (e.origin !== 'https://trusted.com') return;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-web-components-slots"></a>
-
-### Web Components slots
+<details id="html-web-components-slots" open>
+<summary><strong>Web Components slots</strong></summary>
 
 **Reasoning**
 
@@ -12782,11 +12151,10 @@ Hi
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-template-element"></a>
-
-### template element
+<details id="html-template-element" open>
+<summary><strong>template element</strong></summary>
 
 **Reasoning**
 
@@ -12835,11 +12203,10 @@ const t = document.querySelector("#row"); tbody.append(t.content.cloneNode(true)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-json-ld-structured-data"></a>
-
-### JSON-LD structured data
+<details id="html-json-ld-structured-data" open>
+<summary><strong>JSON-LD structured data</strong></summary>
 
 **Reasoning**
 
@@ -12888,11 +12255,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-wcag-2-2-aa-highlights"></a>
-
-### WCAG 2.2 AA highlights
+<details id="html-wcag-2-2-aa-highlights" open>
+<summary><strong>WCAG 2.2 AA highlights</strong></summary>
 
 **Reasoning**
 
@@ -12941,11 +12307,10 @@ Use axe DevTools in CI on key routes
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-hydration-in-html-ssr-context"></a>
-
-### Hydration in HTML/SSR context
+<details id="html-hydration-in-html-ssr-context" open>
+<summary><strong>Hydration in HTML/SSR context</strong></summary>
 
 **Reasoning**
 
@@ -12994,11 +12359,10 @@ Mismatch warning in React 18+
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="html-progressive-enhancement-baseline"></a>
-
-### Progressive enhancement baseline
+<details id="html-progressive-enhancement-baseline" open>
+<summary><strong>Progressive enhancement baseline</strong></summary>
 
 **Reasoning**
 
@@ -13047,14 +12411,52 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## CSS (35 questions)
 
-<a name="css-css-specificity-calculation"></a>
+| # | Question |
+| -: | --- |
+| 1 | [CSS specificity calculation](#css-css-specificity-calculation) |
+| 2 | [BFC (Block Formatting Context) — triggers and use](#css-bfc-block-formatting-context-triggers-and-use) |
+| 3 | [Flexbox vs Grid — decision matrix](#css-flexbox-vs-grid-decision-matrix) |
+| 4 | [CSS Grid subgrid](#css-css-grid-subgrid) |
+| 5 | [Container queries vs media queries](#css-container-queries-vs-media-queries) |
+| 6 | [CSS custom properties (variables) theming](#css-css-custom-properties-variables-theming) |
+| 7 | [Stacking context and z-index bugs](#css-stacking-context-and-z-index-bugs) |
+| 8 | [CLS prevention techniques](#css-cls-prevention-techniques) |
+| 9 | [Modern CSS layout: :has() selector](#css-modern-css-layout-has-selector) |
+| 10 | [CSS Modules vs CSS-in-JS vs Tailwind — trade-offs](#css-css-modules-vs-css-in-js-vs-tailwind-trade-offs) |
+| 11 | [box-sizing border-box universal](#css-box-sizing-border-box-universal) |
+| 12 | [margin collapse](#css-margin-collapse) |
+| 13 | [position sticky requirements](#css-position-sticky-requirements) |
+| 14 | [logical properties RTL](#css-logical-properties-rtl) |
+| 15 | [clamp fluid typography](#css-clamp-fluid-typography) |
+| 16 | [min max fit-content sizing](#css-min-max-fit-content-sizing) |
+| 17 | [aspect-ratio property](#css-aspect-ratio-property) |
+| 18 | [object-fit and object-position](#css-object-fit-and-object-position) |
+| 19 | [will-change hint](#css-will-change-hint) |
+| 20 | [contain property](#css-contain-property) |
+| 21 | [content-visibility auto](#css-content-visibility-auto) |
+| 22 | [@layer cascade layers](#css-layer-cascade-layers) |
+| 23 | [@property registered custom props](#css-property-registered-custom-props) |
+| 24 | [scroll-snap](#css-scroll-snap) |
+| 25 | [overscroll-behavior](#css-overscroll-behavior) |
+| 26 | [:focus-visible](#css-focus-visible) |
+| 27 | [prefers-reduced-motion](#css-prefers-reduced-motion) |
+| 28 | [prefers-color-scheme dark](#css-prefers-color-scheme-dark) |
+| 29 | [@supports feature queries](#css-supports-feature-queries) |
+| 30 | [Critical CSS strategy](#css-critical-css-strategy) |
+| 31 | [Sass @use vs @import](#css-sass-use-vs-import) |
+| 32 | [PostCSS pipeline role](#css-postcss-pipeline-role) |
+| 33 | [View Transitions API](#css-view-transitions-api) |
+| 34 | [CSS anchor positioning](#css-css-anchor-positioning) |
+| 35 | [INP and compositor-only animation](#css-inp-and-compositor-only-animation) |
 
-### CSS specificity calculation
+<details id="css-css-specificity-calculation" open>
+<summary><strong>CSS specificity calculation</strong></summary>
 
 **Deep**
 
@@ -13093,11 +12495,10 @@ Inline (1000) > ID (100) > Class/attr/pseudo-class (10) > Element (1). !importan
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-bfc-block-formatting-context-triggers-and-use"></a>
-
-### BFC (Block Formatting Context) — triggers and use
+<details id="css-bfc-block-formatting-context-triggers-and-use" open>
+<summary><strong>BFC (Block Formatting Context) — triggers and use</strong></summary>
 
 **Deep**
 
@@ -13135,11 +12536,10 @@ Triggers: float, position absolute/fixed, overflow not visible, display flow-roo
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-flexbox-vs-grid-decision-matrix"></a>
-
-### Flexbox vs Grid — decision matrix
+<details id="css-flexbox-vs-grid-decision-matrix" open>
+<summary><strong>Flexbox vs Grid — decision matrix</strong></summary>
 
 **Deep**
 
@@ -13178,11 +12578,10 @@ Triggers: float, position absolute/fixed, overflow not visible, display flow-roo
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-css-grid-subgrid"></a>
-
-### CSS Grid subgrid
+<details id="css-css-grid-subgrid" open>
+<summary><strong>CSS Grid subgrid</strong></summary>
 
 ```
 .parent { display: grid; grid-template-columns: repeat(3, 1fr); }
@@ -13214,11 +12613,10 @@ Nested items align to parent tracks — card layouts.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-container-queries-vs-media-queries"></a>
-
-### Container queries vs media queries
+<details id="css-container-queries-vs-media-queries" open>
+<summary><strong>Container queries vs media queries</strong></summary>
 
 ```
 .card { container-type: inline-size; }
@@ -13250,11 +12648,10 @@ Component responds to parent width — true component-driven responsive design.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-css-custom-properties-variables-theming"></a>
-
-### CSS custom properties (variables) theming
+<details id="css-css-custom-properties-variables-theming" open>
+<summary><strong>CSS custom properties (variables) theming</strong></summary>
 
 ```
 :root { --color-primary: #2563eb; }
@@ -13287,11 +12684,10 @@ Cascade + runtime change unlike Sass vars.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-stacking-context-and-z-index-bugs"></a>
-
-### Stacking context and z-index bugs
+<details id="css-stacking-context-and-z-index-bugs" open>
+<summary><strong>Stacking context and z-index bugs</strong></summary>
 
 **Deep**
 
@@ -13325,11 +12721,10 @@ z-index only compares within same stacking context. New context: opacity < 1, tr
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-cls-prevention-techniques"></a>
-
-### CLS prevention techniques
+<details id="css-cls-prevention-techniques" open>
+<summary><strong>CLS prevention techniques</strong></summary>
 
 - width/height on images
 - aspect-ratio CSS
@@ -13360,11 +12755,10 @@ z-index only compares within same stacking context. New context: opacity < 1, tr
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-modern-css-layout-has-selector"></a>
-
-### Modern CSS layout: :has() selector
+<details id="css-modern-css-layout-has-selector" open>
+<summary><strong>Modern CSS layout: :has() selector</strong></summary>
 
 ```
 /* Style label if input invalid */
@@ -13395,11 +12789,10 @@ label:has(+ input:invalid) { color: red; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-css-modules-vs-css-in-js-vs-tailwind-trade-offs"></a>
-
-### CSS Modules vs CSS-in-JS vs Tailwind — trade-offs
+<details id="css-css-modules-vs-css-in-js-vs-tailwind-trade-offs" open>
+<summary><strong>CSS Modules vs CSS-in-JS vs Tailwind — trade-offs</strong></summary>
 
 - **Modules:** scoped classes, zero runtime
 - **CSS-in-JS (styled-components):** dynamic props, runtime cost, RSC issues
@@ -13429,11 +12822,10 @@ label:has(+ input:invalid) { color: red; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-box-sizing-border-box-universal"></a>
-
-### box-sizing border-box universal
+<details id="css-box-sizing-border-box-universal" open>
+<summary><strong>box-sizing border-box universal</strong></summary>
 
 **Reasoning**
 
@@ -13482,11 +12874,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-margin-collapse"></a>
-
-### margin collapse
+<details id="css-margin-collapse" open>
+<summary><strong>margin collapse</strong></summary>
 
 **Reasoning**
 
@@ -13535,11 +12926,10 @@ Parent padding or border or flow-root prevents collapse with child.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-position-sticky-requirements"></a>
-
-### position sticky requirements
+<details id="css-position-sticky-requirements" open>
+<summary><strong>position sticky requirements</strong></summary>
 
 **Reasoning**
 
@@ -13588,11 +12978,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-logical-properties-rtl"></a>
-
-### logical properties RTL
+<details id="css-logical-properties-rtl" open>
+<summary><strong>logical properties RTL</strong></summary>
 
 **Reasoning**
 
@@ -13641,11 +13030,10 @@ padding-inline: 1rem; margin-inline-start: auto;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-clamp-fluid-typography"></a>
-
-### clamp fluid typography
+<details id="css-clamp-fluid-typography" open>
+<summary><strong>clamp fluid typography</strong></summary>
 
 **Reasoning**
 
@@ -13694,11 +13082,10 @@ font-size: clamp(1rem, 2vw + 0.5rem, 1.5rem);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-min-max-fit-content-sizing"></a>
-
-### min max fit-content sizing
+<details id="css-min-max-fit-content-sizing" open>
+<summary><strong>min max fit-content sizing</strong></summary>
 
 **Reasoning**
 
@@ -13747,11 +13134,10 @@ width: min(100%, 720px);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-aspect-ratio-property"></a>
-
-### aspect-ratio property
+<details id="css-aspect-ratio-property" open>
+<summary><strong>aspect-ratio property</strong></summary>
 
 **Reasoning**
 
@@ -13800,11 +13186,10 @@ aspect-ratio: 16 / 9; width: 100%;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-object-fit-and-object-position"></a>
-
-### object-fit and object-position
+<details id="css-object-fit-and-object-position" open>
+<summary><strong>object-fit and object-position</strong></summary>
 
 **Reasoning**
 
@@ -13853,11 +13238,10 @@ img { width:100%; height:200px; object-fit: cover; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-will-change-hint"></a>
-
-### will-change hint
+<details id="css-will-change-hint" open>
+<summary><strong>will-change hint</strong></summary>
 
 **Reasoning**
 
@@ -13906,11 +13290,10 @@ will-change: transform;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-contain-property"></a>
-
-### contain property
+<details id="css-contain-property" open>
+<summary><strong>contain property</strong></summary>
 
 **Reasoning**
 
@@ -13959,11 +13342,10 @@ contain: layout paint;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-content-visibility-auto"></a>
-
-### content-visibility auto
+<details id="css-content-visibility-auto" open>
+<summary><strong>content-visibility auto</strong></summary>
 
 **Reasoning**
 
@@ -14012,11 +13394,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-layer-cascade-layers"></a>
-
-### @layer cascade layers
+<details id="css-layer-cascade-layers" open>
+<summary><strong>@layer cascade layers</strong></summary>
 
 **Reasoning**
 
@@ -14065,11 +13446,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-property-registered-custom-props"></a>
-
-### @property registered custom props
+<details id="css-property-registered-custom-props" open>
+<summary><strong>@property registered custom props</strong></summary>
 
 **Reasoning**
 
@@ -14118,11 +13498,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-scroll-snap"></a>
-
-### scroll-snap
+<details id="css-scroll-snap" open>
+<summary><strong>scroll-snap</strong></summary>
 
 **Reasoning**
 
@@ -14171,11 +13550,10 @@ scroll-snap-type: x mandatory; scroll-snap-align: start;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-overscroll-behavior"></a>
-
-### overscroll-behavior
+<details id="css-overscroll-behavior" open>
+<summary><strong>overscroll-behavior</strong></summary>
 
 **Reasoning**
 
@@ -14224,11 +13602,10 @@ overscroll-behavior: contain;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-focus-visible"></a>
-
-### :focus-visible
+<details id="css-focus-visible" open>
+<summary><strong>:focus-visible</strong></summary>
 
 **Reasoning**
 
@@ -14277,11 +13654,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-prefers-reduced-motion"></a>
-
-### prefers-reduced-motion
+<details id="css-prefers-reduced-motion" open>
+<summary><strong>prefers-reduced-motion</strong></summary>
 
 **Reasoning**
 
@@ -14330,11 +13706,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-prefers-color-scheme-dark"></a>
-
-### prefers-color-scheme dark
+<details id="css-prefers-color-scheme-dark" open>
+<summary><strong>prefers-color-scheme dark</strong></summary>
 
 **Reasoning**
 
@@ -14383,11 +13758,10 @@ color-scheme: light dark;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-supports-feature-queries"></a>
-
-### @supports feature queries
+<details id="css-supports-feature-queries" open>
+<summary><strong>@supports feature queries</strong></summary>
 
 **Reasoning**
 
@@ -14436,11 +13810,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-critical-css-strategy"></a>
-
-### Critical CSS strategy
+<details id="css-critical-css-strategy" open>
+<summary><strong>Critical CSS strategy</strong></summary>
 
 **Reasoning**
 
@@ -14489,11 +13862,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-sass-use-vs-import"></a>
-
-### Sass @use vs @import
+<details id="css-sass-use-vs-import" open>
+<summary><strong>Sass @use vs @import</strong></summary>
 
 **Reasoning**
 
@@ -14542,11 +13914,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-postcss-pipeline-role"></a>
-
-### PostCSS pipeline role
+<details id="css-postcss-pipeline-role" open>
+<summary><strong>PostCSS pipeline role</strong></summary>
 
 **Reasoning**
 
@@ -14595,11 +13966,10 @@ postcss-preset-env stage 2 features
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-view-transitions-api"></a>
-
-### View Transitions API
+<details id="css-view-transitions-api" open>
+<summary><strong>View Transitions API</strong></summary>
 
 **Reasoning**
 
@@ -14648,11 +14018,10 @@ if (document.startViewTransition) document.startViewTransition(() => render());
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-css-anchor-positioning"></a>
-
-### CSS anchor positioning
+<details id="css-css-anchor-positioning" open>
+<summary><strong>CSS anchor positioning</strong></summary>
 
 **Reasoning**
 
@@ -14701,11 +14070,10 @@ anchor-name: --btn; position: absolute; position-anchor: --btn;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="css-inp-and-compositor-only-animation"></a>
-
-### INP and compositor-only animation
+<details id="css-inp-and-compositor-only-animation" open>
+<summary><strong>INP and compositor-only animation</strong></summary>
 
 **Reasoning**
 
@@ -14754,14 +14122,57 @@ transition: transform 200ms; /* not width/left */
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Architecture &amp; System Design (40 questions)
 
-<a name="arch-design-a-large-scale-frontend-architecture-for-50-engineers"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Design a large-scale frontend architecture for 50 engineers](#arch-design-a-large-scale-frontend-architecture-for-50-engineers) |
+| 2 | [Micro-frontends — when worth it vs modular monolith](#arch-micro-frontends-when-worth-it-vs-modular-monolith) |
+| 3 | [State management architecture — client vs server state](#arch-state-management-architecture-client-vs-server-state) |
+| 4 | [API layer design — repository pattern](#arch-api-layer-design-repository-pattern) |
+| 5 | [Authentication architecture in SPA](#arch-authentication-architecture-in-spa) |
+| 6 | [CORS — explain preflight and fixes](#arch-cors-explain-preflight-and-fixes) |
+| 7 | [Web Vitals — LCP, INP, CLS targets and fixes](#arch-web-vitals-lcp-inp-cls-targets-and-fixes) |
+| 8 | [Design system — tokens, components, documentation](#arch-design-system-tokens-components-documentation) |
+| 9 | [Feature flags architecture](#arch-feature-flags-architecture) |
+| 10 | [Error handling strategy — layers](#arch-error-handling-strategy-layers) |
+| 11 | [Testing pyramid for frontend at scale](#arch-testing-pyramid-for-frontend-at-scale) |
+| 12 | [CI/CD pipeline for frontend](#arch-ci-cd-pipeline-for-frontend) |
+| 13 | [Monorepo tooling — Nx vs Turborepo](#arch-monorepo-tooling-nx-vs-turborepo) |
+| 14 | [SSR vs SSG vs ISR vs CSR — choose per page](#arch-ssr-vs-ssg-vs-isr-vs-csr-choose-per-page) |
+| 15 | [Real-time architecture — WebSockets vs SSE vs polling](#arch-real-time-architecture-websockets-vs-sse-vs-polling) |
+| 16 | [Event-driven UI decoupling](#arch-event-driven-ui-decoupling) |
+| 17 | [Idempotency keys frontend](#arch-idempotency-keys-frontend) |
+| 18 | [Optimistic UI 409 rollback](#arch-optimistic-ui-409-rollback) |
+| 19 | [Offline-first architecture](#arch-offline-first-architecture) |
+| 20 | [CDN caching strategy](#arch-cdn-caching-strategy) |
+| 21 | [Blue-green / canary frontend](#arch-blue-green-canary-frontend) |
+| 22 | [OpenTelemetry browser RUM](#arch-opentelemetry-browser-rum) |
+| 23 | [XSS defense layers](#arch-xss-defense-layers) |
+| 24 | [CSRF defense layers](#arch-csrf-defense-layers) |
+| 25 | [Supply chain security](#arch-supply-chain-security) |
+| 26 | [Bundle budget CI gate](#arch-bundle-budget-ci-gate) |
+| 27 | [Lazy load third-party scripts](#arch-lazy-load-third-party-scripts) |
+| 28 | [i18n architecture](#arch-i18n-architecture) |
+| 29 | [a11y governance at scale](#arch-a11y-governance-at-scale) |
+| 30 | [ADR documentation](#arch-adr-documentation) |
+| 31 | [Domain-driven folder structure](#arch-domain-driven-folder-structure) |
+| 32 | [Barrel file anti-pattern](#arch-barrel-file-anti-pattern) |
+| 33 | [GraphQL vs REST frontend](#arch-graphql-vs-rest-frontend) |
+| 34 | [tRPC / OpenAPI codegen](#arch-trpc-openapi-codegen) |
+| 35 | [Edge middleware auth](#arch-edge-middleware-auth) |
+| 36 | [Rate limit 429 UX](#arch-rate-limit-429-ux) |
+| 37 | [Multi-tenant theming](#arch-multi-tenant-theming) |
+| 38 | [Strangler fig legacy migration](#arch-strangler-fig-legacy-migration) |
+| 39 | [Lighthouse CI per route](#arch-lighthouse-ci-per-route) |
+| 40 | [Staff interview narrative structure](#arch-staff-interview-narrative-structure) |
 
-### Design a large-scale frontend architecture for 50 engineers
+<details id="arch-design-a-large-scale-frontend-architecture-for-50-engineers" open>
+<summary><strong>Design a large-scale frontend architecture for 50 engineers</strong></summary>
 
 **Reasoning**
 
@@ -14815,11 +14226,10 @@ monorepo/
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-micro-frontends-when-worth-it-vs-modular-monolith"></a>
-
-### Micro-frontends — when worth it vs modular monolith
+<details id="arch-micro-frontends-when-worth-it-vs-modular-monolith" open>
+<summary><strong>Micro-frontends — when worth it vs modular monolith</strong></summary>
 
 **Deep**
 
@@ -14854,11 +14264,10 @@ monorepo/
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-state-management-architecture-client-vs-server-state"></a>
-
-### State management architecture — client vs server state
+<details id="arch-state-management-architecture-client-vs-server-state" open>
+<summary><strong>State management architecture — client vs server state</strong></summary>
 
 ```
 // Server state: TanStack Query / RTK Query — cache, staleTime, invalidation
@@ -14892,11 +14301,10 @@ monorepo/
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-api-layer-design-repository-pattern"></a>
-
-### API layer design — repository pattern
+<details id="arch-api-layer-design-repository-pattern" open>
+<summary><strong>API layer design — repository pattern</strong></summary>
 
 ```
 // lib/api/orders.ts
@@ -14931,11 +14339,10 @@ UI never calls fetch directly — swap mock/real, centralize auth/errors.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-authentication-architecture-in-spa"></a>
-
-### Authentication architecture in SPA
+<details id="arch-authentication-architecture-in-spa" open>
+<summary><strong>Authentication architecture in SPA</strong></summary>
 
 - BFF pattern — HttpOnly refresh cookie
 - Access token in memory (short TTL)
@@ -14967,11 +14374,10 @@ UI never calls fetch directly — swap mock/real, centralize auth/errors.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-cors-explain-preflight-and-fixes"></a>
-
-### CORS — explain preflight and fixes
+<details id="arch-cors-explain-preflight-and-fixes" open>
+<summary><strong>CORS — explain preflight and fixes</strong></summary>
 
 **Deep**
 
@@ -15006,11 +14412,10 @@ Cross-origin requests trigger OPTIONS preflight for non-simple requests. Server 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-web-vitals-lcp-inp-cls-targets-and-fixes"></a>
-
-### Web Vitals — LCP, INP, CLS targets and fixes
+<details id="arch-web-vitals-lcp-inp-cls-targets-and-fixes" open>
+<summary><strong>Web Vitals — LCP, INP, CLS targets and fixes</strong></summary>
 
 - **LCP <2.5s:** optimize hero image, SSR, CDN
 - **INP <200ms:** break up JS, web workers, defer third-party
@@ -15039,11 +14444,10 @@ Cross-origin requests trigger OPTIONS preflight for non-simple requests. Server 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-design-system-tokens-components-documentation"></a>
-
-### Design system — tokens, components, documentation
+<details id="arch-design-system-tokens-components-documentation" open>
+<summary><strong>Design system — tokens, components, documentation</strong></summary>
 
 **Deep**
 
@@ -15078,11 +14482,10 @@ Tokens (color, spacing, typography) → primitives (Button, Input) → patterns 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-feature-flags-architecture"></a>
-
-### Feature flags architecture
+<details id="arch-feature-flags-architecture" open>
+<summary><strong>Feature flags architecture</strong></summary>
 
 **Deep**
 
@@ -15118,11 +14521,10 @@ LaunchDarkly / Unleash / custom. Evaluate flags server-side when security-critic
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-error-handling-strategy-layers"></a>
-
-### Error handling strategy — layers
+<details id="arch-error-handling-strategy-layers" open>
+<summary><strong>Error handling strategy — layers</strong></summary>
 
 - Boundary: React ErrorBoundary per route
 - API: normalized error type, toast user message
@@ -15152,11 +14554,10 @@ LaunchDarkly / Unleash / custom. Evaluate flags server-side when security-critic
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-testing-pyramid-for-frontend-at-scale"></a>
-
-### Testing pyramid for frontend at scale
+<details id="arch-testing-pyramid-for-frontend-at-scale" open>
+<summary><strong>Testing pyramid for frontend at scale</strong></summary>
 
 **Deep**
 
@@ -15191,11 +14592,10 @@ Many unit (utils, hooks, reducers) → integration (RTL + MSW) → fewer E2E (Pl
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-ci-cd-pipeline-for-frontend"></a>
-
-### CI/CD pipeline for frontend
+<details id="arch-ci-cd-pipeline-for-frontend" open>
+<summary><strong>CI/CD pipeline for frontend</strong></summary>
 
 ```
 # PR: lint → typecheck → unit → build → bundle size check
@@ -15227,11 +14627,10 @@ Tools: GitHub Actions, Vercel/Netlify previews, semantic release.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-monorepo-tooling-nx-vs-turborepo"></a>
-
-### Monorepo tooling — Nx vs Turborepo
+<details id="arch-monorepo-tooling-nx-vs-turborepo" open>
+<summary><strong>Monorepo tooling — Nx vs Turborepo</strong></summary>
 
 **Deep**
 
@@ -15267,11 +14666,10 @@ Both: task caching, affected builds. Nx: generators, module graph, enforced boun
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-ssr-vs-ssg-vs-isr-vs-csr-choose-per-page"></a>
-
-### SSR vs SSG vs ISR vs CSR — choose per page
+<details id="arch-ssr-vs-ssg-vs-isr-vs-csr-choose-per-page" open>
+<summary><strong>SSR vs SSG vs ISR vs CSR — choose per page</strong></summary>
 
 - **SSG:** marketing, docs — build time HTML
 - **ISR:** semi-static e-commerce listings
@@ -15301,11 +14699,10 @@ Both: task caching, affected builds. Nx: generators, module graph, enforced boun
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-real-time-architecture-websockets-vs-sse-vs-polling"></a>
-
-### Real-time architecture — WebSockets vs SSE vs polling
+<details id="arch-real-time-architecture-websockets-vs-sse-vs-polling" open>
+<summary><strong>Real-time architecture — WebSockets vs SSE vs polling</strong></summary>
 
 - **WebSocket:** bidirectional — chat, live GPS
 - **SSE:** server push one-way — notifications
@@ -15334,11 +14731,10 @@ Both: task caching, affected builds. Nx: generators, module graph, enforced boun
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-event-driven-ui-decoupling"></a>
-
-### Event-driven UI decoupling
+<details id="arch-event-driven-ui-decoupling" open>
+<summary><strong>Event-driven UI decoupling</strong></summary>
 
 **Reasoning**
 
@@ -15387,11 +14783,10 @@ bus.emit({ type: "CART_UPDATED", count })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-idempotency-keys-frontend"></a>
-
-### Idempotency keys frontend
+<details id="arch-idempotency-keys-frontend" open>
+<summary><strong>Idempotency keys frontend</strong></summary>
 
 **Reasoning**
 
@@ -15440,11 +14835,10 @@ Idempotency-Key header on POST payment
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-optimistic-ui-409-rollback"></a>
-
-### Optimistic UI 409 rollback
+<details id="arch-optimistic-ui-409-rollback" open>
+<summary><strong>Optimistic UI 409 rollback</strong></summary>
 
 **Reasoning**
 
@@ -15493,11 +14887,10 @@ if (res.status === 409) rollback(); showConflictDialog(serverState)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-offline-first-architecture"></a>
-
-### Offline-first architecture
+<details id="arch-offline-first-architecture" open>
+<summary><strong>Offline-first architecture</strong></summary>
 
 **Reasoning**
 
@@ -15546,11 +14939,10 @@ Background Sync API or manual retry loop
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-cdn-caching-strategy"></a>
-
-### CDN caching strategy
+<details id="arch-cdn-caching-strategy" open>
+<summary><strong>CDN caching strategy</strong></summary>
 
 **Reasoning**
 
@@ -15599,11 +14991,10 @@ Cache-Control: public, max-age=31536000, immutable
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-blue-green-canary-frontend"></a>
-
-### Blue-green / canary frontend
+<details id="arch-blue-green-canary-frontend" open>
+<summary><strong>Blue-green / canary frontend</strong></summary>
 
 **Reasoning**
 
@@ -15652,11 +15043,10 @@ Feature flag + load balancer weight
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-opentelemetry-browser-rum"></a>
-
-### OpenTelemetry browser RUM
+<details id="arch-opentelemetry-browser-rum" open>
+<summary><strong>OpenTelemetry browser RUM</strong></summary>
 
 **Reasoning**
 
@@ -15705,11 +15095,10 @@ traceparent header on API calls from FE SDK
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-xss-defense-layers"></a>
-
-### XSS defense layers
+<details id="arch-xss-defense-layers" open>
+<summary><strong>XSS defense layers</strong></summary>
 
 **Reasoning**
 
@@ -15758,11 +15147,10 @@ CSP: script-src 'self' 'nonce-{random}'
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-csrf-defense-layers"></a>
-
-### CSRF defense layers
+<details id="arch-csrf-defense-layers" open>
+<summary><strong>CSRF defense layers</strong></summary>
 
 **Reasoning**
 
@@ -15811,11 +15199,10 @@ SameSite=Lax default good; Strict for high security
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-supply-chain-security"></a>
-
-### Supply chain security
+<details id="arch-supply-chain-security" open>
+<summary><strong>Supply chain security</strong></summary>
 
 **Reasoning**
 
@@ -15864,11 +15251,10 @@ pnpm audit --audit-level high fail CI
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-bundle-budget-ci-gate"></a>
-
-### Bundle budget CI gate
+<details id="arch-bundle-budget-ci-gate" open>
+<summary><strong>Bundle budget CI gate</strong></summary>
 
 **Reasoning**
 
@@ -15917,11 +15303,10 @@ size-limit preset-app 250KB
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-lazy-load-third-party-scripts"></a>
-
-### Lazy load third-party scripts
+<details id="arch-lazy-load-third-party-scripts" open>
+<summary><strong>Lazy load third-party scripts</strong></summary>
 
 **Reasoning**
 
@@ -15970,11 +15355,10 @@ loadAnalytics() on cookie consent accept
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-i18n-architecture"></a>
-
-### i18n architecture
+<details id="arch-i18n-architecture" open>
+<summary><strong>i18n architecture</strong></summary>
 
 **Reasoning**
 
@@ -16023,11 +15407,10 @@ react-i18next Suspense load namespace admin.json
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-a11y-governance-at-scale"></a>
-
-### a11y governance at scale
+<details id="arch-a11y-governance-at-scale" open>
+<summary><strong>a11y governance at scale</strong></summary>
 
 **Reasoning**
 
@@ -16076,11 +15459,10 @@ eslint-plugin-jsx-a11y in CI
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-adr-documentation"></a>
-
-### ADR documentation
+<details id="arch-adr-documentation" open>
+<summary><strong>ADR documentation</strong></summary>
 
 **Reasoning**
 
@@ -16129,11 +15511,10 @@ docs/adr/003-state-management.md
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-domain-driven-folder-structure"></a>
-
-### Domain-driven folder structure
+<details id="arch-domain-driven-folder-structure" open>
+<summary><strong>Domain-driven folder structure</strong></summary>
 
 **Reasoning**
 
@@ -16182,11 +15563,10 @@ features/orders/components, api, hooks, types
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-barrel-file-anti-pattern"></a>
-
-### Barrel file anti-pattern
+<details id="arch-barrel-file-anti-pattern" open>
+<summary><strong>Barrel file anti-pattern</strong></summary>
 
 **Reasoning**
 
@@ -16235,11 +15615,10 @@ import { Button } from '@org/ui/Button' // direct path
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-graphql-vs-rest-frontend"></a>
-
-### GraphQL vs REST frontend
+<details id="arch-graphql-vs-rest-frontend" open>
+<summary><strong>GraphQL vs REST frontend</strong></summary>
 
 **Reasoning**
 
@@ -16288,11 +15667,10 @@ Query colocation vs multiple REST endpoints
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-trpc-openapi-codegen"></a>
-
-### tRPC / OpenAPI codegen
+<details id="arch-trpc-openapi-codegen" open>
+<summary><strong>tRPC / OpenAPI codegen</strong></summary>
 
 **Reasoning**
 
@@ -16341,11 +15719,10 @@ openapi-typescript + zod validation
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-edge-middleware-auth"></a>
-
-### Edge middleware auth
+<details id="arch-edge-middleware-auth" open>
+<summary><strong>Edge middleware auth</strong></summary>
 
 **Reasoning**
 
@@ -16394,11 +15771,10 @@ Vercel middleware matcher /dashboard/*
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-rate-limit-429-ux"></a>
-
-### Rate limit 429 UX
+<details id="arch-rate-limit-429-ux" open>
+<summary><strong>Rate limit 429 UX</strong></summary>
 
 **Reasoning**
 
@@ -16447,11 +15823,10 @@ if (res.status === 429) await sleep(Retry-After header)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-multi-tenant-theming"></a>
-
-### Multi-tenant theming
+<details id="arch-multi-tenant-theming" open>
+<summary><strong>Multi-tenant theming</strong></summary>
 
 **Reasoning**
 
@@ -16500,11 +15875,10 @@ document.documentElement.dataset.tenant = slug
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-strangler-fig-legacy-migration"></a>
-
-### Strangler fig legacy migration
+<details id="arch-strangler-fig-legacy-migration" open>
+<summary><strong>Strangler fig legacy migration</strong></summary>
 
 **Reasoning**
 
@@ -16553,11 +15927,10 @@ Phase 1: new nav shell wraps old iframe /legacy/*
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-lighthouse-ci-per-route"></a>
-
-### Lighthouse CI per route
+<details id="arch-lighthouse-ci-per-route" open>
+<summary><strong>Lighthouse CI per route</strong></summary>
 
 **Reasoning**
 
@@ -16606,11 +15979,10 @@ lighthouseci assert --preset=lighthouse:recommended
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="arch-staff-interview-narrative-structure"></a>
-
-### Staff interview narrative structure
+<details id="arch-staff-interview-narrative-structure" open>
+<summary><strong>Staff interview narrative structure</strong></summary>
 
 **Reasoning**
 
@@ -16659,14 +16031,39 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## React Context API (22 questions) High priority
 
-<a name="context-when-should-you-use-context-vs-props-vs-external-store"></a>
+| # | Question |
+| -: | --- |
+| 1 | [When should you use Context vs props vs external store](#context-when-should-you-use-context-vs-props-vs-external-store) |
+| 2 | [Why does a Context provider cause all consumers to re-render](#context-why-does-a-context-provider-cause-all-consumers-to-re-render) |
+| 3 | [Split context pattern — state vs dispatch](#context-split-context-pattern-state-vs-dispatch) |
+| 4 | [useContextSelector pattern without external library](#context-usecontextselector-pattern-without-external-library) |
+| 5 | [Context + useReducer vs Redux for FleetPanda-style apps](#context-context-usereducer-vs-redux-for-fleetpanda-style-apps) |
+| 6 | [How to test components that use useContext](#context-how-to-test-components-that-use-usecontext) |
+| 7 | [Nested providers — ordering and pitfalls](#context-nested-providers-ordering-and-pitfalls) |
+| 8 | [Default context value — why undefined + custom hook throw](#context-default-context-value-why-undefined-custom-hook-throw) |
+| 9 | [Context vs React 19 use() hook](#context-context-vs-react-19-use-hook) |
+| 10 | [Passing unstable functions through context](#context-passing-unstable-functions-through-context) |
+| 11 | [Multiple contexts vs one mega context](#context-multiple-contexts-vs-one-mega-context) |
+| 12 | [Context for form state](#context-context-for-form-state) |
+| 13 | [Provider at route layout level](#context-provider-at-route-layout-level) |
+| 14 | [SSR context per request](#context-ssr-context-per-request) |
+| 15 | [Hydration context mismatch](#context-hydration-context-mismatch) |
+| 16 | [createContext default value semantics](#context-createcontext-default-value-semantics) |
+| 17 | [forwardRef + context together](#context-forwardref-context-together) |
+| 18 | [Measuring context performance](#context-measuring-context-performance) |
+| 19 | [Colocate provider closest to consumers](#context-colocate-provider-closest-to-consumers) |
+| 20 | [Prop drilling threshold](#context-prop-drilling-threshold) |
+| 21 | [Immutable context updates](#context-immutable-context-updates) |
+| 22 | [Migration off mega context](#context-migration-off-mega-context) |
 
-### When should you use Context vs props vs external store
+<details id="context-when-should-you-use-context-vs-props-vs-external-store" open>
+<summary><strong>When should you use Context vs props vs external store</strong></summary>
 
 - **Props:** default — explicit data flow, easy to trace.
 - **Context:** deeply shared stable data (theme, auth, locale) consumed by many branches.
@@ -16697,11 +16094,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-why-does-a-context-provider-cause-all-consumers-to-re-render"></a>
-
-### Why does a Context provider cause all consumers to re-render
+<details id="context-why-does-a-context-provider-cause-all-consumers-to-re-render" open>
+<summary><strong>Why does a Context provider cause all consumers to re-render</strong></summary>
 
 **Reasoning**
 
@@ -16763,11 +16159,10 @@ const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-split-context-pattern-state-vs-dispatch"></a>
-
-### Split context pattern — state vs dispatch
+<details id="context-split-context-pattern-state-vs-dispatch" open>
+<summary><strong>Split context pattern — state vs dispatch</strong></summary>
 
 ```
 const StateCtx = createContext(null);
@@ -16807,11 +16202,10 @@ function Provider({ children }) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-usecontextselector-pattern-without-external-library"></a>
-
-### useContextSelector pattern without external library
+<details id="context-usecontextselector-pattern-without-external-library" open>
+<summary><strong>useContextSelector pattern without external library</strong></summary>
 
 ```
 function useAppSelector(selector) {
@@ -16848,11 +16242,10 @@ For production, prefer `use-context-selector` or Zustand with selectors — hand
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-context-usereducer-vs-redux-for-fleetpanda-style-apps"></a>
-
-### Context + useReducer vs Redux for FleetPanda-style apps
+<details id="context-context-usereducer-vs-redux-for-fleetpanda-style-apps" open>
+<summary><strong>Context + useReducer vs Redux for FleetPanda-style apps</strong></summary>
 
 **Deep**
 
@@ -16887,11 +16280,10 @@ Context+reducer fits moderate shared state, single team, no time-travel needs. R
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-how-to-test-components-that-use-usecontext"></a>
-
-### How to test components that use useContext
+<details id="context-how-to-test-components-that-use-usecontext" open>
+<summary><strong>How to test components that use useContext</strong></summary>
 
 ```
 const mock = createMockAppContext({ user: { role: 'admin', ... } });
@@ -16927,11 +16319,10 @@ Mock only what the test needs; spy on dispatch methods with `vi.fn()`.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-nested-providers-ordering-and-pitfalls"></a>
-
-### Nested providers — ordering and pitfalls
+<details id="context-nested-providers-ordering-and-pitfalls" open>
+<summary><strong>Nested providers — ordering and pitfalls</strong></summary>
 
 ```
 
@@ -16968,11 +16359,10 @@ Inner hooks can use outer contexts. Avoid circular dependencies between provider
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-default-context-value-why-undefined-custom-hook-throw"></a>
-
-### Default context value — why undefined + custom hook throw
+<details id="context-default-context-value-why-undefined-custom-hook-throw" open>
+<summary><strong>Default context value — why undefined + custom hook throw</strong></summary>
 
 ```
 const Ctx = createContext(undefined);
@@ -17008,11 +16398,10 @@ Catches missing provider at dev time instead of silent null bugs.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-context-vs-react-19-use-hook"></a>
-
-### Context vs React 19 use() hook
+<details id="context-context-vs-react-19-use-hook" open>
+<summary><strong>Context vs React 19 use() hook</strong></summary>
 
 ```
 // use() can read context conditionally (hooks rules exception)
@@ -17048,11 +16437,10 @@ function Row({ showMeta }) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-passing-unstable-functions-through-context"></a>
-
-### Passing unstable functions through context
+<details id="context-passing-unstable-functions-through-context" open>
+<summary><strong>Passing unstable functions through context</strong></summary>
 
 ```
 const login = useCallback(async (u, p) => { ... }, []);
@@ -17085,11 +16473,10 @@ Exception: if callback closes over changing state, include deps or use functiona
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-multiple-contexts-vs-one-mega-context"></a>
-
-### Multiple contexts vs one mega context
+<details id="context-multiple-contexts-vs-one-mega-context" open>
+<summary><strong>Multiple contexts vs one mega context</strong></summary>
 
 **Reasoning**
 
@@ -17138,11 +16525,10 @@ ThemeProvider + CartProvider separate
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-context-for-form-state"></a>
-
-### Context for form state
+<details id="context-context-for-form-state" open>
+<summary><strong>Context for form state</strong></summary>
 
 **Reasoning**
 
@@ -17191,11 +16577,10 @@ Wizard step context OK if only 3 fields shared across steps
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-provider-at-route-layout-level"></a>
-
-### Provider at route layout level
+<details id="context-provider-at-route-layout-level" open>
+<summary><strong>Provider at route layout level</strong></summary>
 
 **Reasoning**
 
@@ -17244,11 +16629,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-ssr-context-per-request"></a>
-
-### SSR context per request
+<details id="context-ssr-context-per-request" open>
+<summary><strong>SSR context per request</strong></summary>
 
 **Reasoning**
 
@@ -17297,11 +16681,10 @@ export function createRequestContext() { return { user: null, data: {} }; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-hydration-context-mismatch"></a>
-
-### Hydration context mismatch
+<details id="context-hydration-context-mismatch" open>
+<summary><strong>Hydration context mismatch</strong></summary>
 
 **Reasoning**
 
@@ -17350,11 +16733,10 @@ Pass same preloadedState from server HTML script to client provider
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-createcontext-default-value-semantics"></a>
-
-### createContext default value semantics
+<details id="context-createcontext-default-value-semantics" open>
+<summary><strong>createContext default value semantics</strong></summary>
 
 **Reasoning**
 
@@ -17403,11 +16785,10 @@ createContext(undefined)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-forwardref-context-together"></a>
-
-### forwardRef + context together
+<details id="context-forwardref-context-together" open>
+<summary><strong>forwardRef + context together</strong></summary>
 
 **Reasoning**
 
@@ -17456,11 +16837,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-measuring-context-performance"></a>
-
-### Measuring context performance
+<details id="context-measuring-context-performance" open>
+<summary><strong>Measuring context performance</strong></summary>
 
 **Reasoning**
 
@@ -17509,11 +16889,10 @@ Split context reduced renders from 40 components to 3 on cart update
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-colocate-provider-closest-to-consumers"></a>
-
-### Colocate provider closest to consumers
+<details id="context-colocate-provider-closest-to-consumers" open>
+<summary><strong>Colocate provider closest to consumers</strong></summary>
 
 **Reasoning**
 
@@ -17562,11 +16941,10 @@ ModalProvider only wrapping modal subtree if possible
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-prop-drilling-threshold"></a>
-
-### Prop drilling threshold
+<details id="context-prop-drilling-threshold" open>
+<summary><strong>Prop drilling threshold</strong></summary>
 
 **Reasoning**
 
@@ -17615,11 +16993,10 @@ Children prop pattern passes rendered subtree
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-immutable-context-updates"></a>
-
-### Immutable context updates
+<details id="context-immutable-context-updates" open>
+<summary><strong>Immutable context updates</strong></summary>
 
 **Reasoning**
 
@@ -17668,11 +17045,10 @@ setState(prev => ({ ...prev, user: newUser }))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="context-migration-off-mega-context"></a>
-
-### Migration off mega context
+<details id="context-migration-off-mega-context" open>
+<summary><strong>Migration off mega context</strong></summary>
 
 **Reasoning**
 
@@ -17721,14 +17097,49 @@ Phase 1: server state to TanStack Query from AppContext
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Browser Internals (32 questions) High priority
 
-<a name="browser-explain-the-browser-rendering-pipeline-end-to-end"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Explain the browser rendering pipeline end-to-end](#browser-explain-the-browser-rendering-pipeline-end-to-end) |
+| 2 | [Reflow vs repaint vs composite — what triggers each](#browser-reflow-vs-repaint-vs-composite-what-triggers-each) |
+| 3 | [Event loop — microtasks vs macrotasks (with full trace)](#browser-event-loop-microtasks-vs-macrotasks-with-full-trace) |
+| 4 | [How many threads/processes in modern Chrome for a tab](#browser-how-many-threads-processes-in-modern-chrome-for-a-tab) |
+| 5 | [Same-origin policy and CORS — browser perspective](#browser-same-origin-policy-and-cors-browser-perspective) |
+| 6 | [Cookie attributes — Secure, HttpOnly, SameSite](#browser-cookie-attributes-secure-httponly-samesite) |
+| 7 | [localStorage vs sessionStorage vs IndexedDB vs cookies](#browser-localstorage-vs-sessionstorage-vs-indexeddb-vs-cookies) |
+| 8 | [Service Worker lifecycle and caching strategies](#browser-service-worker-lifecycle-and-caching-strategies) |
+| 9 | [HTTP/1.1 vs HTTP/2 vs HTTP/3 for frontend perf](#browser-http-1-1-vs-http-2-vs-http-3-for-frontend-perf) |
+| 10 | [Memory leaks in SPAs — common causes](#browser-memory-leaks-in-spas-common-causes) |
+| 11 | [requestAnimationFrame](#browser-requestanimationframe) |
+| 12 | [requestIdleCallback](#browser-requestidlecallback) |
+| 13 | [Navigation Timing API](#browser-navigation-timing-api) |
+| 14 | [PerformanceObserver](#browser-performanceobserver) |
+| 15 | [Long tasks >50ms](#browser-long-tasks-gt-50ms) |
+| 16 | [Web Workers](#browser-web-workers) |
+| 17 | [SharedWorker](#browser-sharedworker) |
+| 18 | [BroadcastChannel](#browser-broadcastchannel) |
+| 19 | [Page Visibility API](#browser-page-visibility-api) |
+| 20 | [bfcache back-forward cache](#browser-bfcache-back-forward-cache) |
+| 21 | [beforeunload vs pagehide](#browser-beforeunload-vs-pagehide) |
+| 22 | [navigator.sendBeacon](#browser-navigator-sendbeacon) |
+| 23 | [Credential Management API](#browser-credential-management-api) |
+| 24 | [Permissions API](#browser-permissions-api) |
+| 25 | [Intersection Observer](#browser-intersection-observer) |
+| 26 | [Resize Observer](#browser-resize-observer) |
+| 27 | [Mutation Observer](#browser-mutation-observer) |
+| 28 | [Content-Encoding gzip br](#browser-content-encoding-gzip-br) |
+| 29 | [Resource Timing API](#browser-resource-timing-api) |
+| 30 | [Third-party cookie deprecation](#browser-third-party-cookie-deprecation) |
+| 31 | [Trusted Types CSP](#browser-trusted-types-csp) |
+| 32 | [Speculative loading hints](#browser-speculative-loading-hints) |
 
-### Explain the browser rendering pipeline end-to-end
+<details id="browser-explain-the-browser-rendering-pipeline-end-to-end" open>
+<summary><strong>Explain the browser rendering pipeline end-to-end</strong></summary>
 
 **Reasoning**
 
@@ -17781,11 +17192,10 @@ JS execution can mutate DOM → repeat Layout/Paint if needed
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-reflow-vs-repaint-vs-composite-what-triggers-each"></a>
-
-### Reflow vs repaint vs composite — what triggers each
+<details id="browser-reflow-vs-repaint-vs-composite-what-triggers-each" open>
+<summary><strong>Reflow vs repaint vs composite — what triggers each</strong></summary>
 
 - **Reflow:** geometry change — width, font, DOM insert/remove.
 - **Repaint:** visual only — color, visibility (no layout).
@@ -17820,11 +17230,10 @@ JS execution can mutate DOM → repeat Layout/Paint if needed
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-event-loop-microtasks-vs-macrotasks-with-full-trace"></a>
-
-### Event loop — microtasks vs macrotasks (with full trace)
+<details id="browser-event-loop-microtasks-vs-macrotasks-with-full-trace" open>
+<summary><strong>Event loop — microtasks vs macrotasks (with full trace)</strong></summary>
 
 **Reasoning**
 
@@ -17880,11 +17289,10 @@ console.log('5');
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-how-many-threads-processes-in-modern-chrome-for-a-tab"></a>
-
-### How many threads/processes in modern Chrome for a tab
+<details id="browser-how-many-threads-processes-in-modern-chrome-for-a-tab" open>
+<summary><strong>How many threads/processes in modern Chrome for a tab</strong></summary>
 
 **Deep**
 
@@ -17920,11 +17328,10 @@ Site-isolated renderer process per origin (generally). GPU process, network serv
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-same-origin-policy-and-cors-browser-perspective"></a>
-
-### Same-origin policy and CORS — browser perspective
+<details id="browser-same-origin-policy-and-cors-browser-perspective" open>
+<summary><strong>Same-origin policy and CORS — browser perspective</strong></summary>
 
 **Deep**
 
@@ -17963,11 +17370,10 @@ Access-Control-Allow-Credentials: true
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-cookie-attributes-secure-httponly-samesite"></a>
-
-### Cookie attributes — Secure, HttpOnly, SameSite
+<details id="browser-cookie-attributes-secure-httponly-samesite" open>
+<summary><strong>Cookie attributes — Secure, HttpOnly, SameSite</strong></summary>
 
 ```
 Set-Cookie: session=abc; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=3600
@@ -17999,11 +17405,10 @@ Set-Cookie: session=abc; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=3600
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-localstorage-vs-sessionstorage-vs-indexeddb-vs-cookies"></a>
-
-### localStorage vs sessionStorage vs IndexedDB vs cookies
+<details id="browser-localstorage-vs-sessionstorage-vs-indexeddb-vs-cookies" open>
+<summary><strong>localStorage vs sessionStorage vs IndexedDB vs cookies</strong></summary>
 
 StoreSizeSent to serverAPICookie~4KBYesSynclocalStorage~5MBNoSync — blocks main threadIndexedDBLargeNoAsync
 
@@ -18030,11 +17435,10 @@ StoreSizeSent to serverAPICookie~4KBYesSynclocalStorage~5MBNoSync — blocks mai
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-service-worker-lifecycle-and-caching-strategies"></a>
-
-### Service Worker lifecycle and caching strategies
+<details id="browser-service-worker-lifecycle-and-caching-strategies" open>
+<summary><strong>Service Worker lifecycle and caching strategies</strong></summary>
 
 **Deep**
 
@@ -18077,11 +17481,10 @@ self.addEventListener('fetch', (e) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-http-1-1-vs-http-2-vs-http-3-for-frontend-perf"></a>
-
-### HTTP/1.1 vs HTTP/2 vs HTTP/3 for frontend perf
+<details id="browser-http-1-1-vs-http-2-vs-http-3-for-frontend-perf" open>
+<summary><strong>HTTP/1.1 vs HTTP/2 vs HTTP/3 for frontend perf</strong></summary>
 
 - **H1:** 6 conn limit per domain — bundling mattered
 - **H2:** multiplexing — smaller chunks OK
@@ -18112,11 +17515,10 @@ Still minimize JS; protocol doesn't fix large bundles.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-memory-leaks-in-spas-common-causes"></a>
-
-### Memory leaks in SPAs — common causes
+<details id="browser-memory-leaks-in-spas-common-causes" open>
+<summary><strong>Memory leaks in SPAs — common causes</strong></summary>
 
 - Intervals/listeners without cleanup
 - Detached DOM nodes held in closures
@@ -18155,11 +17557,10 @@ useEffect(() => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-requestanimationframe"></a>
-
-### requestAnimationFrame
+<details id="browser-requestanimationframe" open>
+<summary><strong>requestAnimationFrame</strong></summary>
 
 **Reasoning**
 
@@ -18208,11 +17609,10 @@ function tick() { update(); requestAnimationFrame(tick); }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-requestidlecallback"></a>
-
-### requestIdleCallback
+<details id="browser-requestidlecallback" open>
+<summary><strong>requestIdleCallback</strong></summary>
 
 **Reasoning**
 
@@ -18261,11 +17661,10 @@ requestIdleCallback(() => sendAnalytics(), { timeout: 2000 })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-navigation-timing-api"></a>
-
-### Navigation Timing API
+<details id="browser-navigation-timing-api" open>
+<summary><strong>Navigation Timing API</strong></summary>
 
 **Reasoning**
 
@@ -18314,11 +17713,10 @@ const nav = performance.getEntriesByType("navigation")[0]; nav.responseStart - n
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-performanceobserver"></a>
-
-### PerformanceObserver
+<details id="browser-performanceobserver" open>
+<summary><strong>PerformanceObserver</strong></summary>
 
 **Reasoning**
 
@@ -18367,11 +17765,10 @@ new PerformanceObserver(list => report(list.getEntries())).observe({ type: "larg
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-long-tasks-gt-50ms"></a>
-
-### Long tasks >50ms
+<details id="browser-long-tasks-gt-50ms" open>
+<summary><strong>Long tasks >50ms</strong></summary>
 
 **Reasoning**
 
@@ -18420,11 +17817,10 @@ PerformanceObserver longtask entries
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-web-workers"></a>
-
-### Web Workers
+<details id="browser-web-workers" open>
+<summary><strong>Web Workers</strong></summary>
 
 **Reasoning**
 
@@ -18473,11 +17869,10 @@ const w = new Worker(new URL("./worker.ts", import.meta.url));
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-sharedworker"></a>
-
-### SharedWorker
+<details id="browser-sharedworker" open>
+<summary><strong>SharedWorker</strong></summary>
 
 **Reasoning**
 
@@ -18526,11 +17921,10 @@ const sw = new SharedWorker("shared.js");
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-broadcastchannel"></a>
-
-### BroadcastChannel
+<details id="browser-broadcastchannel" open>
+<summary><strong>BroadcastChannel</strong></summary>
 
 **Reasoning**
 
@@ -18579,11 +17973,10 @@ new BroadcastChannel("auth").postMessage({ type: "LOGOUT" })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-page-visibility-api"></a>
-
-### Page Visibility API
+<details id="browser-page-visibility-api" open>
+<summary><strong>Page Visibility API</strong></summary>
 
 **Reasoning**
 
@@ -18632,11 +18025,10 @@ document.addEventListener("visibilitychange", () => pauseIfHidden());
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-bfcache-back-forward-cache"></a>
-
-### bfcache back-forward cache
+<details id="browser-bfcache-back-forward-cache" open>
+<summary><strong>bfcache back-forward cache</strong></summary>
 
 **Reasoning**
 
@@ -18685,11 +18077,10 @@ pageshow event persisted property
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-beforeunload-vs-pagehide"></a>
-
-### beforeunload vs pagehide
+<details id="browser-beforeunload-vs-pagehide" open>
+<summary><strong>beforeunload vs pagehide</strong></summary>
 
 **Reasoning**
 
@@ -18738,11 +18129,10 @@ pagehide + sendBeacon for analytics
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-navigator-sendbeacon"></a>
-
-### navigator.sendBeacon
+<details id="browser-navigator-sendbeacon" open>
+<summary><strong>navigator.sendBeacon</strong></summary>
 
 **Reasoning**
 
@@ -18791,11 +18181,10 @@ navigator.sendBeacon("/analytics", JSON.stringify(payload))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-credential-management-api"></a>
-
-### Credential Management API
+<details id="browser-credential-management-api" open>
+<summary><strong>Credential Management API</strong></summary>
 
 **Reasoning**
 
@@ -18844,11 +18233,10 @@ navigator.credentials.get({ password: true })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-permissions-api"></a>
-
-### Permissions API
+<details id="browser-permissions-api" open>
+<summary><strong>Permissions API</strong></summary>
 
 **Reasoning**
 
@@ -18897,11 +18285,10 @@ const status = await navigator.permissions.query({ name: "geolocation" })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-intersection-observer"></a>
-
-### Intersection Observer
+<details id="browser-intersection-observer" open>
+<summary><strong>Intersection Observer</strong></summary>
 
 **Reasoning**
 
@@ -18950,11 +18337,10 @@ new IntersectionObserver(cb, { rootMargin: "200px" }).observe(el)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-resize-observer"></a>
-
-### Resize Observer
+<details id="browser-resize-observer" open>
+<summary><strong>Resize Observer</strong></summary>
 
 **Reasoning**
 
@@ -19003,11 +18389,10 @@ new ResizeObserver(entries => chart.resize()).observe(container)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-mutation-observer"></a>
-
-### Mutation Observer
+<details id="browser-mutation-observer" open>
+<summary><strong>Mutation Observer</strong></summary>
 
 **Reasoning**
 
@@ -19056,11 +18441,10 @@ new MutationObserver(mutations => sync()).observe(el, { childList: true })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-content-encoding-gzip-br"></a>
-
-### Content-Encoding gzip br
+<details id="browser-content-encoding-gzip-br" open>
+<summary><strong>Content-Encoding gzip br</strong></summary>
 
 **Reasoning**
 
@@ -19109,11 +18493,10 @@ Accept-Encoding: gzip, deflate, br
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-resource-timing-api"></a>
-
-### Resource Timing API
+<details id="browser-resource-timing-api" open>
+<summary><strong>Resource Timing API</strong></summary>
 
 **Reasoning**
 
@@ -19162,11 +18545,10 @@ performance.getEntriesByType("resource")
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-third-party-cookie-deprecation"></a>
-
-### Third-party cookie deprecation
+<details id="browser-third-party-cookie-deprecation" open>
+<summary><strong>Third-party cookie deprecation</strong></summary>
 
 **Reasoning**
 
@@ -19215,11 +18597,10 @@ First-party data strategies server-side tagging
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-trusted-types-csp"></a>
-
-### Trusted Types CSP
+<details id="browser-trusted-types-csp" open>
+<summary><strong>Trusted Types CSP</strong></summary>
 
 **Reasoning**
 
@@ -19268,11 +18649,10 @@ require-trusted-types-for 'script'
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="browser-speculative-loading-hints"></a>
-
-### Speculative loading hints
+<details id="browser-speculative-loading-hints" open>
+<summary><strong>Speculative loading hints</strong></summary>
 
 **Reasoning**
 
@@ -19321,14 +18701,45 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## DOM &amp; Events (28 questions) High priority
 
-<a name="dom-dom-tree-vs-shadow-dom-vs-virtual-dom"></a>
+| # | Question |
+| -: | --- |
+| 1 | [DOM tree vs shadow DOM vs virtual DOM](#dom-dom-tree-vs-shadow-dom-vs-virtual-dom) |
+| 2 | [Event propagation — capture, target, bubble](#dom-event-propagation-capture-target-bubble) |
+| 3 | [Event delegation pattern](#dom-event-delegation-pattern) |
+| 4 | [Passive event listeners — scroll performance](#dom-passive-event-listeners-scroll-performance) |
+| 5 | [document.querySelector vs getElementById vs matches/closest](#dom-document-queryselector-vs-getelementbyid-vs-matches-closest) |
+| 6 | [DOM manipulation performance — DocumentFragment](#dom-dom-manipulation-performance-documentfragment) |
+| 7 | [Layout thrashing — read/write interleaving](#dom-layout-thrashing-read-write-interleaving) |
+| 8 | [CustomEvent for decoupled DOM communication](#dom-customevent-for-decoupled-dom-communication) |
+| 9 | [Imperative DOM in React — when acceptable](#dom-imperative-dom-in-react-when-acceptable) |
+| 10 | [Accessibility tree vs DOM tree](#dom-accessibility-tree-vs-dom-tree) |
+| 11 | [innerHTML vs textContent](#dom-innerhtml-vs-textcontent) |
+| 12 | [insertAdjacentHTML](#dom-insertadjacenthtml) |
+| 13 | [cloneNode deep](#dom-clonenode-deep) |
+| 14 | [compareDocumentPosition](#dom-comparedocumentposition) |
+| 15 | [getBoundingClientRect](#dom-getboundingclientrect) |
+| 16 | [scrollIntoView](#dom-scrollintoview) |
+| 17 | [focus preventScroll](#dom-focus-preventscroll) |
+| 18 | [tabindex -1 programmatic focus](#dom-tabindex-1-programmatic-focus) |
+| 19 | [Pointer events unified input](#dom-pointer-events-unified-input) |
+| 20 | [once event listener option](#dom-once-event-listener-option) |
+| 21 | [AbortSignal in addEventListener](#dom-abortsignal-in-addeventlistener) |
+| 22 | [input vs change events](#dom-input-vs-change-events) |
+| 23 | [Composition events IME](#dom-composition-events-ime) |
+| 24 | [Shadow DOM event retargeting](#dom-shadow-dom-event-retargeting) |
+| 25 | [Slot assignment projection](#dom-slot-assignment-projection) |
+| 26 | [DOMParser safe parse](#dom-domparser-safe-parse) |
+| 27 | [Range Selection API](#dom-range-selection-api) |
+| 28 | [Don't fight React with DOM](#dom-don-t-fight-react-with-dom) |
 
-### DOM tree vs shadow DOM vs virtual DOM
+<details id="dom-dom-tree-vs-shadow-dom-vs-virtual-dom" open>
+<summary><strong>DOM tree vs shadow DOM vs virtual DOM</strong></summary>
 
 - **DOM:** browser's live tree of nodes.
 - **Shadow DOM:** encapsulated subtree — Web Components.
@@ -19357,11 +18768,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-event-propagation-capture-target-bubble"></a>
-
-### Event propagation — capture, target, bubble
+<details id="dom-event-propagation-capture-target-bubble" open>
+<summary><strong>Event propagation — capture, target, bubble</strong></summary>
 
 ```
 parent.addEventListener('click', handler, true);  // capture phase
@@ -19394,11 +18804,10 @@ child.addEventListener('click', handler);         // bubble phase (default)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-event-delegation-pattern"></a>
-
-### Event delegation pattern
+<details id="dom-event-delegation-pattern" open>
+<summary><strong>Event delegation pattern</strong></summary>
 
 ```
 document.querySelector('#list').addEventListener('click', (e) => {
@@ -19433,11 +18842,10 @@ One listener for dynamic lists — React uses delegation at root for synthetic e
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-passive-event-listeners-scroll-performance"></a>
-
-### Passive event listeners — scroll performance
+<details id="dom-passive-event-listeners-scroll-performance" open>
+<summary><strong>Passive event listeners — scroll performance</strong></summary>
 
 ```
 element.addEventListener('touchstart', handler, { passive: true });
@@ -19469,11 +18877,10 @@ Non-passive touch/wheel listeners can block scrolling — Lighthouse flags this.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-document-queryselector-vs-getelementbyid-vs-matches-closest"></a>
-
-### document.querySelector vs getElementById vs matches/closest
+<details id="dom-document-queryselector-vs-getelementbyid-vs-matches-closest" open>
+<summary><strong>document.querySelector vs getElementById vs matches/closest</strong></summary>
 
 ```
 const btn = document.getElementById('save');           // fastest id lookup
@@ -19504,11 +18911,10 @@ const isCard = el.matches('.card');                  // boolean test
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-dom-manipulation-performance-documentfragment"></a>
-
-### DOM manipulation performance — DocumentFragment
+<details id="dom-dom-manipulation-performance-documentfragment" open>
+<summary><strong>DOM manipulation performance — DocumentFragment</strong></summary>
 
 ```
 const frag = document.createDocumentFragment();
@@ -19541,11 +18947,10 @@ Batch DOM writes; avoid interleaved read/write (layout thrashing).
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-layout-thrashing-read-write-interleaving"></a>
-
-### Layout thrashing — read/write interleaving
+<details id="dom-layout-thrashing-read-write-interleaving" open>
+<summary><strong>Layout thrashing — read/write interleaving</strong></summary>
 
 ```
 // BAD — forces sync layout each iteration
@@ -19578,11 +18983,10 @@ els.forEach((el, i) => { el.style.left = widths[i] + 'px'; });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-customevent-for-decoupled-dom-communication"></a>
-
-### CustomEvent for decoupled DOM communication
+<details id="dom-customevent-for-decoupled-dom-communication" open>
+<summary><strong>CustomEvent for decoupled DOM communication</strong></summary>
 
 ```
 window.dispatchEvent(new CustomEvent('cart:updated', { detail: { count: 3 } }));
@@ -19614,11 +19018,10 @@ Useful for vanilla widgets; micro-frontends often use same pattern on shared bus
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-imperative-dom-in-react-when-acceptable"></a>
-
-### Imperative DOM in React — when acceptable
+<details id="dom-imperative-dom-in-react-when-acceptable" open>
+<summary><strong>Imperative DOM in React — when acceptable</strong></summary>
 
 **Deep**
 
@@ -19653,11 +19056,10 @@ Third-party libs (Leaflet, D3, CodeMirror), focus management, measuring. Pattern
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-accessibility-tree-vs-dom-tree"></a>
-
-### Accessibility tree vs DOM tree
+<details id="dom-accessibility-tree-vs-dom-tree" open>
+<summary><strong>Accessibility tree vs DOM tree</strong></summary>
 
 **Deep**
 
@@ -19691,11 +19093,10 @@ Browser builds accessibility tree from DOM + ARIA — what screen readers use. H
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-innerhtml-vs-textcontent"></a>
-
-### innerHTML vs textContent
+<details id="dom-innerhtml-vs-textcontent" open>
+<summary><strong>innerHTML vs textContent</strong></summary>
 
 **Reasoning**
 
@@ -19744,11 +19145,10 @@ el.textContent = userInput
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-insertadjacenthtml"></a>
-
-### insertAdjacentHTML
+<details id="dom-insertadjacenthtml" open>
+<summary><strong>insertAdjacentHTML</strong></summary>
 
 **Reasoning**
 
@@ -19797,11 +19197,10 @@ el.insertAdjacentHTML("beforeend", "item")
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-clonenode-deep"></a>
-
-### cloneNode deep
+<details id="dom-clonenode-deep" open>
+<summary><strong>cloneNode deep</strong></summary>
 
 **Reasoning**
 
@@ -19850,11 +19249,10 @@ template.content.cloneNode(true)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-comparedocumentposition"></a>
-
-### compareDocumentPosition
+<details id="dom-comparedocumentposition" open>
+<summary><strong>compareDocumentPosition</strong></summary>
 
 **Reasoning**
 
@@ -19903,11 +19301,10 @@ node.compareDocumentPosition(other) & Node.DOCUMENT_POSITION_FOLLOWING
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-getboundingclientrect"></a>
-
-### getBoundingClientRect
+<details id="dom-getboundingclientrect" open>
+<summary><strong>getBoundingClientRect</strong></summary>
 
 **Reasoning**
 
@@ -19956,11 +19353,10 @@ const rect = el.getBoundingClientRect(); top = rect.bottom + 8
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-scrollintoview"></a>
-
-### scrollIntoView
+<details id="dom-scrollintoview" open>
+<summary><strong>scrollIntoView</strong></summary>
 
 **Reasoning**
 
@@ -20009,11 +19405,10 @@ el.scrollIntoView({ behavior: "smooth", block: "nearest" })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-focus-preventscroll"></a>
-
-### focus preventScroll
+<details id="dom-focus-preventscroll" open>
+<summary><strong>focus preventScroll</strong></summary>
 
 **Reasoning**
 
@@ -20062,11 +19457,10 @@ el.focus({ preventScroll: true })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-tabindex-1-programmatic-focus"></a>
-
-### tabindex -1 programmatic focus
+<details id="dom-tabindex-1-programmatic-focus" open>
+<summary><strong>tabindex -1 programmatic focus</strong></summary>
 
 **Reasoning**
 
@@ -20115,11 +19509,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-pointer-events-unified-input"></a>
-
-### Pointer events unified input
+<details id="dom-pointer-events-unified-input" open>
+<summary><strong>Pointer events unified input</strong></summary>
 
 **Reasoning**
 
@@ -20168,11 +19561,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-once-event-listener-option"></a>
-
-### once event listener option
+<details id="dom-once-event-listener-option" open>
+<summary><strong>once event listener option</strong></summary>
 
 **Reasoning**
 
@@ -20221,11 +19613,10 @@ el.addEventListener("click", handler, { once: true })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-abortsignal-in-addeventlistener"></a>
-
-### AbortSignal in addEventListener
+<details id="dom-abortsignal-in-addeventlistener" open>
+<summary><strong>AbortSignal in addEventListener</strong></summary>
 
 **Reasoning**
 
@@ -20274,11 +19665,10 @@ el.addEventListener("click", fn, { signal: ac.signal })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-input-vs-change-events"></a>
-
-### input vs change events
+<details id="dom-input-vs-change-events" open>
+<summary><strong>input vs change events</strong></summary>
 
 **Reasoning**
 
@@ -20327,11 +19717,10 @@ search on input debounced; validate on change
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-composition-events-ime"></a>
-
-### Composition events IME
+<details id="dom-composition-events-ime" open>
+<summary><strong>Composition events IME</strong></summary>
 
 **Reasoning**
 
@@ -20380,11 +19769,10 @@ if (e.isComposing) return; in keydown handler
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-shadow-dom-event-retargeting"></a>
-
-### Shadow DOM event retargeting
+<details id="dom-shadow-dom-event-retargeting" open>
+<summary><strong>Shadow DOM event retargeting</strong></summary>
 
 **Reasoning**
 
@@ -20433,11 +19821,10 @@ Click inside shadow button — host receives composedPath
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-slot-assignment-projection"></a>
-
-### Slot assignment projection
+<details id="dom-slot-assignment-projection" open>
+<summary><strong>Slot assignment projection</strong></summary>
 
 **Reasoning**
 
@@ -20486,11 +19873,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-domparser-safe-parse"></a>
-
-### DOMParser safe parse
+<details id="dom-domparser-safe-parse" open>
+<summary><strong>DOMParser safe parse</strong></summary>
 
 **Reasoning**
 
@@ -20539,11 +19925,10 @@ new DOMParser().parseFromString(html, "text/html")
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-range-selection-api"></a>
-
-### Range Selection API
+<details id="dom-range-selection-api" open>
+<summary><strong>Range Selection API</strong></summary>
 
 **Reasoning**
 
@@ -20592,11 +19977,10 @@ const range = document.createRange(); range.selectNodeContents(el)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="dom-don-t-fight-react-with-dom"></a>
-
-### Don't fight React with DOM
+<details id="dom-don-t-fight-react-with-dom" open>
+<summary><strong>Don't fight React with DOM</strong></summary>
 
 **Reasoning**
 
@@ -20645,14 +20029,47 @@ Leaflet imperative map in useEffect not document.getElementById in render
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## JavaScript &amp; TypeScript (30 questions) High priority
 
-<a name="js-event-loop-async-await-execution-order"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Event loop + async/await execution order](#js-event-loop-async-await-execution-order) |
+| 2 | [Closures — practical use and memory implications](#js-closures-practical-use-and-memory-implications) |
+| 3 | [Prototype chain vs class syntax](#js-prototype-chain-vs-class-syntax) |
+| 4 | [TypeScript structural typing vs nominal](#js-typescript-structural-typing-vs-nominal) |
+| 5 | [Generics — constrain and infer](#js-generics-constrain-and-infer) |
+| 6 | [Discriminated unions for API results](#js-discriminated-unions-for-api-results) |
+| 7 | [Promise.all vs allSettled vs race](#js-promise-all-vs-allsettled-vs-race) |
+| 8 | [Debounce vs throttle — implement debounce](#js-debounce-vs-throttle-implement-debounce) |
+| 9 | [WeakMap / WeakSet use cases](#js-weakmap-weakset-use-cases) |
+| 10 | [ES modules — static vs dynamic import](#js-es-modules-static-vs-dynamic-import) |
+| 11 | [null vs undefined](#js-null-vs-undefined) |
+| 12 | [== vs ===](#js-vs) |
+| 13 | [Object.is](#js-object-is) |
+| 14 | [Optional chaining](#js-optional-chaining) |
+| 15 | [Nullish coalescing](#js-nullish-coalescing) |
+| 16 | [Map vs Object records](#js-map-vs-object-records) |
+| 17 | [Set deduplication](#js-set-deduplication) |
+| 18 | [structuredClone](#js-structuredclone) |
+| 19 | [AbortController cancel](#js-abortcontroller-cancel) |
+| 20 | [Temporal proposal](#js-temporal-proposal) |
+| 21 | [satisfies operator TS](#js-satisfies-operator-ts) |
+| 22 | [as const assertion](#js-as-const-assertion) |
+| 23 | [unknown vs any](#js-unknown-vs-any) |
+| 24 | [never exhaustive check](#js-never-exhaustive-check) |
+| 25 | [Utility types Partial Omit Pick Record](#js-utility-types-partial-omit-pick-record) |
+| 26 | [Conditional types](#js-conditional-types) |
+| 27 | [infer in conditional types](#js-infer-in-conditional-types) |
+| 28 | [Module augmentation](#js-module-augmentation) |
+| 29 | [strictNullChecks](#js-strictnullchecks) |
+| 30 | [Zod runtime validation](#js-zod-runtime-validation) |
 
-### Event loop + async/await execution order
+<details id="js-event-loop-async-await-execution-order" open>
+<summary><strong>Event loop + async/await execution order</strong></summary>
 
 ```
 async function foo() {
@@ -20688,11 +20105,10 @@ foo(); console.log('D');
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-closures-practical-use-and-memory-implications"></a>
-
-### Closures — practical use and memory implications
+<details id="js-closures-practical-use-and-memory-implications" open>
+<summary><strong>Closures — practical use and memory implications</strong></summary>
 
 ```
 function createCounter() {
@@ -20726,11 +20142,10 @@ Leaks when closure captures large scope unnecessarily — null out refs when don
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-prototype-chain-vs-class-syntax"></a>
-
-### Prototype chain vs class syntax
+<details id="js-prototype-chain-vs-class-syntax" open>
+<summary><strong>Prototype chain vs class syntax</strong></summary>
 
 **Deep**
 
@@ -20764,11 +20179,10 @@ Leaks when closure captures large scope unnecessarily — null out refs when don
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-typescript-structural-typing-vs-nominal"></a>
-
-### TypeScript structural typing vs nominal
+<details id="js-typescript-structural-typing-vs-nominal" open>
+<summary><strong>TypeScript structural typing vs nominal</strong></summary>
 
 ```
 interface User { id: string; name: string; }
@@ -20802,11 +20216,10 @@ Branded types for nominal simulation: `type UserId = string & { readonly brand: 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-generics-constrain-and-infer"></a>
-
-### Generics — constrain and infer
+<details id="js-generics-constrain-and-infer" open>
+<summary><strong>Generics — constrain and infer</strong></summary>
 
 ```
 function pick(obj: T, keys: K[]): Pick {
@@ -20839,11 +20252,10 @@ function pick(obj: T, keys: K[]): Pick {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-discriminated-unions-for-api-results"></a>
-
-### Discriminated unions for API results
+<details id="js-discriminated-unions-for-api-results" open>
+<summary><strong>Discriminated unions for API results</strong></summary>
 
 ```
 type Result =
@@ -20879,11 +20291,10 @@ function handle(r: Result) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-promise-all-vs-allsettled-vs-race"></a>
-
-### Promise.all vs allSettled vs race
+<details id="js-promise-all-vs-allsettled-vs-race" open>
+<summary><strong>Promise.all vs allSettled vs race</strong></summary>
 
 - **all:** fail fast on first rejection
 - **allSettled:** wait for all — partial success dashboards
@@ -20912,11 +20323,10 @@ function handle(r: Result) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-debounce-vs-throttle-implement-debounce"></a>
-
-### Debounce vs throttle — implement debounce
+<details id="js-debounce-vs-throttle-implement-debounce" open>
+<summary><strong>Debounce vs throttle — implement debounce</strong></summary>
 
 ```
 function debounce(fn, ms) {
@@ -20951,11 +20361,10 @@ function debounce(fn, ms) {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-weakmap-weakset-use-cases"></a>
-
-### WeakMap / WeakSet use cases
+<details id="js-weakmap-weakset-use-cases" open>
+<summary><strong>WeakMap / WeakSet use cases</strong></summary>
 
 **Deep**
 
@@ -20989,11 +20398,10 @@ Cache metadata for DOM nodes or objects without preventing GC. Private field pat
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-es-modules-static-vs-dynamic-import"></a>
-
-### ES modules — static vs dynamic import
+<details id="js-es-modules-static-vs-dynamic-import" open>
+<summary><strong>ES modules — static vs dynamic import</strong></summary>
 
 ```
 import { x } from './a.js';           // static — tree-shakeable
@@ -21023,11 +20431,10 @@ const mod = await import('./b.js');   // dynamic — code splitting
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-null-vs-undefined"></a>
-
-### null vs undefined
+<details id="js-null-vs-undefined" open>
+<summary><strong>null vs undefined</strong></summary>
 
 **Reasoning**
 
@@ -21076,11 +20483,10 @@ function find(id) { return item ?? null; }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-vs"></a>
-
-### == vs ===
+<details id="js-vs" open>
+<summary><strong>== vs ===</strong></summary>
 
 **Reasoning**
 
@@ -21129,11 +20535,10 @@ if (value == null) clear();
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-object-is"></a>
-
-### Object.is
+<details id="js-object-is" open>
+<summary><strong>Object.is</strong></summary>
 
 **Reasoning**
 
@@ -21182,11 +20587,10 @@ Object.is(NaN, NaN) // true
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-optional-chaining"></a>
-
-### Optional chaining
+<details id="js-optional-chaining" open>
+<summary><strong>Optional chaining</strong></summary>
 
 **Reasoning**
 
@@ -21235,11 +20639,10 @@ user?.profile?.email ?? "unknown"
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-nullish-coalescing"></a>
-
-### Nullish coalescing
+<details id="js-nullish-coalescing" open>
+<summary><strong>Nullish coalescing</strong></summary>
 
 **Reasoning**
 
@@ -21288,11 +20691,10 @@ count ?? 0 // keeps 0; count || 0 replaces 0
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-map-vs-object-records"></a>
-
-### Map vs Object records
+<details id="js-map-vs-object-records" open>
+<summary><strong>Map vs Object records</strong></summary>
 
 **Reasoning**
 
@@ -21341,11 +20743,10 @@ const cache = new Map(); cache.set(key, val)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-set-deduplication"></a>
-
-### Set deduplication
+<details id="js-set-deduplication" open>
+<summary><strong>Set deduplication</strong></summary>
 
 **Reasoning**
 
@@ -21394,11 +20795,10 @@ const uniqueIds = [...new Set(ids)]
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-structuredclone"></a>
-
-### structuredClone
+<details id="js-structuredclone" open>
+<summary><strong>structuredClone</strong></summary>
 
 **Reasoning**
 
@@ -21447,11 +20847,10 @@ const copy = structuredClone(state)
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-abortcontroller-cancel"></a>
-
-### AbortController cancel
+<details id="js-abortcontroller-cancel" open>
+<summary><strong>AbortController cancel</strong></summary>
 
 **Reasoning**
 
@@ -21500,11 +20899,10 @@ const ac = new AbortController(); fetch(url, { signal: ac.signal }); ac.abort();
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-temporal-proposal"></a>
-
-### Temporal proposal
+<details id="js-temporal-proposal" open>
+<summary><strong>Temporal proposal</strong></summary>
 
 **Reasoning**
 
@@ -21553,11 +20951,10 @@ Temporal.Now.plainDateISO() — stage 3 awareness
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-satisfies-operator-ts"></a>
-
-### satisfies operator TS
+<details id="js-satisfies-operator-ts" open>
+<summary><strong>satisfies operator TS</strong></summary>
 
 **Reasoning**
 
@@ -21606,11 +21003,10 @@ const config = { mode: "strict" } satisfies Config;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-as-const-assertion"></a>
-
-### as const assertion
+<details id="js-as-const-assertion" open>
+<summary><strong>as const assertion</strong></summary>
 
 **Reasoning**
 
@@ -21659,11 +21055,10 @@ const routes = ["home", "admin"] as const;
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-unknown-vs-any"></a>
-
-### unknown vs any
+<details id="js-unknown-vs-any" open>
+<summary><strong>unknown vs any</strong></summary>
 
 **Reasoning**
 
@@ -21712,11 +21107,10 @@ const data: unknown = await res.json(); if (isUser(data)) ...
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-never-exhaustive-check"></a>
-
-### never exhaustive check
+<details id="js-never-exhaustive-check" open>
+<summary><strong>never exhaustive check</strong></summary>
 
 **Reasoning**
 
@@ -21765,11 +21159,10 @@ function assertNever(x: never): never { throw new Error(); }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-utility-types-partial-omit-pick-record"></a>
-
-### Utility types Partial Omit Pick Record
+<details id="js-utility-types-partial-omit-pick-record" open>
+<summary><strong>Utility types Partial Omit Pick Record</strong></summary>
 
 **Reasoning**
 
@@ -21818,11 +21211,10 @@ type UpdateUser = Partial>
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-conditional-types"></a>
-
-### Conditional types
+<details id="js-conditional-types" open>
+<summary><strong>Conditional types</strong></summary>
 
 **Reasoning**
 
@@ -21871,11 +21263,10 @@ type Return = T extends (...args: any[]) => infer R ? R : never
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-infer-in-conditional-types"></a>
-
-### infer in conditional types
+<details id="js-infer-in-conditional-types" open>
+<summary><strong>infer in conditional types</strong></summary>
 
 **Reasoning**
 
@@ -21924,11 +21315,10 @@ type Params = T extends (arg: infer P) => any ? P : never
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-module-augmentation"></a>
-
-### Module augmentation
+<details id="js-module-augmentation" open>
+<summary><strong>Module augmentation</strong></summary>
 
 **Reasoning**
 
@@ -21977,11 +21367,10 @@ declare module "express-serve-static-core" { interface Request { user?: User } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-strictnullchecks"></a>
-
-### strictNullChecks
+<details id="js-strictnullchecks" open>
+<summary><strong>strictNullChecks</strong></summary>
 
 **Reasoning**
 
@@ -22030,11 +21419,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="js-zod-runtime-validation"></a>
-
-### Zod runtime validation
+<details id="js-zod-runtime-validation" open>
+<summary><strong>Zod runtime validation</strong></summary>
 
 **Reasoning**
 
@@ -22083,14 +21471,41 @@ const User = z.object({ id: z.string(), email: z.string().email() }); User.parse
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## CSS vs SCSS vs Tailwind (24 questions) High priority
 
-<a name="styling-compare-css-scss-and-tailwind-when-to-choose-each"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Compare CSS, SCSS, and Tailwind — when to choose each](#styling-compare-css-scss-and-tailwind-when-to-choose-each) |
+| 2 | [SCSS nesting — best practices and pitfalls](#styling-scss-nesting-best-practices-and-pitfalls) |
+| 3 | [SCSS mixins vs CSS @layer — modern alternative](#styling-scss-mixins-vs-css-layer-modern-alternative) |
+| 4 | [Tailwind @apply — when acceptable](#styling-tailwind-apply-when-acceptable) |
+| 5 | [Tailwind JIT and purging — how bundle stays small](#styling-tailwind-jit-and-purging-how-bundle-stays-small) |
+| 6 | [Design tokens — implement across CSS/SCSS/Tailwind](#styling-design-tokens-implement-across-css-scss-tailwind) |
+| 7 | [CSS Modules vs Tailwind in React](#styling-css-modules-vs-tailwind-in-react) |
+| 8 | [SCSS @use vs deprecated @import](#styling-scss-use-vs-deprecated-import) |
+| 9 | [Tailwind dark mode strategies](#styling-tailwind-dark-mode-strategies) |
+| 10 | [CSS-in-JS vs Tailwind in 2025 — senior take](#styling-css-in-js-vs-tailwind-in-2025-senior-take) |
+| 11 | [BEM naming convention](#styling-bem-naming-convention) |
+| 12 | [ITCSS / SMACSS layers](#styling-itcss-smacss-layers) |
+| 13 | [PostCSS in all stacks](#styling-postcss-in-all-stacks) |
+| 14 | [Sass @forward re-export](#styling-sass-forward-re-export) |
+| 15 | [Tailwind plugins extend](#styling-tailwind-plugins-extend) |
+| 16 | [cva class-variance-authority](#styling-cva-class-variance-authority) |
+| 17 | [tailwind-merge twMerge](#styling-tailwind-merge-twmerge) |
+| 18 | [Container queries Tailwind](#styling-container-queries-tailwind) |
+| 19 | [Logical properties Tailwind](#styling-logical-properties-tailwind) |
+| 20 | [Critical CSS extraction](#styling-critical-css-extraction) |
+| 21 | [Sass @import deprecation](#styling-sass-import-deprecation) |
+| 22 | [Native CSS nesting](#styling-native-css-nesting) |
+| 23 | [Stylelint enforcement](#styling-stylelint-enforcement) |
+| 24 | [Interview answer CSS vs SCSS vs Tailwind](#styling-interview-answer-css-vs-scss-vs-tailwind) |
 
-### Compare CSS, SCSS, and Tailwind — when to choose each
+<details id="styling-compare-css-scss-and-tailwind-when-to-choose-each" open>
+<summary><strong>Compare CSS, SCSS, and Tailwind — when to choose each</strong></summary>
 
 ApproachProsCons**Plain CSS**Zero tooling, native vars, cascade layersScale needs discipline (BEM)**SCSS**Variables, nesting, mixins, partialsBuild step; nesting abuse**Tailwind**Speed, design tokens, purge unusedVerbose JSX, learning curve
 > **Tip:** Trend: CSS native features (nesting, vars) reduce SCSS need; Tailwind dominates greenfield startups.
@@ -22118,11 +21533,10 @@ ApproachProsCons**Plain CSS**Zero tooling, native vars, cascade layersScale need
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-scss-nesting-best-practices-and-pitfalls"></a>
-
-### SCSS nesting — best practices and pitfalls
+<details id="styling-scss-nesting-best-practices-and-pitfalls" open>
+<summary><strong>SCSS nesting — best practices and pitfalls</strong></summary>
 
 ```
 // GOOD — BEM with shallow nesting
@@ -22157,11 +21571,10 @@ ApproachProsCons**Plain CSS**Zero tooling, native vars, cascade layersScale need
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-scss-mixins-vs-css-layer-modern-alternative"></a>
-
-### SCSS mixins vs CSS @layer — modern alternative
+<details id="styling-scss-mixins-vs-css-layer-modern-alternative" open>
+<summary><strong>SCSS mixins vs CSS @layer — modern alternative</strong></summary>
 
 ```
 @mixin focus-ring { outline: 2px solid var(--focus); }
@@ -22196,11 +21609,10 @@ Mixins still useful for complex parameterized patterns; layers control cascade o
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-tailwind-apply-when-acceptable"></a>
-
-### Tailwind @apply — when acceptable
+<details id="styling-tailwind-apply-when-acceptable" open>
+<summary><strong>Tailwind @apply — when acceptable</strong></summary>
 
 ```
 @layer components {
@@ -22235,11 +21647,10 @@ OK for design-system primitives. Overuse duplicates Tailwind benefits — prefer
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-tailwind-jit-and-purging-how-bundle-stays-small"></a>
-
-### Tailwind JIT and purging — how bundle stays small
+<details id="styling-tailwind-jit-and-purging-how-bundle-stays-small" open>
+<summary><strong>Tailwind JIT and purging — how bundle stays small</strong></summary>
 
 **Deep**
 
@@ -22280,11 +21691,10 @@ const map = { red: 'text-red-500', blue: 'text-blue-500' };
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-design-tokens-implement-across-css-scss-tailwind"></a>
-
-### Design tokens — implement across CSS/SCSS/Tailwind
+<details id="styling-design-tokens-implement-across-css-scss-tailwind" open>
+<summary><strong>Design tokens — implement across CSS/SCSS/Tailwind</strong></summary>
 
 ```
 /* CSS vars — source of truth */
@@ -22318,11 +21728,10 @@ Single token source synced to Tailwind theme and SCSS variables via Style Dictio
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-css-modules-vs-tailwind-in-react"></a>
-
-### CSS Modules vs Tailwind in React
+<details id="styling-css-modules-vs-tailwind-in-react" open>
+<summary><strong>CSS Modules vs Tailwind in React</strong></summary>
 
 **Deep**
 
@@ -22360,11 +21769,10 @@ Hybrid common: Tailwind layout + CSS modules for complex animations.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-scss-use-vs-deprecated-import"></a>
-
-### SCSS @use vs deprecated @import
+<details id="styling-scss-use-vs-deprecated-import" open>
+<summary><strong>SCSS @use vs deprecated @import</strong></summary>
 
 ```
 @use 'tokens/colors' as c;
@@ -22396,11 +21804,10 @@ Hybrid common: Tailwind layout + CSS modules for complex animations.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-tailwind-dark-mode-strategies"></a>
-
-### Tailwind dark mode strategies
+<details id="styling-tailwind-dark-mode-strategies" open>
+<summary><strong>Tailwind dark mode strategies</strong></summary>
 
 ```
 // tailwind.config: darkMode: 'class'
@@ -22432,11 +21839,10 @@ Or `media` strategy uses prefers-color-scheme — class strategy allows user tog
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-css-in-js-vs-tailwind-in-2025-senior-take"></a>
-
-### CSS-in-JS vs Tailwind in 2025 — senior take
+<details id="styling-css-in-js-vs-tailwind-in-2025-senior-take" open>
+<summary><strong>CSS-in-JS vs Tailwind in 2025 — senior take</strong></summary>
 
 **Deep**
 
@@ -22471,11 +21877,10 @@ CSS-in-JS (styled-components) loses favor: runtime cost, RSC incompatibility, st
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-bem-naming-convention"></a>
-
-### BEM naming convention
+<details id="styling-bem-naming-convention" open>
+<summary><strong>BEM naming convention</strong></summary>
 
 **Reasoning**
 
@@ -22524,11 +21929,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-itcss-smacss-layers"></a>
-
-### ITCSS / SMACSS layers
+<details id="styling-itcss-smacss-layers" open>
+<summary><strong>ITCSS / SMACSS layers</strong></summary>
 
 **Reasoning**
 
@@ -22577,11 +21981,10 @@ Utilities last win cascade intentionally
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-postcss-in-all-stacks"></a>
-
-### PostCSS in all stacks
+<details id="styling-postcss-in-all-stacks" open>
+<summary><strong>PostCSS in all stacks</strong></summary>
 
 **Reasoning**
 
@@ -22630,11 +22033,10 @@ postcss.config.js in Vite webpack
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-sass-forward-re-export"></a>
-
-### Sass @forward re-export
+<details id="styling-sass-forward-re-export" open>
+<summary><strong>Sass @forward re-export</strong></summary>
 
 **Reasoning**
 
@@ -22683,11 +22085,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-tailwind-plugins-extend"></a>
-
-### Tailwind plugins extend
+<details id="styling-tailwind-plugins-extend" open>
+<summary><strong>Tailwind plugins extend</strong></summary>
 
 **Reasoning**
 
@@ -22736,11 +22137,10 @@ plugin(function({ addUtilities }) { addUtilities({ ".scrollbar-hide": {...} }) }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-cva-class-variance-authority"></a>
-
-### cva class-variance-authority
+<details id="styling-cva-class-variance-authority" open>
+<summary><strong>cva class-variance-authority</strong></summary>
 
 **Reasoning**
 
@@ -22789,11 +22189,10 @@ const button = cva("rounded", { variants: { size: { sm: "px-2", lg: "px-4" } } }
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-tailwind-merge-twmerge"></a>
-
-### tailwind-merge twMerge
+<details id="styling-tailwind-merge-twmerge" open>
+<summary><strong>tailwind-merge twMerge</strong></summary>
 
 **Reasoning**
 
@@ -22842,11 +22241,10 @@ twMerge("px-2 px-4") // px-4
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-container-queries-tailwind"></a>
-
-### Container queries Tailwind
+<details id="styling-container-queries-tailwind" open>
+<summary><strong>Container queries Tailwind</strong></summary>
 
 **Reasoning**
 
@@ -22895,11 +22293,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-logical-properties-tailwind"></a>
-
-### Logical properties Tailwind
+<details id="styling-logical-properties-tailwind" open>
+<summary><strong>Logical properties Tailwind</strong></summary>
 
 **Reasoning**
 
@@ -22948,11 +22345,10 @@ ps-4 pe-4 padding-inline
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-critical-css-extraction"></a>
-
-### Critical CSS extraction
+<details id="styling-critical-css-extraction" open>
+<summary><strong>Critical CSS extraction</strong></summary>
 
 **Reasoning**
 
@@ -23001,11 +22397,10 @@ Inline  critical; async load rest
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-sass-import-deprecation"></a>
-
-### Sass @import deprecation
+<details id="styling-sass-import-deprecation" open>
+<summary><strong>Sass @import deprecation</strong></summary>
 
 **Reasoning**
 
@@ -23054,11 +22449,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-native-css-nesting"></a>
-
-### Native CSS nesting
+<details id="styling-native-css-nesting" open>
+<summary><strong>Native CSS nesting</strong></summary>
 
 **Reasoning**
 
@@ -23107,11 +22501,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-stylelint-enforcement"></a>
-
-### Stylelint enforcement
+<details id="styling-stylelint-enforcement" open>
+<summary><strong>Stylelint enforcement</strong></summary>
 
 **Reasoning**
 
@@ -23160,11 +22553,10 @@ stylelint-config-standard-scss
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="styling-interview-answer-css-vs-scss-vs-tailwind"></a>
-
-### Interview answer CSS vs SCSS vs Tailwind
+<details id="styling-interview-answer-css-vs-scss-vs-tailwind" open>
+<summary><strong>Interview answer CSS vs SCSS vs Tailwind</strong></summary>
 
 **Reasoning**
 
@@ -23213,14 +22605,45 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## Micro-frontend Communication (28 questions) High priority
 
-<a name="mfe-overview-how-do-micro-frontends-share-data-across-pages"></a>
+| # | Question |
+| -: | --- |
+| 1 | [Overview — how do micro-frontends share data across pages](#mfe-overview-how-do-micro-frontends-share-data-across-pages) |
+| 2 | [Module Federation — share React and global store](#mfe-module-federation-share-react-and-global-store) |
+| 3 | [Custom event bus for cross-MFE communication](#mfe-custom-event-bus-for-cross-mfe-communication) |
+| 4 | [Passing data when navigating shell → remote route](#mfe-passing-data-when-navigating-shell-remote-route) |
+| 5 | [postMessage for iframe-based micro-frontends](#mfe-postmessage-for-iframe-based-micro-frontends) |
+| 6 | [BroadcastChannel across MFE tabs on same origin](#mfe-broadcastchannel-across-mfe-tabs-on-same-origin) |
+| 7 | [localStorage storage event for cross-tab sync](#mfe-localstorage-storage-event-for-cross-tab-sync) |
+| 8 | [Shared auth token across micro-frontends — secure pattern](#mfe-shared-auth-token-across-micro-frontends-secure-pattern) |
+| 9 | [Routing coordination — shell owns router vs federated routes](#mfe-routing-coordination-shell-owns-router-vs-federated-routes) |
+| 10 | [Cross-MFE CSS isolation — Shadow DOM vs CSS Modules vs prefix](#mfe-cross-mfe-css-isolation-shadow-dom-vs-css-modules-vs-prefix) |
+| 11 | [single-spa orchestrator](#mfe-single-spa-orchestrator) |
+| 12 | [qiankun micro-frontends](#mfe-qiankun-micro-frontends) |
+| 13 | [import maps native modules](#mfe-import-maps-native-modules) |
+| 14 | [Shared design system npm package](#mfe-shared-design-system-npm-package) |
+| 15 | [Contract testing Pact](#mfe-contract-testing-pact) |
+| 16 | [Version skew unknown events](#mfe-version-skew-unknown-events) |
+| 17 | [Feature flags per MFE](#mfe-feature-flags-per-mfe) |
+| 18 | [Error boundary per remote](#mfe-error-boundary-per-remote) |
+| 19 | [Lazy load remote entry](#mfe-lazy-load-remote-entry) |
+| 20 | [Prefetch remote on nav hover](#mfe-prefetch-remote-on-nav-hover) |
+| 21 | [Global namespace pollution anti-pattern](#mfe-global-namespace-pollution-anti-pattern) |
+| 22 | [RxJS Subject event bus](#mfe-rxjs-subject-event-bus) |
+| 23 | [Redux only in shell bridge](#mfe-redux-only-in-shell-bridge) |
+| 24 | [TanStack Query shared client](#mfe-tanstack-query-shared-client) |
+| 25 | [Cross-MFE analytics](#mfe-cross-mfe-analytics) |
+| 26 | [i18n locale sync bus](#mfe-i18n-locale-sync-bus) |
+| 27 | [Playwright cross-MFE E2E](#mfe-playwright-cross-mfe-e2e) |
+| 28 | [When NOT micro-frontend](#mfe-when-not-micro-frontend) |
 
-### Overview — how do micro-frontends share data across pages
+<details id="mfe-overview-how-do-micro-frontends-share-data-across-pages" open>
+<summary><strong>Overview — how do micro-frontends share data across pages</strong></summary>
 
 Patterns ranked by common usage:
 1. **URL / query params** — shareable, bookmarkable
@@ -23253,11 +22676,10 @@ Patterns ranked by common usage:
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-module-federation-share-react-and-global-store"></a>
-
-### Module Federation — share React and global store
+<details id="mfe-module-federation-share-react-and-global-store" open>
+<summary><strong>Module Federation — share React and global store</strong></summary>
 
 ```
 // webpack shell
@@ -23295,11 +22717,10 @@ new ModuleFederationPlugin({
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-custom-event-bus-for-cross-mfe-communication"></a>
-
-### Custom event bus for cross-MFE communication
+<details id="mfe-custom-event-bus-for-cross-mfe-communication" open>
+<summary><strong>Custom event bus for cross-MFE communication</strong></summary>
 
 ```
 type BusEvent = { type: 'USER_LOGIN'; payload: { userId: string } };
@@ -23339,11 +22760,10 @@ export const bus = new EventBus(); // shared module via federation
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-passing-data-when-navigating-shell-remote-route"></a>
-
-### Passing data when navigating shell → remote route
+<details id="mfe-passing-data-when-navigating-shell-remote-route" open>
+<summary><strong>Passing data when navigating shell → remote route</strong></summary>
 
 ```
 // Shell router
@@ -23379,11 +22799,10 @@ Senior rule: persist critical state in URL or server; location.state for ephemer
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-postmessage-for-iframe-based-micro-frontends"></a>
-
-### postMessage for iframe-based micro-frontends
+<details id="mfe-postmessage-for-iframe-based-micro-frontends" open>
+<summary><strong>postMessage for iframe-based micro-frontends</strong></summary>
 
 ```
 // Child iframe
@@ -23418,11 +22837,10 @@ window.addEventListener('message', (e) => {
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-broadcastchannel-across-mfe-tabs-on-same-origin"></a>
-
-### BroadcastChannel across MFE tabs on same origin
+<details id="mfe-broadcastchannel-across-mfe-tabs-on-same-origin" open>
+<summary><strong>BroadcastChannel across MFE tabs on same origin</strong></summary>
 
 ```
 const channel = new BroadcastChannel('app-events');
@@ -23455,11 +22873,10 @@ All MFE bundles on same origin share channel — logout in one tab syncs all.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-localstorage-storage-event-for-cross-tab-sync"></a>
-
-### localStorage storage event for cross-tab sync
+<details id="mfe-localstorage-storage-event-for-cross-tab-sync" open>
+<summary><strong>localStorage storage event for cross-tab sync</strong></summary>
 
 ```
 // Tab A
@@ -23495,11 +22912,10 @@ Only fires in *other* tabs, not the writer. Same-origin only.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-shared-auth-token-across-micro-frontends-secure-pattern"></a>
-
-### Shared auth token across micro-frontends — secure pattern
+<details id="mfe-shared-auth-token-across-micro-frontends-secure-pattern" open>
+<summary><strong>Shared auth token across micro-frontends — secure pattern</strong></summary>
 
 - HttpOnly cookie on shared parent domain (`.example.com`)
 - Shell handles login; MFEs call API with credentials: 'include'
@@ -23529,11 +22945,10 @@ Only fires in *other* tabs, not the writer. Same-origin only.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-routing-coordination-shell-owns-router-vs-federated-routes"></a>
-
-### Routing coordination — shell owns router vs federated routes
+<details id="mfe-routing-coordination-shell-owns-router-vs-federated-routes" open>
+<summary><strong>Routing coordination — shell owns router vs federated routes</strong></summary>
 
 ```
 // Shell routes
@@ -23567,11 +22982,10 @@ Single browser history — shell must not fight remote for navigation events.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-cross-mfe-css-isolation-shadow-dom-vs-css-modules-vs-prefix"></a>
-
-### Cross-MFE CSS isolation — Shadow DOM vs CSS Modules vs prefix
+<details id="mfe-cross-mfe-css-isolation-shadow-dom-vs-css-modules-vs-prefix" open>
+<summary><strong>Cross-MFE CSS isolation — Shadow DOM vs CSS Modules vs prefix</strong></summary>
 
 - **Shadow DOM:** Strong isolation — hard with React portals/modals
 - **CSS Modules / scoped:** Practical default
@@ -23601,11 +23015,10 @@ Single browser history — shell must not fight remote for navigation events.
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-single-spa-orchestrator"></a>
-
-### single-spa orchestrator
+<details id="mfe-single-spa-orchestrator" open>
+<summary><strong>single-spa orchestrator</strong></summary>
 
 **Reasoning**
 
@@ -23654,11 +23067,10 @@ registerApplication({ name: "shop", app: loadShop, activeWhen: "/shop" })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-qiankun-micro-frontends"></a>
-
-### qiankun micro-frontends
+<details id="mfe-qiankun-micro-frontends" open>
+<summary><strong>qiankun micro-frontends</strong></summary>
 
 **Reasoning**
 
@@ -23707,11 +23119,10 @@ loadMicroApp({ name, entry, container })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-import-maps-native-modules"></a>
-
-### import maps native modules
+<details id="mfe-import-maps-native-modules" open>
+<summary><strong>import maps native modules</strong></summary>
 
 **Reasoning**
 
@@ -23760,11 +23171,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-shared-design-system-npm-package"></a>
-
-### Shared design system npm package
+<details id="mfe-shared-design-system-npm-package" open>
+<summary><strong>Shared design system npm package</strong></summary>
 
 **Reasoning**
 
@@ -23813,11 +23223,10 @@ pnpm workspace:* link
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-contract-testing-pact"></a>
-
-### Contract testing Pact
+<details id="mfe-contract-testing-pact" open>
+<summary><strong>Contract testing Pact</strong></summary>
 
 **Reasoning**
 
@@ -23866,11 +23275,10 @@ pact between shell events and shop consumer
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-version-skew-unknown-events"></a>
-
-### Version skew unknown events
+<details id="mfe-version-skew-unknown-events" open>
+<summary><strong>Version skew unknown events</strong></summary>
 
 **Reasoning**
 
@@ -23919,11 +23327,10 @@ if (!handlers[type]) return; log unknown
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-feature-flags-per-mfe"></a>
-
-### Feature flags per MFE
+<details id="mfe-feature-flags-per-mfe" open>
+<summary><strong>Feature flags per MFE</strong></summary>
 
 **Reasoning**
 
@@ -23972,11 +23379,10 @@ if (flags.newShop) loadRemote("shop-v2")
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-error-boundary-per-remote"></a>
-
-### Error boundary per remote
+<details id="mfe-error-boundary-per-remote" open>
+<summary><strong>Error boundary per remote</strong></summary>
 
 **Reasoning**
 
@@ -24025,11 +23431,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-lazy-load-remote-entry"></a>
-
-### Lazy load remote entry
+<details id="mfe-lazy-load-remote-entry" open>
+<summary><strong>Lazy load remote entry</strong></summary>
 
 **Reasoning**
 
@@ -24078,11 +23483,10 @@ React.lazy + Federation
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-prefetch-remote-on-nav-hover"></a>
-
-### Prefetch remote on nav hover
+<details id="mfe-prefetch-remote-on-nav-hover" open>
+<summary><strong>Prefetch remote on nav hover</strong></summary>
 
 **Reasoning**
 
@@ -24131,11 +23535,10 @@ onMouseEnter={() => import("shop/App")}
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-global-namespace-pollution-anti-pattern"></a>
-
-### Global namespace pollution anti-pattern
+<details id="mfe-global-namespace-pollution-anti-pattern" open>
+<summary><strong>Global namespace pollution anti-pattern</strong></summary>
 
 **Reasoning**
 
@@ -24184,11 +23587,10 @@ ES modules IIFE scope
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-rxjs-subject-event-bus"></a>
-
-### RxJS Subject event bus
+<details id="mfe-rxjs-subject-event-bus" open>
+<summary><strong>RxJS Subject event bus</strong></summary>
 
 **Reasoning**
 
@@ -24237,11 +23639,10 @@ subject$.pipe(filter(...)).subscribe()
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-redux-only-in-shell-bridge"></a>
-
-### Redux only in shell bridge
+<details id="mfe-redux-only-in-shell-bridge" open>
+<summary><strong>Redux only in shell bridge</strong></summary>
 
 **Reasoning**
 
@@ -24290,11 +23691,10 @@ window.__SHELL__.dispatch(action) // controlled API
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-tanstack-query-shared-client"></a>
-
-### TanStack Query shared client
+<details id="mfe-tanstack-query-shared-client" open>
+<summary><strong>TanStack Query shared client</strong></summary>
 
 **Reasoning**
 
@@ -24343,11 +23743,10 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-cross-mfe-analytics"></a>
-
-### Cross-MFE analytics
+<details id="mfe-cross-mfe-analytics" open>
+<summary><strong>Cross-MFE analytics</strong></summary>
 
 **Reasoning**
 
@@ -24396,11 +23795,10 @@ shell.track("purchase", { orderId })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-i18n-locale-sync-bus"></a>
-
-### i18n locale sync bus
+<details id="mfe-i18n-locale-sync-bus" open>
+<summary><strong>i18n locale sync bus</strong></summary>
 
 **Reasoning**
 
@@ -24449,11 +23847,10 @@ bus.emit({ type: "LOCALE_CHANGED", locale: "fr" })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-playwright-cross-mfe-e2e"></a>
-
-### Playwright cross-MFE E2E
+<details id="mfe-playwright-cross-mfe-e2e" open>
+<summary><strong>Playwright cross-MFE E2E</strong></summary>
 
 **Reasoning**
 
@@ -24502,11 +23899,10 @@ test("shop checkout", async ({ page }) => { ... cross origin if iframe })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="mfe-when-not-micro-frontend"></a>
-
-### When NOT micro-frontend
+<details id="mfe-when-not-micro-frontend" open>
+<summary><strong>When NOT micro-frontend</strong></summary>
 
 **Reasoning**
 
@@ -24555,14 +23951,42 @@ Monolith code split routes until org pain justifies MFE ops cost
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## High Priority Misc (25 questions)
 
-<a name="priority-xss-types-and-prevention-in-react-apps"></a>
+| # | Question |
+| -: | --- |
+| 1 | [XSS types and prevention in React apps](#priority-xss-types-and-prevention-in-react-apps) |
+| 2 | [CSRF protection for cookie-based SPAs](#priority-csrf-protection-for-cookie-based-spas) |
+| 3 | [OAuth 2.0 PKCE flow for public SPA clients](#priority-oauth-2-0-pkce-flow-for-public-spa-clients) |
+| 4 | [TanStack Query — staleTime vs gcTime (cacheTime)](#priority-tanstack-query-staletime-vs-gctime-cachetime) |
+| 5 | [Web Vitals — INP debugging workflow](#priority-web-vitals-inp-debugging-workflow) |
+| 6 | [Accessibility audit checklist for release](#priority-accessibility-audit-checklist-for-release) |
+| 7 | [Monorepo shared ESLint/TS config](#priority-monorepo-shared-eslint-ts-config) |
+| 8 | [Semantic versioning for design system](#priority-semantic-versioning-for-design-system) |
+| 9 | [Playwright vs Cypress for E2E](#priority-playwright-vs-cypress-for-e2e) |
+| 10 | [Storybook — role in design system workflow](#priority-storybook-role-in-design-system-workflow) |
+| 11 | [SRI Subresource Integrity](#priority-sri-subresource-integrity) |
+| 12 | [npm supply chain audit](#priority-npm-supply-chain-audit) |
+| 13 | [Dependabot vs Renovate](#priority-dependabot-vs-renovate) |
+| 14 | [Conventional commits](#priority-conventional-commits) |
+| 15 | [Trunk-based vs GitFlow](#priority-trunk-based-vs-gitflow) |
+| 16 | [CODEOWNERS review](#priority-codeowners-review) |
+| 17 | [Lighthouse CI budgets](#priority-lighthouse-ci-budgets) |
+| 18 | [Source map security](#priority-source-map-security) |
+| 19 | [Edge middleware routing](#priority-edge-middleware-routing) |
+| 20 | [Rate limit 429 UX](#priority-rate-limit-429-ux) |
+| 21 | [Cursor vs offset pagination API](#priority-cursor-vs-offset-pagination-api) |
+| 22 | [Idempotent PUT PATCH retries](#priority-idempotent-put-patch-retries) |
+| 23 | [OpenTelemetry RUM traces](#priority-opentelemetry-rum-traces) |
+| 24 | [Cookie consent legal](#priority-cookie-consent-legal) |
+| 25 | [Staff meta-skill answer structure](#priority-staff-meta-skill-answer-structure) |
 
-### XSS types and prevention in React apps
+<details id="priority-xss-types-and-prevention-in-react-apps" open>
+<summary><strong>XSS types and prevention in React apps</strong></summary>
 
 - **Stored/reflected XSS:** sanitize HTML, CSP
 - **DOM XSS:** never innerHTML with user input
@@ -24596,11 +24020,10 @@ import DOMPurify from 'dompurify';
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-csrf-protection-for-cookie-based-spas"></a>
-
-### CSRF protection for cookie-based SPAs
+<details id="priority-csrf-protection-for-cookie-based-spas" open>
+<summary><strong>CSRF protection for cookie-based SPAs</strong></summary>
 
 **Deep**
 
@@ -24634,11 +24057,10 @@ SameSite=Lax/Strict cookies + CSRF token header on mutations + verify Origin/Ref
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-oauth-2-0-pkce-flow-for-public-spa-clients"></a>
-
-### OAuth 2.0 PKCE flow for public SPA clients
+<details id="priority-oauth-2-0-pkce-flow-for-public-spa-clients" open>
+<summary><strong>OAuth 2.0 PKCE flow for public SPA clients</strong></summary>
 
 ```
 // Generate code_verifier + code_challenge (S256)
@@ -24669,11 +24091,10 @@ SameSite=Lax/Strict cookies + CSRF token header on mutations + verify Origin/Ref
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-tanstack-query-staletime-vs-gctime-cachetime"></a>
-
-### TanStack Query — staleTime vs gcTime (cacheTime)
+<details id="priority-tanstack-query-staletime-vs-gctime-cachetime" open>
+<summary><strong>TanStack Query — staleTime vs gcTime (cacheTime)</strong></summary>
 
 - **staleTime:** how long data considered fresh (no refetch on mount)
 - **gcTime:** how long inactive cache kept in memory
@@ -24705,11 +24126,10 @@ useQuery({ queryKey: ['user'], queryFn: fetchUser, staleTime: 5 * 60 * 1000 });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-web-vitals-inp-debugging-workflow"></a>
-
-### Web Vitals — INP debugging workflow
+<details id="priority-web-vitals-inp-debugging-workflow" open>
+<summary><strong>Web Vitals — INP debugging workflow</strong></summary>
 
 1. Find long tasks in Performance panel
 2. Split handlers — defer non-critical work
@@ -24740,11 +24160,10 @@ useQuery({ queryKey: ['user'], queryFn: fetchUser, staleTime: 5 * 60 * 1000 });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-accessibility-audit-checklist-for-release"></a>
-
-### Accessibility audit checklist for release
+<details id="priority-accessibility-audit-checklist-for-release" open>
+<summary><strong>Accessibility audit checklist for release</strong></summary>
 
 - Keyboard-only navigation all flows
 - Focus visible and trapped in modals
@@ -24775,11 +24194,10 @@ useQuery({ queryKey: ['user'], queryFn: fetchUser, staleTime: 5 * 60 * 1000 });
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-monorepo-shared-eslint-ts-config"></a>
-
-### Monorepo shared ESLint/TS config
+<details id="priority-monorepo-shared-eslint-ts-config" open>
+<summary><strong>Monorepo shared ESLint/TS config</strong></summary>
 
 ```
 // packages/eslint-config/index.js
@@ -24810,11 +24228,10 @@ module.exports = { extends: ['eslint:recommended', 'plugin:@typescript-eslint/re
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-semantic-versioning-for-design-system"></a>
-
-### Semantic versioning for design system
+<details id="priority-semantic-versioning-for-design-system" open>
+<summary><strong>Semantic versioning for design system</strong></summary>
 
 **Deep**
 
@@ -24850,11 +24267,10 @@ Breaking: removed prop, token rename → major. New component → minor. Bugfix 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-playwright-vs-cypress-for-e2e"></a>
-
-### Playwright vs Cypress for E2E
+<details id="priority-playwright-vs-cypress-for-e2e" open>
+<summary><strong>Playwright vs Cypress for E2E</strong></summary>
 
 **Deep**
 
@@ -24889,11 +24305,10 @@ Breaking: removed prop, token rename → major. New component → minor. Bugfix 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-storybook-role-in-design-system-workflow"></a>
-
-### Storybook — role in design system workflow
+<details id="priority-storybook-role-in-design-system-workflow" open>
+<summary><strong>Storybook — role in design system workflow</strong></summary>
 
 **Deep**
 
@@ -24927,11 +24342,10 @@ Document component states, visual regression (Chromatic), a11y addon, interactio
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-sri-subresource-integrity"></a>
-
-### SRI Subresource Integrity
+<details id="priority-sri-subresource-integrity" open>
+<summary><strong>SRI Subresource Integrity</strong></summary>
 
 **Reasoning**
 
@@ -24980,11 +24394,10 @@ integrity sha384-... crossorigin anonymous
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-npm-supply-chain-audit"></a>
-
-### npm supply chain audit
+<details id="priority-npm-supply-chain-audit" open>
+<summary><strong>npm supply chain audit</strong></summary>
 
 **Reasoning**
 
@@ -25033,11 +24446,10 @@ pnpm audit fail high critical
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-dependabot-vs-renovate"></a>
-
-### Dependabot vs Renovate
+<details id="priority-dependabot-vs-renovate" open>
+<summary><strong>Dependabot vs Renovate</strong></summary>
 
 **Reasoning**
 
@@ -25086,11 +24498,10 @@ renovate.json schedule weekly group react
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-conventional-commits"></a>
-
-### Conventional commits
+<details id="priority-conventional-commits" open>
+<summary><strong>Conventional commits</strong></summary>
 
 **Reasoning**
 
@@ -25139,11 +24550,10 @@ feat(cart): add idempotency key header
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-trunk-based-vs-gitflow"></a>
-
-### Trunk-based vs GitFlow
+<details id="priority-trunk-based-vs-gitflow" open>
+<summary><strong>Trunk-based vs GitFlow</strong></summary>
 
 **Reasoning**
 
@@ -25192,11 +24602,10 @@ PR merge within 1-2 days max
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-codeowners-review"></a>
-
-### CODEOWNERS review
+<details id="priority-codeowners-review" open>
+<summary><strong>CODEOWNERS review</strong></summary>
 
 **Reasoning**
 
@@ -25245,11 +24654,10 @@ CODEOWNERS /packages/ui @design-system
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-lighthouse-ci-budgets"></a>
-
-### Lighthouse CI budgets
+<details id="priority-lighthouse-ci-budgets" open>
+<summary><strong>Lighthouse CI budgets</strong></summary>
 
 **Reasoning**
 
@@ -25298,11 +24706,10 @@ lighthouseci assert --budgetsPath budgets.json
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-source-map-security"></a>
-
-### Source map security
+<details id="priority-source-map-security" open>
+<summary><strong>Source map security</strong></summary>
 
 **Reasoning**
 
@@ -25351,11 +24758,10 @@ vite build sourcemap hidden
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-edge-middleware-routing"></a>
-
-### Edge middleware routing
+<details id="priority-edge-middleware-routing" open>
+<summary><strong>Edge middleware routing</strong></summary>
 
 **Reasoning**
 
@@ -25404,11 +24810,10 @@ middleware redirect unauthenticated /login
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-rate-limit-429-ux"></a>
-
-### Rate limit 429 UX
+<details id="priority-rate-limit-429-ux" open>
+<summary><strong>Rate limit 429 UX</strong></summary>
 
 **Reasoning**
 
@@ -25457,11 +24862,10 @@ await sleep(parseRetryAfter(res))
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-cursor-vs-offset-pagination-api"></a>
-
-### Cursor vs offset pagination API
+<details id="priority-cursor-vs-offset-pagination-api" open>
+<summary><strong>Cursor vs offset pagination API</strong></summary>
 
 **Reasoning**
 
@@ -25510,11 +24914,10 @@ GET /items?cursor=eyJpZCI6...
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-idempotent-put-patch-retries"></a>
-
-### Idempotent PUT PATCH retries
+<details id="priority-idempotent-put-patch-retries" open>
+<summary><strong>Idempotent PUT PATCH retries</strong></summary>
 
 **Reasoning**
 
@@ -25563,11 +24966,10 @@ Retry fetch with same Idempotency-Key
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-opentelemetry-rum-traces"></a>
-
-### OpenTelemetry RUM traces
+<details id="priority-opentelemetry-rum-traces" open>
+<summary><strong>OpenTelemetry RUM traces</strong></summary>
 
 **Reasoning**
 
@@ -25616,11 +25018,10 @@ fetch(url, { headers: { traceparent: activeSpanContext() } })
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-cookie-consent-legal"></a>
-
-### Cookie consent legal
+<details id="priority-cookie-consent-legal" open>
+<summary><strong>Cookie consent legal</strong></summary>
 
 **Reasoning**
 
@@ -25669,11 +25070,10 @@ if (consent.analytics) loadGTM()
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
-<a name="priority-staff-meta-skill-answer-structure"></a>
-
-### Staff meta-skill answer structure
+<details id="priority-staff-meta-skill-answer-structure" open>
+<summary><strong>Staff meta-skill answer structure</strong></summary>
 
 **Reasoning**
 
@@ -25722,8 +25122,9 @@ Pause after each phase and ask: "Want me to go deeper on network, rendering, or 
 - Name one alternative you rejected (e.g. simpler but slower, or faster but harder to hire for) and the deciding factor.
 - State validation: Lighthouse/RUM metric, test type, or Profiler number you would check before calling it done.
 
----
+</details>
 
+---
 
 ## License
 
